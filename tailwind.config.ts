@@ -1,6 +1,8 @@
 import type { Config } from 'tailwindcss';
 
 export default {
+  mode: 'jit',
+  darkMode: 'class',
   content: [
     './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
     './src/components/**/*.{js,ts,jsx,tsx,mdx}',
@@ -26,6 +28,32 @@ export default {
         'brand-warning': '#FFA800',
         'brand-danger': '#FF4B4B',
       },
+    },
+    keyframes: {
+      slideIn: {
+        '0%': { transform: 'translateY(-100%)' },
+        '100%': { transform: 'translateY(0)' },
+      },
+      fadeIn: {
+        '0%': { opacity: '0' },
+        '100%': { opacity: '1' },
+      },
+      appear: {
+        from: {
+          opacity: '0',
+          transform: 'translateY(4rem)',
+        },
+        to: {
+          opacity: '1',
+          transform: 'translateY(0%)',
+        },
+      },
+    },
+    animation: {
+      slideIn: 'slideIn 0.2s ease-out',
+      fadeIn: 'fadeIn 0.4s ease-out',
+      slideInWithFade: 'slideIn 0.2s ease-out, fadeIn 0.5s ease-out',
+      appear: 'appear 750ms ease-in-out',
     },
   },
   plugins: [

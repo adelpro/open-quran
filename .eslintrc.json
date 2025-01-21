@@ -6,5 +6,8 @@
     "prettier"
   ],
   "plugins": ["import", "jsx-a11y"],
-  "rules": {}
+  "rules": {
+    "semi": ["error", "always"],
+    "quotes": ["error", "single"]
+  }
 }
