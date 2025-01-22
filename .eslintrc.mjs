@@ -1,6 +1,14 @@
 const config = {
-  extends: ["expo", "prettier"],
-  plugins: ["prettier", "import"],
+  extends: [
+    "next",
+    'eslint:recommended',
+    'plugin:@typescript-eslint/recommended',
+    "next/core-web-vitals",
+    "plugin:react-hooks/recommended",
+    "plugin:jsx-a11y/recommended",
+    "prettier",
+  ],
+  plugins: ["import", "jsx-a11y"],
   rules: {
     "prettier/prettier": "error",
     "sort-imports": [
