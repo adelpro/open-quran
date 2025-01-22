@@ -1,4 +1,4 @@
-{
+const config = {
   "default": true,
   "MD013": {
     "line_length": 120
@@ -11,3 +11,6 @@
   },
   "MD024": false
 }
+
+export default config;
+
