@@ -19,7 +19,7 @@
   "husky": {
     "hooks": {
       "commit-msg": "npx --no-install commitlint --edit $1",
-      "pre-commit": "npx lint-staged"
+      "pre-commit": "npx lint-staged exit 1"
     }
   },
   "dependencies": {
@@ -47,6 +47,7 @@
     "lint-staged": "^15.4.1",
     "postcss": "^8",
     "prettier": "^3.4.2",
+    "prettier-plugin-sort-imports": "^1.8.6",
     "prettier-plugin-tailwindcss": "^0.6.10",
     "tailwindcss": "^3.4.1",
     "tailwindcss-animated": "^1.1.2",
