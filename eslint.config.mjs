@@ -19,37 +19,46 @@ export default [
       'react-hooks': reactHooks,
       markdown,
     },
-    overrides: [
-      {
-        files: ['*.md'],
-        processor: 'markdown/markdown', // Using markdown lint processor
-        rules: {
-          'markdown/markdown-format': 'warn', // Rule to enforce markdown formatting
-          'markdown/first-header-h1': 'error', // Rule to ensure first header is H1
-          'markdown/no-inline-html': 'warn', // Rule to disallow inline HTML
-          'markdown/no-multiple-space-atx': 'error', // Rule to disallow multiple spaces after ATX style header
-        },
-      },
-    ],
     rules: {
+      // Prettier integration
       'prettier/prettier': 'error',
+
+      // TypeScript-specific rules
       '@typescript-eslint/no-explicit-any': 'error',
+
+      // React hooks best practices
       'react-hooks/rules-of-hooks': 'error',
       'react-hooks/exhaustive-deps': 'warn',
-      'sort-imports': 'off',
+
+      // Markdown linting rules
+      'markdown/first-header-h1': 'error', // Rule to ensure first header is H1
+      'markdown/no-inline-html': 'warn', // Rule to disallow inline HTML
+      'markdown/no-multiple-space-atx': 'error', // Rule to disallow multiple spaces after ATX style header
+      'markdown/no-multiple-space-blockquote': 'error', // Rule to disallow multiple spaces after blockquote
+      'markdownlint/md001': 'off',
+      'markdownlint/md003': 'warn',
+      'markdownlint/md025': [
+        'error',
+        {
+          level: 2,
+        },
+      ],
+
+      // Sort imports with enhanced rules
+      'sort-imports': 'off', // Disabled to avoid conflict with import/order
       'import/order': [
         'error',
         {
           groups: [
-            ['external', 'builtin'],
-            'internal',
-            ['sibling', 'parent'],
-            'index',
+            ['builtin', 'external'], // External libraries
+            'internal', // Internal modules
+            ['sibling', 'parent'], // Sibling and parent
+            'index', // Index files
           ],
           pathGroups: [
             {
-              pattern: '@(react|react-native)',
-              group: 'external',
+              pattern: '^react',
+              group: 'builtin',
               position: 'before',
             },
             {
@@ -64,12 +73,8 @@ export default [
               pattern: '@utils/**',
               group: 'internal',
             },
-            {
-              pattern: '@types/**',
-              group: 'internal',
-            },
           ],
-          pathGroupsExcludedImportTypes: ['internal', 'react'],
+          pathGroupsExcludedImportTypes: ['internal'],
           'newlines-between': 'always',
           alphabetize: {
             order: 'asc',

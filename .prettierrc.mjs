@@ -9,10 +9,20 @@ const config = {
   endOfLine: 'auto',
   tabWidth: 2,
   sortingMethod: 'lineLength',
-  importOrder: ['^@core/(.*)$', '^@server/(.*)$', '^@ui/(.*)$', '^[./]'],
-  importOrderSeparation: true,
-  importOrderSortSpecifiers: true,
   plugins: ['prettier-plugin-tailwindcss', 'prettier-plugin-sort-imports'],
-}
+  /*   importOrder: [
+    '^react', // React imports first
+    '^@?(react|react-native)', // External libraries
+    '<THIRD_PARTY_MODULES>', // Other third-party modules
+    '^@src/(.*)$', // Internal imports (example: @src)
+    '^@components/(.*)$',
+    '^@utils/(.*)$',
+    '^\\./', // Relative imports
+    '^\\../', // Parent imports
+    '^.+\\.s?css$', // Style imports last
+  ],
+  importOrderSeparation: true,
+  importOrderSortSpecifiers: true, */
+};
 
-export default config
+export default config;

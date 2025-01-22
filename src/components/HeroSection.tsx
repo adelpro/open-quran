@@ -1,6 +1,6 @@
-import React from 'react';
-import Image from 'next/image';
 import hero from '@/assets/1024x1024.png';
+import Image from 'next/image';
+import React from 'react';
 export default function HeroSection() {
   return (
     <div className="relative h-screen flex items-center justify-center text-white">

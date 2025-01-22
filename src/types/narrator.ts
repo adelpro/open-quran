@@ -1,4 +1,4 @@
-import { Riwaya } from "@/types";
+import { Riwaya } from '@/types';
 
 export type Narrator = {
   id: number;
