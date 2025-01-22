@@ -1,6 +1,9 @@
+import forms from '@tailwindcss/forms';
+import typography from '@tailwindcss/typography';
 import type { Config } from 'tailwindcss';
+import animated from 'tailwindcss-animated';
 
-export default {
+const config: Config = {
   mode: 'jit',
   darkMode: 'class',
   content: [
@@ -53,12 +56,9 @@ export default {
       slideIn: 'slideIn 0.2s ease-out',
       fadeIn: 'fadeIn 0.4s ease-out',
       slideInWithFade: 'slideIn 0.2s ease-out, fadeIn 0.5s ease-out',
-      appear: 'appear 750ms ease-in-out',
     },
   },
-  plugins: [
-    require('@tailwindcss/forms'),
-    require('tailwindcss-animated'),
-    require('@tailwindcss/typography'),
-  ],
-} satisfies Config;
+  plugins: [forms, animated, typography],
+};
+
+export default config;

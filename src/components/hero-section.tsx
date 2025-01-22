@@ -14,10 +14,10 @@ export default function HeroSection() {
 
       {/* Content */}
       <div className="relative z-10 text-center">
-        <h1 className="mb-4 animate-appear text-5xl font-bold">
+        <h1 className="animate-appear mb-4 text-5xl font-bold">
           Welcome to Our Website
         </h1>
-        <p className="mb-8 animate-appear text-xl">
+        <p className="animate-appear mb-8 text-xl">
           Your catchy slogan or description goes here.
         </p>
         <button className="rounded bg-blue-600 px-4 py-2 font-bold text-white hover:bg-blue-700">
