@@ -16,12 +16,6 @@
     ],
     "*.{json,md,css}": "prettier --write"
   },
-  "husky": {
-    "hooks": {
-      "commit-msg": "npx --no-install commitlint --edit $1",
-      "pre-commit": "npx lint-staged exit 1"
-    }
-  },
   "dependencies": {
     "@next/bundle-analyzer": "^15.1.5",
     "next": "15.1.5",
