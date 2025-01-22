@@ -2,7 +2,6 @@
   "name": "quran-stream",
   "version": "0.1.0",
   "description": "Quran Stream",
-  "type": "module",
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
@@ -23,10 +22,11 @@
   },
   "dependencies": {
     "@next/bundle-analyzer": "^15.1.5",
+    "@svgr/webpack": "^8.1.0",
     "clsx": "^2.1.1",
     "commitizen": "^4.3.1",
     "cz-conventional-changelog": "^3.3.0",
-    "next": "15.1.5",
+    "next": "^15.1.6",
     "next-pwa": "^5.6.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",

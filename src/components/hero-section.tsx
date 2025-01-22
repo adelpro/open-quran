@@ -8,7 +8,7 @@ export default function HeroSection() {
       {/* Background Image */}
       <div className="absolute inset-0 z-0">
         <Image src={hero} alt="Hero Image" fill quality={100} />
-        <div className="absolute inset-0 bg-black opacity-50"></div>{' '}
+        <div className="absolute inset-0 bg-black opacity-50"></div>
         {/* Overlay */}
       </div>
 
