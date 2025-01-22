@@ -1,1 +1,1 @@
-export * from './Narrators';
+export * from './narrators';

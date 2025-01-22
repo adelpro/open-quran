@@ -1,11 +1,12 @@
-import { Riwaya } from '@/types';
-import { cn } from '@/utils/cn';
 import React from 'react';
 
-export default function tags() {
+import { Riwaya } from '@/types';
+import { cn } from '@/utils/cn';
+
+export default function Tags() {
   const [riwaya, setRiwaya] = React.useState<Riwaya>(Riwaya.Hafs);
   return (
-    <section className="mt-8 w-full max-w-md flex flex-row gap-3 justify-center">
+    <section className="mt-8 flex w-full max-w-md flex-row justify-center gap-3">
       {Object.values(Riwaya).map(
         (value) => (
           console.log(value),
@@ -13,7 +14,7 @@ export default function tags() {
             <option key={value} value={value}>
               <span
                 className={cn(
-                  'border px-10 py-2 border-slate-700 rounded-md cursor-pointer',
+                  'cursor-pointer rounded-md border border-slate-700 px-10 py-2',
                   value === riwaya && 'bg-neutral-200'
                 )}
               >
