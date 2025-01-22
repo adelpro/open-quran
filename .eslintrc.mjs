@@ -8,13 +8,12 @@ const config = {
     "plugin:jsx-a11y/recommended",
     "prettier",
   ],
-  plugins: ["import", "jsx-a11y"],
+  plugins: ["import", "jsx-a11y", "@typescript-eslint"],
   rules: {
-    "prettier/prettier": "error",
-    "sort-imports": [
-      "error",
-      { ignoreCase: true, ignoreDeclarationSort: true },
-    ],
+    "prettier/prettier": "error",  
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn", 
+    "sort-imports": "off",
     "import/order": [
       "error",
       {
@@ -34,6 +33,18 @@ const config = {
             pattern: "@src/**",
             group: "internal",
           },
+          {
+            pattern: "@components/**",
+            group: "internal",
+          },
+          {
+            pattern: "@utils/**",
+            group: "internal",
+          },
+          {
+            pattern: "@types/**",
+            group: "internal",
+          }
         ],
         pathGroupsExcludedImportTypes: ["internal", "react"],
         "newlines-between": "always",
