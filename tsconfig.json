@@ -23,7 +23,10 @@
       "@components/*": ["./src/components/*"],
       "@types/*": ["./src/types/*"],
       "@assets/*": ["./src/assets/*"],
-      "@utils/*": ["./src/utils/*"]
+      "@utils/*": ["./src/utils/*"],
+      "@svgs/*": ["./src/svgs/*"],
+      "@hooks/*": ["./src/hooks/*"],
+      "@jotai/*": ["./src/jotai/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],

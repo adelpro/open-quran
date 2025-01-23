@@ -26,6 +26,8 @@
     "clsx": "^2.1.1",
     "commitizen": "^4.3.1",
     "cz-conventional-changelog": "^3.3.0",
+    "jotai": "^2.11.1",
+    "jotai-devtools": "^0.10.1",
     "next": "^15.1.6",
     "next-pwa": "^5.6.0",
     "react": "^19.0.0",

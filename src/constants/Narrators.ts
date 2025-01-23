@@ -1,6 +1,6 @@
 import { Narrator, Riwaya } from '@/types';
 
-export const narators: Narrator[] = [
+export const narrators: Narrator[] = [
   {
     id: 1,
     name: 'عبد الباسط عبد الصمد',
