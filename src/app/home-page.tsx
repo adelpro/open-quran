@@ -1,13 +1,13 @@
 'use client';
 
-import { useAtom, useSetAtom } from 'jotai';
+import { useSetAtom } from 'jotai';
 import React, { useEffect } from 'react';
 
+import MusicPlayer from '@/components/music-player';
 import NarratorSelector from '@/components/narrator-selector';
 import { narrators } from '@/constants';
 import { selectedNarratorAtom } from '@/jotai/atom';
 import { Narrator } from '@/types';
-import MusicPlayer from '@/components/music-player';
 
 type Props = { id: string | undefined };
 export default function HomePage({ id }: Props) {
