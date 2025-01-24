@@ -99,6 +99,7 @@ export default function MusicPlayer({ playlist }: MusicPlayerProps) {
         <audio
           ref={audioRef}
           onTimeUpdate={handleTimeUpdate}
+          onDurationChange={handleTimeUpdate}
           onEnded={handleNextTrack}
         />
         <div className="flex items-center justify-between gap-10">
