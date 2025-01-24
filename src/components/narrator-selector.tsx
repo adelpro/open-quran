@@ -15,9 +15,9 @@ export default function NarratorSelector() {
     setIsOpen(true);
   };
   return (
-    <div className="flex w-full items-center justify-center px-2 py-10">
+    <div className="flex w-full justify-center">
       <button
-        className="border-slate- flex w-full max-w-md flex-row-reverse items-center justify-between rounded-md border p-2 shadow-md transition-transform hover:scale-105"
+        className="flex w-full max-w-md flex-row-reverse items-center justify-between rounded-md border border-slate-200 p-2 shadow-md transition-transform hover:scale-105"
         onClick={onButtonClick}
       >
         <span>{selectedNarrator ? selectedNarrator.name : 'اختر القارئ'}</span>

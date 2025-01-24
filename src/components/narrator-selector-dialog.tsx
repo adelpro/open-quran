@@ -38,7 +38,7 @@ export default function NarratorSelectorDialog({
           setIsOpen(false);
         }
       }}
-      className="top-50 left-50 -translate-x-50 -translate-y-50 fixed z-10 min-w-52 origin-top animate-slideInWithFade rounded-xl p-0 backdrop:bg-gray-800/50"
+      className="top-50 left-50 -translate-x-50 -translate-y-50 fixed z-10 w-full max-w-md origin-top animate-slideInWithFade rounded-xl p-2 backdrop:bg-zinc-800/50"
     >
       {/**
        * How the backdrop close modal is working?

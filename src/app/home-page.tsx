@@ -9,6 +9,15 @@ import { narrators } from '@/constants';
 import { selectedNarratorAtom } from '@/jotai/atom';
 import { Narrator } from '@/types';
 
+const playlist: string[] = [
+  'https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/001.mp3',
+  'https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/002.mp3',
+  'https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/003.mp3',
+  'https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/004.mp3',
+  'https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/005.mp3',
+  'https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/006.mp3',
+];
+
 type Props = { id: string | undefined };
 export default function HomePage({ id }: Props) {
   const setSelectedNarrator = useSetAtom(selectedNarratorAtom);
@@ -27,9 +36,9 @@ export default function HomePage({ id }: Props) {
   }, [id, setSelectedNarrator]);
 
   return (
-    <>
+    <div className="m-5 flex w-full flex-col items-center justify-center gap-5">
       <NarratorSelector />
-      <MusicPlayer />
-    </>
+      <MusicPlayer playlist={playlist} />
+    </div>
   );
 }

@@ -14,7 +14,7 @@ export default function Home() {
         <Image src="/logo.png" alt="logo" width={400} height={400} />
       </div>
       <div className="width-full flex items-center justify-center">
-        <h1 className="text-4xl font-bold">سيل القرآن</h1>
+        <h1 className="text-4xl font-bold">القرآن الكريم</h1>
       </div>
       <HomePage id={id} />
     </main>
