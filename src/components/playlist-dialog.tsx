@@ -1,16 +1,16 @@
 import Image from 'next/image';
 import React, { ReactNode, useLayoutEffect, useRef } from 'react';
 
+import Playlist from '@/components/playlist';
 import useEscapeKey from '@/hooks/use-escape-key-hook';
 import close from '@/svgs/close.svg';
-
-import NarratorsList from './narrator-list';
 
 type Props = {
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
 };
-export default function NarratorSelectorDialog({
+
+export default function PlaylistDialog({
   isOpen,
   setIsOpen,
 }: Props): ReactNode {
@@ -62,7 +62,7 @@ export default function NarratorSelectorDialog({
             <Image src={close} alt="close" width={24} height={24} />
           </button>
         </div>
-        <NarratorsList setIsOpen={setIsOpen} />
+        <Playlist setIsOpen={setIsOpen} />
       </main>
     </dialog>
   );

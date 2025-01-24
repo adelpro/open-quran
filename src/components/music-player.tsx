@@ -8,17 +8,21 @@ import shuffleSVG from '@svgs/music-shuffle.svg';
 import Image from 'next/image';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 
+import PlaylistDialog from '@/components/playlist-dialog';
+import Track from '@/components/track';
+import { TrackType } from '@/types';
+
 interface MusicPlayerProps {
-  playlist: string[];
+  playlist: TrackType[];
 }
 export default function MusicPlayer({ playlist }: MusicPlayerProps) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const [currentTrack, setCurrentTrack] = useState(0);
-  const [isPlaylistOpen, setIsPlaylistOpen] = useState(false);
   const [isShuffled, setIsShuffled] = useState(false);
   const [shuffledIndices, setShuffledIndices] = useState<number[]>([]);
+  const [isOpen, setIsOpen] = useState(false);
 
   const audioRef = useRef<HTMLAudioElement>(null);
 
@@ -90,53 +94,63 @@ export default function MusicPlayer({ playlist }: MusicPlayerProps) {
   };
 
   return (
-    <main className="flex h-20 w-full max-w-md flex-row items-center justify-center rounded-md border border-slate-200 p-2 shadow-md transition-transform hover:scale-105">
-      <audio
-        ref={audioRef}
-        onTimeUpdate={handleTimeUpdate}
-        onEnded={handleNextTrack}
-      />
-      <div className="flex items-center justify-between gap-10">
-        <button
-          onClick={handlePreviousTrack}
-          className="m-2 rounded p-2 transition-colors duration-300 hover:bg-gray-200"
-        >
-          <Image src={backwardSVG} alt="backward" width={30} height={30} />
-        </button>
-        <button
-          onClick={togglePlayPause}
-          className="m-2 rounded p-2 transition-colors duration-300 hover:bg-gray-200"
-        >
-          {isPlaying ? (
-            <Image src={pauseSVG} alt="pause" width={30} height={30} />
-          ) : (
-            <Image src={playSVG} alt="play" width={30} height={30} />
-          )}
-        </button>
+    <>
+      <main className="flex h-20 w-full max-w-md flex-row items-center justify-center rounded-md border border-slate-200 p-2 shadow-md transition-transform hover:scale-105">
+        <audio
+          ref={audioRef}
+          onTimeUpdate={handleTimeUpdate}
+          onEnded={handleNextTrack}
+        />
+        <div className="flex items-center justify-between gap-10">
+          <button
+            onClick={handlePreviousTrack}
+            className="m-2 rounded p-2 transition-colors duration-300 hover:bg-gray-200"
+          >
+            <Image src={backwardSVG} alt="backward" width={30} height={30} />
+          </button>
+          <button
+            onClick={togglePlayPause}
+            className="m-2 rounded p-2 transition-colors duration-300 hover:bg-gray-200"
+          >
+            {isPlaying ? (
+              <Image src={pauseSVG} alt="pause" width={30} height={30} />
+            ) : (
+              <Image src={playSVG} alt="play" width={30} height={30} />
+            )}
+          </button>
 
-        <button
-          onClick={handleNextTrack}
-          className="m-2 rounded p-2 transition-colors duration-300 hover:bg-gray-200"
-        >
-          <Image src={forwardSVG} alt="forward" width={30} height={30} />
-        </button>
-        <button
-          onClick={toggleShuffle}
-          className="m-2 rounded p-2 transition-colors duration-300 hover:bg-gray-200"
-        >
-          {isShuffled ? (
-            <Image src={shuffleSVG} alt="shuffle" width={30} height={30} />
-          ) : (
-            <Image src={repeatSVG} alt="repeat" width={30} height={30} />
-          )}
-        </button>
-        <button
-          onClick={() => setIsPlaylistOpen(!isPlaylistOpen)}
-          className="m-2 rounded p-2 transition-colors duration-300 hover:bg-gray-200"
-        >
-          <Image src={playlistSVG} alt="playlist" width={30} height={30} />
-        </button>
-      </div>
-    </main>
+          <button
+            onClick={handleNextTrack}
+            className="m-2 rounded p-2 transition-colors duration-300 hover:bg-gray-200"
+          >
+            <Image src={forwardSVG} alt="forward" width={30} height={30} />
+          </button>
+          <button
+            onClick={toggleShuffle}
+            className="m-2 rounded p-2 transition-colors duration-300 hover:bg-gray-200"
+          >
+            {isShuffled ? (
+              <Image src={shuffleSVG} alt="shuffle" width={30} height={30} />
+            ) : (
+              <Image src={repeatSVG} alt="repeat" width={30} height={30} />
+            )}
+          </button>
+          <button
+            onClick={() => setIsOpen(!isOpen)}
+            className="m-2 rounded p-2 transition-colors duration-300 hover:bg-gray-200"
+          >
+            <Image src={playlistSVG} alt="playlist" width={30} height={30} />
+          </button>
+        </div>
+
+        <PlaylistDialog isOpen={isOpen} setIsOpen={setIsOpen} />
+      </main>
+
+      <Track
+        currentTrackId={currentTrack}
+        duration={duration}
+        currentTime={currentTime}
+      />
+    </>
   );
 }
