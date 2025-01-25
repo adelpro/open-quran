@@ -114,7 +114,7 @@ export default function MusicPlayer({ playlist }: MusicPlayerProps) {
           onEnded={handleNextTrack}
           src={playlist[currentTrack]?.link}
         />
-        <div className="flex items-center justify-between gap-10">
+        <div className="flex items-center justify-between gap-10 pt-5">
           <button
             onClick={handlePreviousTrack}
             className="m-2 rounded p-2 transition-colors duration-300 hover:bg-gray-200"
@@ -156,11 +156,24 @@ export default function MusicPlayer({ playlist }: MusicPlayerProps) {
           </button>
         </div>
         <div className="inset-0 flex h-1 w-full items-center justify-between">
-          <progress
-            className="insert-0 mt-5 h-1 w-full"
+          <input
+            type="range"
+            className="square-thumb [&::-moz-range-thumb] [&::-moz-range-thumb]:hover [&::-webkit-slider-thumb] h-1 w-full bg-gray-200 bg-gradient-to-r from-blue-600 to-transparent bg-no-repeat accent-blue-600 [&::-moz-range-thumb]:h-5 [&::-moz-range-thumb]:w-4 [&::-moz-range-thumb]:hover:cursor-pointer [&::-moz-range-thumb]:hover:bg-gray-300 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-sm [&::-webkit-slider-thumb]:hover:cursor-pointer [&::-webkit-slider-thumb]:hover:bg-gray-300"
+            style={{
+              backgroundSize: `${(currentTime / duration) * 100}% 100%`,
+              backgroundImage: `linear-gradient(#3b82f6, #3b82f6)`,
+              backgroundRepeat: 'no-repeat',
+            }}
+            min={0}
             max={duration}
             value={currentTime}
-            //style={{ color: '#0091e1' }}
+            onChange={(event) => {
+              if (audioRef.current) {
+                const time = Number.parseFloat(event.target.value);
+                setCurrentTime(time);
+                audioRef.current.currentTime = time;
+              }
+            }}
           />
         </div>
         <PlaylistDialog
