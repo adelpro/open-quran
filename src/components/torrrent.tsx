@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import WebTorrent, { Torrent, TorrentFile } from 'webtorrent';
+import WebTorrent from 'webtorrent';
 
 type Props = {
   magnetURI: string;
@@ -15,13 +15,13 @@ export default function Torrrent({ magnetURI }: Props) {
   useEffect(() => {
     const torrentClien = torrentClientRef.current;
 
-    torrentClien.add(magnetURI, (torrent: Torrent) => {
+    torrentClien.add(magnetURI, (torrent: any) => {
       console.log('Torrent added:', torrent);
 
       // Update state with torrent info
       setTorrentInfo({
         name: torrent.name,
-        files: torrent.files.map((file: TorrentFile) => file.name),
+        files: torrent.files.map((file: any) => file.name),
       });
 
       // Find the audio file in the torrent
