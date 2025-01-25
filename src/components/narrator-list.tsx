@@ -24,22 +24,20 @@ export default function NarratorsList({ setIsOpen }: Props) {
           placeholder="ابحث عن القارئ"
           value={searchTerm}
           onChange={(event) => setSearchTerm(event.target.value)}
-          className="mb-4 w-full rounded-lg border border-gray-200 p-2 text-right shadow-md"
+          className="mb-4 w-full rounded-lg border border-gray-200 bg-background p-2 text-right shadow-md dark:border-gray-400"
         />
         {narrators
           .filter((narrator) => narrator.name.includes(searchTerm))
           .map((narrator) => (
             <button
               key={narrator.id}
-              className="w-full flex-1 cursor-pointer rounded-lg border border-gray-200 bg-white p-2 shadow-md transition-transform hover:scale-105"
+              className="w-full flex-1 cursor-pointer rounded-lg border border-gray-200 p-2 shadow-md transition-transform hover:scale-105 dark:border-gray-400"
               onClick={() => selectedNarratorClickHandler(narrator)}
             >
-              <h2 className="mb-2 text-right text-xl font-semibold text-gray-800">
+              <h2 className="font-semibol mb-2 text-right text-xl">
                 {narrator.name}
               </h2>
-              <p className="mb-1 text-right text-gray-600">
-                {`برواية ${narrator.riwaya}`}
-              </p>
+              <p className="mb-1 text-right">{`برواية ${narrator.riwaya}`}</p>
             </button>
           ))}
       </div>

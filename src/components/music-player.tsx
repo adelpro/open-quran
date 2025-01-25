@@ -9,7 +9,7 @@ import Image from 'next/image';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 import PlaylistDialog from '@/components/playlist-dialog';
-import Track from '@/components/track';
+import TrackInfo from '@/components/track-info';
 import { TrackType } from '@/types';
 
 interface MusicPlayerProps {
@@ -56,9 +56,20 @@ export default function MusicPlayer({ playlist }: MusicPlayerProps) {
     }
   };
   const handleTimeUpdate = () => {
-    if (audioRef.current) {
-      setCurrentTime(audioRef.current.currentTime);
+    if (!audioRef.current) {
+      return;
+    }
+
+    if (!Number.isNaN(audioRef.current.duration)) {
       setDuration(audioRef.current.duration);
+    }
+
+    if (!Number.isNaN(audioRef.current.currentTime)) {
+      setCurrentTime(audioRef.current.currentTime);
+    }
+
+    if (audioRef.current.ended) {
+      handleNextTrack();
     }
   };
   const handlePreviousTrack = () => {
@@ -95,12 +106,13 @@ export default function MusicPlayer({ playlist }: MusicPlayerProps) {
 
   return (
     <>
-      <main className="flex h-20 w-full max-w-md flex-row items-center justify-center rounded-md border border-slate-200 p-2 shadow-md transition-transform hover:scale-105">
+      <main className="flex h-20 w-full max-w-md flex-col items-center justify-center rounded-t-md border border-slate-200 p-0 shadow-md transition-transform hover:scale-105">
         <audio
           ref={audioRef}
           onTimeUpdate={handleTimeUpdate}
           onDurationChange={handleTimeUpdate}
           onEnded={handleNextTrack}
+          src={playlist[currentTrack]?.link}
         />
         <div className="flex items-center justify-between gap-10">
           <button
@@ -143,11 +155,22 @@ export default function MusicPlayer({ playlist }: MusicPlayerProps) {
             <Image src={playlistSVG} alt="playlist" width={30} height={30} />
           </button>
         </div>
-
-        <PlaylistDialog isOpen={isOpen} setIsOpen={setIsOpen} />
+        <div className="inset-0 flex h-1 w-full items-center justify-between">
+          <progress
+            className="insert-0 mt-5 h-1 w-full"
+            max={duration}
+            value={currentTime}
+            //style={{ color: '#0091e1' }}
+          />
+        </div>
+        <PlaylistDialog
+          isOpen={isOpen}
+          setIsOpen={setIsOpen}
+          setCurrentTrack={setCurrentTrack}
+        />
       </main>
 
-      <Track
+      <TrackInfo
         currentTrackId={currentTrack}
         duration={duration}
         currentTime={currentTime}
