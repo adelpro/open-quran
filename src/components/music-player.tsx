@@ -47,6 +47,12 @@ export default function MusicPlayer({ playlist }: MusicPlayerProps) {
     shufflePlaylist();
   }, [shufflePlaylist]);
 
+  useEffect(() => {
+    if (audioRef.current && isPlaying) {
+      audioRef.current.play();
+    }
+  }, [currentTrack, isPlaying]);
+
   const togglePlayPause = () => {
     if (audioRef.current) {
       if (isPlaying) {
@@ -58,7 +64,7 @@ export default function MusicPlayer({ playlist }: MusicPlayerProps) {
     }
   };
   const handleTimeUpdate = () => {
-    if (!audioRef.current) {
+    if (!audioRef?.current) {
       return;
     }
 
@@ -69,16 +75,14 @@ export default function MusicPlayer({ playlist }: MusicPlayerProps) {
     if (!Number.isNaN(audioRef.current.currentTime)) {
       setCurrentTime(audioRef.current.currentTime);
     }
-
-    if (audioRef.current.ended) {
-      handleNextTrack();
-    }
   };
   const handlePreviousTrack = () => {
+    console.log('Previous track');
     setCurrentTrack(getPreviousTrackIndex(currentTrack));
   };
 
   const handleNextTrack = () => {
+    console.log('Next track');
     setCurrentTrack(getNextTrackIndex(currentTrack));
   };
   const toggleShuffle = () => {
