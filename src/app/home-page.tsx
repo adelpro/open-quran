@@ -27,9 +27,11 @@ export default function HomePage({ id }: Props) {
   }, [id, setSelectedNarrator]);
 
   return (
-    <div className="m-5 flex w-full flex-col items-center justify-center gap-5">
-      <NarratorSelector />
-      <MusicPlayer playlist={playlist} />
+    <div className="flex w-full items-center justify-center p-2 md:p-5">
+      <div className="flex w-full max-w-lg flex-col items-center justify-center gap-2">
+        <NarratorSelector />
+        <MusicPlayer playlist={playlist} />
+      </div>
     </div>
   );
 }

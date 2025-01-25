@@ -17,7 +17,7 @@
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  /*font-family: Arial, Helvetica, sans-serif;*/
 }
 
 .square-thumb::-webkit-slider-thumb {
@@ -25,6 +25,7 @@ body {
   background-size: 50%;
   background-position: center;
   background-repeat: no-repeat;
+  cursor: pointer;
 }
 
 .square-thumb::-moz-range-thumb {
@@ -32,4 +33,5 @@ body {
   background-size: 50%;
   background-position: center;
   background-repeat: no-repeat;
+  cursor: pointer;
 }
