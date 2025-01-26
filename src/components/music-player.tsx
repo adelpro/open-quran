@@ -8,23 +8,25 @@ import shuffleSVG from '@svgs/music-shuffle.svg';
 import Image from 'next/image';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 
+import { narrators } from '@/constants';
 import { TrackType } from '@/types';
 
 import PlaylistDialog from './playlist-dialog';
 import Range from './range';
+import Torrrent from './torrrent';
 import TrackInfo from './track-info';
 
 interface MusicPlayerProps {
   playlist: TrackType[];
 }
 export default function MusicPlayer({ playlist }: MusicPlayerProps) {
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [currentTime, setCurrentTime] = useState(0);
-  const [duration, setDuration] = useState(0);
-  const [currentTrack, setCurrentTrack] = useState(0);
-  const [isShuffled, setIsShuffled] = useState(false);
+  const [isPlaying, setIsPlaying] = useState<boolean>(false);
+  const [currentTime, setCurrentTime] = useState<number>(0);
+  const [duration, setDuration] = useState<number>(0);
+  const [currentTrack, setCurrentTrack] = useState<number>(0);
+  const [isShuffled, setIsShuffled] = useState<boolean>(false);
   const [shuffledIndices, setShuffledIndices] = useState<number[]>([]);
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const audioRef = useRef<HTMLAudioElement>(null);
 
@@ -179,6 +181,7 @@ export default function MusicPlayer({ playlist }: MusicPlayerProps) {
         duration={duration}
         currentTime={currentTime}
       />
+      <Torrrent magnetURI={narrators[1].magnet} />
     </>
   );
 }

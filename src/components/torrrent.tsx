@@ -1,35 +1,43 @@
 import React, { useEffect, useRef, useState } from 'react';
-import WebTorrent from 'webtorrent';
+import WebTorrent, { type Torrent, type TorrentFile } from 'webtorrent';
 
 type Props = {
   magnetURI: string;
 };
+interface TorrentInfo {
+  files: string[];
+  downloaded: number;
+  downloadSpeed: number;
+  uploadSpeed: number;
+  progress: number;
+}
+
 export default function Torrrent({ magnetURI }: Props) {
-  const [torrentInfo, setTorrentInfo] = useState<{
-    name: string;
-    files: any;
-  }>();
-  const audioRef = useRef(null);
+  const [torrentInfo, setTorrentInfo] = useState<TorrentInfo>();
+  const audioRef = useRef<HTMLAudioElement>(null);
   const torrentClientRef = useRef(new WebTorrent());
 
   useEffect(() => {
     const torrentClien = torrentClientRef.current;
 
-    torrentClien.add(magnetURI, (torrent: any) => {
+    torrentClien.add(magnetURI, (torrent: Torrent) => {
       console.log('Torrent added:', torrent);
 
       // Update state with torrent info
       setTorrentInfo({
-        name: torrent.name,
-        files: torrent.files.map((file: any) => file.name),
+        files: torrent.files.map((file: TorrentFile) => file.name),
+        downloaded: torrent.downloaded,
+        downloadSpeed: torrent.downloadSpeed,
+        uploadSpeed: torrent.uploadSpeed,
+        progress: torrent.progress,
       });
 
       // Find the audio file in the torrent
-      const audioFile = torrent.files.find((file: any) =>
+      const audioFile = torrent.files.find((file: TorrentFile) =>
         file.name.endsWith('.mp3')
       );
 
-      if (audioFile) {
+      if (audioFile && audioRef.current) {
         // Stream the audio file to the audio element
         audioFile.renderTo(audioRef.current, { autoplay: true });
       }
@@ -40,5 +48,10 @@ export default function Torrrent({ magnetURI }: Props) {
       torrentClien.destroy();
     };
   }, [magnetURI]);
-  return <div>Torrent</div>;
+  return (
+    <div className="my-2.5 rounded bg-gray-100 p-2.5">
+      {torrentInfo &&
+        `Downloaded: ${(torrentInfo.downloaded / 1024 / 1024).toFixed(2)}MB | Speed: ${(torrentInfo.downloadSpeed / 1024).toFixed(2)}KB/s | Upload: ${(torrentInfo.uploadSpeed / 1024).toFixed(2)}KB/s | Progress: ${(torrentInfo.progress * 100).toFixed(1)}%`}
+    </div>
+  );
 }
