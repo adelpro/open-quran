@@ -18,12 +18,12 @@ export default function Torrrent({ magnetURI }: Props) {
   const torrentClientRef = useRef(new WebTorrent());
 
   useEffect(() => {
-    const torrentClien = torrentClientRef.current;
+    const torrentClient = torrentClientRef.current;
 
-    torrentClien.add(magnetURI, (torrent: Torrent) => {
-      console.log('Torrent added:', torrent);
+    torrentClient.add(magnetURI, (torrent: Torrent) => {
+      console.log('Client is downloading:', torrent.infoHash);
 
-      // Update state with torrent info
+      /*  // Update state with torrent info
       setTorrentInfo({
         files: torrent.files.map((file: TorrentFile) => file.name),
         downloaded: torrent.downloaded,
@@ -40,12 +40,12 @@ export default function Torrrent({ magnetURI }: Props) {
       if (audioFile && audioRef.current) {
         // Stream the audio file to the audio element
         audioFile.renderTo(audioRef.current, { autoplay: true });
-      }
+      } */
     });
 
     // Cleanup function to destroy the torrent when the component unmounts
     return () => {
-      torrentClien.destroy();
+      torrentClient.destroy();
     };
   }, [magnetURI]);
   return (
