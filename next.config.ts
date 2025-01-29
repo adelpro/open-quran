@@ -32,6 +32,7 @@ const config = {
     ignoreDuringBuilds: false, // Set this to false if you want production builds to abort if there's lint errors
   },
   experimental: {
+    //nextScriptWorkers: true,
     turbo: {
       rules: {},
     },

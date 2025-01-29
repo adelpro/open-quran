@@ -95,10 +95,22 @@ export default function Torrent({ magnetURI }: Props) {
   return (
     <>
       <Script
-        src="https://cdnjs.cloudflare.com/ajax/libs/webtorrent/1.9.7/webtorrent.min.js"
-        onLoad={() => setScriptLoaded(true)}
-        onError={() => setError('Failed to load WebTorrent script')}
-      />
+        //src="https://raw.githubusercontent.com/webtorrent/webtorrent/refs/heads/master/dist/webtorrent.min.js"
+        onLoad={() => {
+          console.log('Webtorrent script loaded successfully');
+          setScriptLoaded(true);
+        }}
+        onError={() => {
+          console.log('Webtorrent script not loaded');
+          setError('Failed to load WebTorrent script');
+        }}
+        type="module"
+        id="webtorrent-id"
+        //strategy="worker"
+        strategy="lazyOnload"
+      >
+        {`import WebTorrent from 'https://esm.sh/webtorrent'`}
+      </Script>
 
       <div className="my-2.5 rounded bg-gray-100 p-2.5">
         {error ? (
