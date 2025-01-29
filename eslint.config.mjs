@@ -35,7 +35,7 @@ const config = [
       'unicorn/no-array-callback-reference': 'off',
       'unicorn/no-array-for-each': 'off',
       'unicorn/no-array-reduce': 'off',
-
+      'unicorn/prefer-global-this': 'off',
       'unicorn/prevent-abbreviations': [
         'error',
         {

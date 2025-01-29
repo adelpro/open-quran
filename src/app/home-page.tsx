@@ -5,6 +5,7 @@ import React, { useEffect } from 'react';
 
 import MusicPlayer from '@/components/music-player';
 import NarratorSelector from '@/components/narrator-selector';
+import PwaUpdater from '@/components/pwa-updater';
 import { narrators, playlist } from '@/constants';
 import { selectedNarratorAtom } from '@/jotai/atom';
 import { Narrator } from '@/types';
@@ -31,6 +32,7 @@ export default function HomePage({ id }: Props) {
       <div className="flex w-full max-w-lg flex-col items-center justify-center gap-2">
         <NarratorSelector />
         <MusicPlayer playlist={playlist} />
+        <PwaUpdater />
       </div>
     </div>
   );

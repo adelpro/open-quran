@@ -1,18 +1,20 @@
-const withBundleAnalyzer = require('@next/bundle-analyzer')({
-  enabled: process.env.ANALYZE === 'true',
-});
+import withBundleAnalyzer from '@next/bundle-analyzer';
+import { NextConfig } from 'next';
+import withPWA, { PWAConfig } from 'next-pwa';
+import { CacheFirst, NetworkFirst } from 'workbox-strategies';
 
+const isProduction = process.env.NODE_ENV === 'production';
 // Runtime Caching rules
 const runtimeCaching = [
-  // https request caching
+  // HTTPS request caching
   {
     urlPattern: /^https?.*/,
-    handler: 'NetworkFirst',
+    handler: new NetworkFirst(),
     options: {
       cacheName: 'https-calls',
       expiration: {
         maxAgeSeconds: 60 * 60 * 24 * 7, // 7 days
-        purgeOnQuotaError: true, // Automatically delete the cache if the quota is exceeded.
+        purgeOnQuotaError: true, // Automatically delete the cache if the quota is exceeded
       },
       cacheableResponse: {
         statuses: [0, 200],
@@ -22,13 +24,12 @@ const runtimeCaching = [
   // Images caching
   {
     urlPattern: /\.(jpe?g|png|gif|webp)$/i,
-    handler: 'CacheFirst',
+    handler: new CacheFirst(),
     options: {
       cacheName: 'static-image-assets',
       expiration: {
         maxEntries: 50,
-        maxAgeSeconds: 60 * 60 * 24 * 30,
-        // 30 days.
+        maxAgeSeconds: 60 * 60 * 24 * 30, // 30 days
         purgeOnQuotaError: true,
       },
       cacheableResponse: {
@@ -36,16 +37,15 @@ const runtimeCaching = [
       },
     },
   },
-  // js,css caching
+  // JS, CSS caching
   {
     urlPattern: /\.(js|css)$/i,
-    handler: 'CacheFirst',
+    handler: new CacheFirst(),
     options: {
       cacheName: 'static-assets',
       expiration: {
         maxEntries: 200,
-        maxAgeSeconds: 60 * 60 * 24 * 90,
-        // 90 days
+        maxAgeSeconds: 60 * 60 * 24 * 90, // 90 days
         purgeOnQuotaError: true,
       },
       cacheableResponse: {
@@ -53,15 +53,14 @@ const runtimeCaching = [
       },
     },
   },
-  // Google fonts caching
+  // Google Fonts caching
   {
     urlPattern: /^https?:\/\/fonts\.googleapis\.com\/.*/,
-    handler: 'CacheFirst',
+    handler: new CacheFirst(),
     options: {
       cacheName: 'google-fonts',
       expiration: {
-        maxAgeSeconds: 60 * 60 * 24 * 90,
-        // 90 days
+        maxAgeSeconds: 60 * 60 * 24 * 90, // 90 days
         purgeOnQuotaError: true,
       },
       cacheableResponse: {
@@ -71,25 +70,20 @@ const runtimeCaching = [
   },
 ];
 
-const withPWA = require('next-pwa')({
+const pwaConfig: PWAConfig = {
   dest: 'public',
   runtimeCaching,
-});
+};
 
 /** @type {import('next').NextConfig} */
 const config = {
-  productionBrowserSourceMaps: false,
-  compiler: {
-    removeConsole:
-      process.env.NODE_ENV === 'production' ? { exclude: ['error'] } : false,
-  },
+  productionBrowserSourceMaps: !isProduction,
+  removeConsole: isProduction && { exclude: ['error'] },
   typescript: {
-    // Set this to false if you want production builds to abort if there's type errors
-    ignoreBuildErrors: false,
+    ignoreBuildErrors: false, // Set this to false if you want production builds to abort if there's type errors
   },
   eslint: {
-    // Set this to false if you want production builds to abort if there's lint errors
-    ignoreDuringBuilds: false,
+    ignoreDuringBuilds: false, // Set this to false if you want production builds to abort if there's lint errors
   },
   experimental: {
     turbo: {
@@ -98,4 +92,9 @@ const config = {
   },
 };
 
-module.exports = withBundleAnalyzer(withPWA(config));
+const nextConfig: NextConfig | PWAConfig = withPWA(pwaConfig)(config);
+
+export default nextConfig &&
+  withBundleAnalyzer({
+    enabled: process.env.ANALYZE === 'true',
+  })(nextConfig);
