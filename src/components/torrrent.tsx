@@ -4,6 +4,8 @@ import Script from 'next/script';
 import React, { useEffect, useRef, useState } from 'react';
 import { type Torrent, type TorrentFile } from 'webtorrent';
 
+import { getErrorMessage } from '@/utils/get-error-message';
+
 type Props = {
   magnetURI: string;
 };
@@ -24,13 +26,13 @@ export default function Torrent({ magnetURI }: Props) {
   const torrentClientRef = useRef<any>(null);
 
   const initTorrent = React.useCallback(() => {
-    if (typeof globalThis === 'undefined' || !('WebTorrent' in globalThis)) {
+    if (typeof window === 'undefined' || !('WebTorrent' in window)) {
       return;
     }
     try {
-      const torrentClient = new (globalThis as any).WebTorrent();
+      const torrentClient = new window.WebTorrent();
       torrentClientRef.current = torrentClient;
-
+      console.log('torrentClient - 1');
       torrentClient.add(magnetURI, (torrent: Torrent) => {
         console.log('Client is downloading:', torrent.infoHash);
 
@@ -63,13 +65,17 @@ export default function Torrent({ magnetURI }: Props) {
         torrent.on('upload', updateProgress);
         updateProgress(); // Initial update
       });
-
-      torrentClient.on('error', (error: Error) => {
-        console.error('Torrent error:', error);
-        setError(error.message);
+      console.log('torrentClient - 2');
+      torrentClient.on('error', (error: unknown) => {
+        const message = getErrorMessage(error);
+        console.error('Torrent error:', message);
+        setError(message);
       });
-    } catch (error) {
-      setError((error as Error).message);
+    } catch (error: unknown) {
+      const message = getErrorMessage(error);
+
+      setError(message);
+      console.log('error:', message);
     }
   }, [magnetURI]);
 
@@ -107,7 +113,7 @@ export default function Torrent({ magnetURI }: Props) {
         ) : (
           <p>Loading torrent...</p>
         )}
-        <audio ref={audioRef} controls className="mt-2 w-full" />
+        {/* <audio ref={audioRef} controls className="mt-2 w-full" /> */}
       </div>
     </>
   );

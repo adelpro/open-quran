@@ -1,8 +1,8 @@
-import WebTorrent from 'webtorrent';
+import type { WebTorrent } from 'webtorrent';
 
 declare global {
   interface Window {
-    WebTorrent: WebTorrent.Instance;
+    WebTorrent: WebTorrent;
   }
 }
 
