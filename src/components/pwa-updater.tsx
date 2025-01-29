@@ -1,3 +1,4 @@
+'use client';
 import { useEffect, useState } from 'react';
 
 import Dialog from './dialog';
@@ -7,6 +8,8 @@ const PwaUpdater = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
+    if (typeof window === 'undefined' || !window.wb) return;
+
     window.wb.addEventListener('controlling', () => {
       globalThis.location.reload();
     });

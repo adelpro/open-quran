@@ -3,10 +3,11 @@ import './globals.css';
 import type { Metadata } from 'next';
 import { Scheherazade_New } from 'next/font/google';
 
-const scheherazade_New = Scheherazade_New({
+/* const scheherazade_New = Scheherazade_New({
   subsets: ['arabic'],
-  weight: ['400', '700'],
-});
+  weight: ['400', '500', '600', '700'],
+  preload: true,
+}); */
 
 export const metadata: Metadata = {
   title: 'Quran Stream - سيل القرآن',
@@ -20,7 +21,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${scheherazade_New.className} antialiased`}>
+      <body /* className={`${scheherazade_New.className}  antialiased`} */>
         {children}
       </body>
     </html>
