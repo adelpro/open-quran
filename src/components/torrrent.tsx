@@ -2,7 +2,7 @@
 
 import Script from 'next/script';
 import React, { useEffect, useRef, useState } from 'react';
-import { type Torrent, type TorrentFile } from 'webtorrent';
+import type { Torrent, TorrentFile, WebTorrent } from 'webtorrent';
 
 import { getErrorMessage } from '@/utils/get-error-message';
 
@@ -11,46 +11,48 @@ type Props = {
 };
 
 interface TorrentInfo {
-  file?: any;
+  file?: TorrentFile;
   downloaded: number;
   downloadSpeed: number;
   uploadSpeed: number;
   progress: number;
 }
 
-export default function Torrent({ magnetURI }: Props) {
-  const [torrentInfo, setTorrentInfo] = useState<TorrentInfo | null>();
-  const [error, setError] = useState<string | null>();
+export default function TorrentPlayer({ magnetURI }: Props) {
+  const [torrentInfo, setTorrentInfo] = useState<TorrentInfo | undefined>();
+  const [error, setError] = useState<string | undefined>();
   const [scriptLoaded, setScriptLoaded] = useState(false);
-  const audioRef = useRef<HTMLAudioElement>(null);
-  const torrentClientRef = useRef<any>(null);
+  const torrentClientRef = useRef<WebTorrent | undefined>(undefined);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
 
   const initTorrent = React.useCallback(() => {
-    if (typeof window === 'undefined' || !('WebTorrent' in window)) {
-      return;
-    }
     try {
-      const torrentClient = new window.WebTorrent();
-      torrentClientRef.current = torrentClient;
-      console.log('torrentClient - 1');
-      torrentClient.add(magnetURI, (torrent: Torrent) => {
-        console.log('Client is downloading:', torrent.infoHash);
+      setError(undefined);
+      const client = new (window as any).WebTorrent();
+      torrentClientRef.current = client;
 
-        const audioFile = torrent.files.find((file: TorrentFile) =>
+      console.log('WebTorrent available:', window.WebTorrent);
+      client.add(magnetURI, (torrent: Torrent) => {
+        console.log('initTorrent - 1');
+        const audioFile = torrent.files.find((file) =>
           file.name.endsWith('.mp3')
         );
 
         if (!audioFile) {
-          setError('No MP3 file found in torrent.');
+          setError('No MP3 found in torrent');
+          client.destroy();
           return;
         }
 
-        // Stream the audio file
+        // In your torrent handler
         if (audioRef.current) {
-          audioFile.renderTo(audioRef.current, { autoplay: true });
+          audioFile.renderTo(audioRef.current, {
+            autoplay: true,
+            controls: true,
+          });
         }
 
-        // Update progress periodically
+        // Progress updates
         const updateProgress = () => {
           setTorrentInfo({
             file: audioFile,
@@ -63,70 +65,55 @@ export default function Torrent({ magnetURI }: Props) {
 
         torrent.on('download', updateProgress);
         torrent.on('upload', updateProgress);
-        updateProgress(); // Initial update
-      });
-      console.log('torrentClient - 2');
-      torrentClient.on('error', (error: unknown) => {
-        const message = getErrorMessage(error);
-        console.error('Torrent error:', message);
-        setError(message);
-      });
-    } catch (error: unknown) {
-      const message = getErrorMessage(error);
+        updateProgress();
 
-      setError(message);
-      console.log('error:', message);
+        return () => {
+          torrent.off('download', updateProgress);
+          torrent.off('upload', updateProgress);
+        };
+      });
+      console.log('initTorrent - 2');
+      client.on('torrent', (torrent: Torrent) => {
+        console.log('Torrent metadata fetched:', torrent.name);
+      });
+      client.on('error', (error: Error) => {
+        setError(getErrorMessage(error));
+      });
+    } catch (error_) {
+      setError(getErrorMessage(error_));
     }
   }, [magnetURI]);
 
   useEffect(() => {
-    if (scriptLoaded && !torrentClientRef.current) {
-      initTorrent();
-    }
-
+    if (scriptLoaded) initTorrent();
     return () => {
-      if (torrentClientRef.current) {
-        torrentClientRef.current.destroy();
-        torrentClientRef.current = undefined;
-      }
+      torrentClientRef.current = undefined;
     };
-  }, [scriptLoaded, magnetURI, initTorrent]);
+  }, [scriptLoaded, initTorrent]);
 
   return (
-    <>
+    <div className="my-2.5 rounded bg-gray-100 p-2.5">
       <Script
-        //src="https://raw.githubusercontent.com/webtorrent/webtorrent/refs/heads/master/dist/webtorrent.min.js"
-        onLoad={() => {
-          console.log('Webtorrent script loaded successfully');
-          setScriptLoaded(true);
-        }}
-        onError={() => {
-          console.log('Webtorrent script not loaded');
-          setError('Failed to load WebTorrent script');
-        }}
-        type="module"
-        id="webtorrent-id"
-        //strategy="worker"
+        src="https://cdn.jsdelivr.net/npm/webtorrent@latest/webtorrent.min.js"
         strategy="lazyOnload"
-      >
-        {`import WebTorrent from 'https://esm.sh/webtorrent'`}
-      </Script>
+        onLoad={() => setScriptLoaded(true)}
+        onError={() => setError('Failed to load WebTorrent')}
+      />
 
-      <div className="my-2.5 rounded bg-gray-100 p-2.5">
-        {error ? (
-          <p className="text-red-500">Error: {error}</p>
-        ) : torrentInfo ? (
-          <p>
-            Downloaded: {(torrentInfo.downloaded / 1024 / 1024).toFixed(2)}MB |
-            Speed: {(torrentInfo.downloadSpeed / 1024).toFixed(2)}KB/s | Upload:{' '}
-            {(torrentInfo.uploadSpeed / 1024).toFixed(2)}KB/s | Progress:{' '}
-            {(torrentInfo.progress * 100).toFixed(1)}%
-          </p>
-        ) : (
-          <p>Loading torrent...</p>
-        )}
-        {/* <audio ref={audioRef} controls className="mt-2 w-full" /> */}
-      </div>
-    </>
+      {error ? (
+        <p className="text-red-500">Error: {error}</p>
+      ) : torrentInfo ? (
+        <p>
+          Downloaded: {(torrentInfo.downloaded / 1e6).toFixed(2)}MB | Speed:{' '}
+          {(torrentInfo.downloadSpeed / 1024).toFixed(2)}KB/s | Progress:{' '}
+          {(torrentInfo.progress * 100).toFixed(1)}%
+        </p>
+      ) : (
+        <>
+          <p>{scriptLoaded ? 'Loading torrent...' : 'Loading WebTorrent...'}</p>
+          <audio ref={audioRef} className="mt-2 w-full" />
+        </>
+      )}
+    </div>
   );
 }

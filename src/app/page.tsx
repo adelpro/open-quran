@@ -2,7 +2,7 @@
 import Image from 'next/image';
 import { useSearchParams } from 'next/navigation';
 
-import HomePage from './home-page';
+import HomePage from '@/components/home-page';
 
 export default function Home() {
   const searchParams = useSearchParams();
