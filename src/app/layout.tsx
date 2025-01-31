@@ -18,7 +18,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="ar">
       <body className={`${tajawal.className} antialiased`}>{children}</body>
     </html>
   );
