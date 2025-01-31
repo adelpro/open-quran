@@ -2,7 +2,6 @@ import './globals.css';
 
 import type { Metadata } from 'next';
 import { Tajawal } from 'next/font/google';
-
 const tajawal = Tajawal({
   weight: ['400', '700', '900'],
   subsets: ['arabic'],
@@ -20,12 +19,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${tajawal.className} antialiased`}
-        /* className={`${scheherazade_New.className}  antialiased`} */
-      >
-        {children}
-      </body>
+      <body className={`${tajawal.className} antialiased`}>{children}</body>
     </html>
   );
 }

@@ -8,7 +8,6 @@ import shuffleSVG from '@svgs/music-shuffle.svg';
 import Image from 'next/image';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 
-import { reciters } from '@/constants';
 import { TrackType } from '@/types';
 
 import PlaylistDialog from './playlist-dialog';

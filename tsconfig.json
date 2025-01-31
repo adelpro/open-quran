@@ -25,8 +25,7 @@
       "@assets/*": ["./src/assets/*"],
       "@utils/*": ["./src/utils/*"],
       "@svgs/*": ["./src/svgs/*"],
-      "@hooks/*": ["./src/hooks/*"],
-      "@jotai/*": ["./src/jotai/*"]
+      "@hooks/*": ["./src/hooks/*"]
     }
   },
   "include": [

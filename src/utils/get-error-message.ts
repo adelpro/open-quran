@@ -1,4 +1,9 @@
 export const getErrorMessage = (error: unknown): string => {
-  const message = getErrorMessage(error);
-  return message;
+  if (error instanceof Error) {
+    return error.message;
+  } else if (typeof error === 'string') {
+    return error;
+  } else {
+    return 'An unknown error occurred';
+  }
 };
