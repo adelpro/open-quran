@@ -18,8 +18,6 @@ export default function useTorrent() {
   const [torrentInfo, setTorrentInfo] = useState<TorrentInfo | undefined>();
   const [error, setError] = useState<string | undefined>();
 
-  const torrentClientRef = useRef<WebTorrent | undefined>(undefined);
-
   const selectedReciterValue = useAtomValue(selectedReciterAtom);
 
   const magnetURI = selectedReciterValue ? selectedReciterValue.magnet : '';
@@ -27,14 +25,14 @@ export default function useTorrent() {
   const initTorrent = React.useCallback(() => {
     try {
       setError(undefined);
-      const client = new (window as any).WebTorrent();
-      torrentClientRef.current = client;
+      const client = new window.WebTorrent();
 
       if (!isValidMagnetUri(magnetURI)) {
         throw new Error('Magnet URI not valid');
       }
-
+      console.log('torrent - 1', magnetURI);
       client.add(magnetURI, (torrent: Torrent) => {
+        console.log('torrent - 2');
         const audioFiles = torrent.files.filter((file) =>
           file.name.endsWith('.mp3')
         );
@@ -72,11 +70,9 @@ export default function useTorrent() {
       });
       client.on('error', (error: unknown) => {
         setError(getErrorMessage(error));
-        torrentClientRef.current = undefined;
       });
     } catch (error: unknown) {
       setError(getErrorMessage(error));
-      torrentClientRef.current = undefined;
     }
   }, [magnetURI]);
 
