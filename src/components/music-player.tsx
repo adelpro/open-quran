@@ -8,7 +8,7 @@ import shuffleSVG from '@svgs/music-shuffle.svg';
 import Image from 'next/image';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 
-import { narrators } from '@/constants';
+import { reciters } from '@/constants';
 import { TrackType } from '@/types';
 
 import PlaylistDialog from './playlist-dialog';
@@ -181,7 +181,7 @@ export default function MusicPlayer({ playlist }: MusicPlayerProps) {
         duration={duration}
         currentTime={currentTime}
       />
-      <Torrrent magnetURI={narrators[1].magnet} />
+      <Torrrent />
     </>
   );
 }

@@ -1,4 +1,4 @@
-export * from './narrator';
+export * from './reciter';
 export * from './riwaya';
 export * from './surah';
 export * from './track-type';

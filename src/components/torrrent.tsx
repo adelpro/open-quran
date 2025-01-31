@@ -1,14 +1,13 @@
 'use client';
 
+import { useAtomValue } from 'jotai';
 import Script from 'next/script';
 import React, { useEffect, useRef, useState } from 'react';
 import type { Torrent, TorrentFile, WebTorrent } from 'webtorrent';
 
+import { selectedReciterAtom } from '@/jotai/atom';
+import { isValidMagnetUri } from '@/utils';
 import { getErrorMessage } from '@/utils/get-error-message';
-
-type Props = {
-  magnetURI: string;
-};
 
 interface TorrentInfo {
   file?: TorrentFile;
@@ -18,12 +17,18 @@ interface TorrentInfo {
   progress: number;
 }
 
-export default function TorrentPlayer({ magnetURI }: Props) {
+export default function TorrentPlayer() {
   const [torrentInfo, setTorrentInfo] = useState<TorrentInfo | undefined>();
   const [error, setError] = useState<string | undefined>();
   const [scriptLoaded, setScriptLoaded] = useState(false);
+
   const torrentClientRef = useRef<WebTorrent | undefined>(undefined);
+
   const audioRef = useRef<HTMLAudioElement | null>(null);
+
+  const selectedReciterValue = useAtomValue(selectedReciterAtom);
+
+  const magnetURI = selectedReciterValue ? selectedReciterValue.magnet : '';
 
   const initTorrent = React.useCallback(() => {
     try {
@@ -31,12 +36,12 @@ export default function TorrentPlayer({ magnetURI }: Props) {
       const client = new (window as any).WebTorrent();
       torrentClientRef.current = client;
 
-      console.log('WebTorrent available:', window.WebTorrent);
       client.add(magnetURI, (torrent: Torrent) => {
-        console.log('initTorrent - 1');
         const audioFile = torrent.files.find((file) =>
           file.name.endsWith('.mp3')
         );
+
+        console.log('audio files', audioRef);
 
         if (!audioFile) {
           setError('No MP3 found in torrent');
@@ -65,16 +70,15 @@ export default function TorrentPlayer({ magnetURI }: Props) {
 
         torrent.on('download', updateProgress);
         torrent.on('upload', updateProgress);
-        updateProgress();
 
         return () => {
           torrent.off('download', updateProgress);
           torrent.off('upload', updateProgress);
         };
       });
-      console.log('initTorrent - 2');
+
       client.on('torrent', (torrent: Torrent) => {
-        console.log('Torrent metadata fetched:', torrent.name);
+        console.log('Torrent metadata fetched:', torrent.files);
       });
       client.on('error', (error: Error) => {
         setError(getErrorMessage(error));
@@ -90,6 +94,14 @@ export default function TorrentPlayer({ magnetURI }: Props) {
       torrentClientRef.current = undefined;
     };
   }, [scriptLoaded, initTorrent]);
+
+  if (magnetURI === undefined) {
+    return <p> magnetURI undefined</p>;
+  }
+
+  if (!isValidMagnetUri(magnetURI)) {
+    return <p>magnetURI Unvalid</p>;
+  }
 
   return (
     <div className="my-2.5 rounded bg-gray-100 p-2.5">

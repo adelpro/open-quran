@@ -1,5 +1,5 @@
 import { atom } from 'jotai';
 
-import { Narrator } from '@/types';
+import { Reciter } from '@/types';
 
-export const selectedNarratorAtom = atom<Narrator | undefined>();
+export const selectedReciterAtom = atom<Reciter | undefined>();

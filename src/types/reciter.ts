@@ -1,6 +1,6 @@
 import { Riwaya } from '@/types';
 
-export type Narrator = {
+export type Reciter = {
   id: number;
   name: string;
   riwaya: Riwaya;
