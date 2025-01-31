@@ -19,6 +19,7 @@ export default function TorrentPlayer() {
   useEffect(() => {
     scriptLoaded && initTorrent();
   }, [scriptLoaded, initTorrent]);
+  useEffect(() => console.log(torrentInfo), [torrentInfo]);
 
   return (
     <div className="my-2.5 rounded bg-gray-100 p-2.5">
