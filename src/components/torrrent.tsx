@@ -16,6 +16,10 @@ export default function TorrentPlayer() {
   const [scriptLoaded, setScriptLoaded] = useState(false);
   const selectedReciterValue = useAtomValue(selectedReciterAtom);
 
+  useEffect(() => {
+    console.table([torrentInfo?.files, error, scriptLoaded]);
+  }, [error, scriptLoaded, torrentInfo]);
+
   return (
     <div className="flex flex-col gap-2">
       <Script
