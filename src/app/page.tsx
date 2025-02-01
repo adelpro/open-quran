@@ -10,7 +10,7 @@ export default function Home() {
 
   return (
     <main className="bg-background text-foreground">
-      <div className="width-full mt-10 flex items-center justify-center">
+      <div className="width-full mt-10 flex items-center justify-center transition-transform duration-200 hover:scale-105">
         <Image src="/logo.png" alt="logo" width={400} height={400} priority />
       </div>
       <div className="width-full flex items-center justify-center">

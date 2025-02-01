@@ -40,7 +40,7 @@ export default function Dialog({ isOpen, setIsOpen, children }: DialogProps) {
             type="button"
             onClick={() => setIsOpen(false)}
             aria-label="Close"
-            className="transition-all duration-200 hover:scale-110"
+            className="transition-transform duration-200 hover:scale-110"
           >
             <Image src={close} alt="close" width={24} height={24} />
           </button>

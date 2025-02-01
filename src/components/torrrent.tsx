@@ -16,9 +16,12 @@ export default function TorrentPlayer() {
   const [scriptLoaded, setScriptLoaded] = useState(false);
   const selectedReciterValue = useAtomValue(selectedReciterAtom);
 
-  useEffect(() => {
+  /*   useEffect(() => {
     console.table([torrentInfo?.files, error, scriptLoaded]);
-  }, [error, scriptLoaded, torrentInfo]);
+  }, [error, scriptLoaded, torrentInfo]); */
+  if (!selectedReciterValue?.magnet) {
+    return <p>Please select a reciter</p>;
+  }
 
   return (
     <div className="flex flex-col gap-2">
@@ -34,16 +37,11 @@ export default function TorrentPlayer() {
       />
 
       {error ? (
-        selectedReciterValue ? (
-          <p className="text-red-500">Error: {error}</p>
-        ) : (
-          <p>Please select a reciter</p>
-        )
+        <p className="text-red-500">Error: {error}</p>
       ) : torrentInfo ? (
         <>
           {/* TODO replace dummy playlist with real data from torrentinfo */}
           <MusicPlayer playlist={playlist} />
-
           <p>
             Downloaded: {(torrentInfo.downloaded / 1e6).toFixed(2)}MB | Speed:{' '}
             {(torrentInfo.downloadSpeed / 1024).toFixed(2)}KB/s | Progress:{' '}
@@ -51,9 +49,7 @@ export default function TorrentPlayer() {
           </p>
         </>
       ) : (
-        <>
-          <p>{scriptLoaded ? 'Loading torrent...' : 'Loading WebTorrent...'}</p>
-        </>
+        <p>{scriptLoaded ? 'Loading torrent...' : 'Loading WebTorrent...'}</p>
       )}
     </div>
   );

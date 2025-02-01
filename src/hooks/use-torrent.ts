@@ -86,15 +86,5 @@ export default function useTorrent() {
     }
   }, [magnetURI, initTorrent]);
 
-  // Cleanup WebTorrent client on unmount
-  useEffect(() => {
-    const client = clientRef.current;
-    return () => {
-      if (client) {
-        client.destroy();
-      }
-    };
-  }, []);
-
   return { initTorrent, torrentInfo, error, setError };
 }
