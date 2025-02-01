@@ -32,7 +32,7 @@ export const reciters: Reciter[] = [
     name: 'محمود خليل الحصري',
     riwaya: Riwaya.Hafs,
     magnet:
-      'magnet:?xt=urn:btih:fe73b33075b7e271fe5b1aee05091dd61954d17d&dn=Abdebaset_warsh&tr=https%3A%2F%2Ftorrent.islamhouse.com%2Fannounce.php%3Fpid%3D00000000000000000000000000000000',
+      'magnet:?xt=urn:btih:87c83e0b4432d70565e2dbc4e20988285778e189&dn=Mahmoud_Khalil_Al-Hussary_(warsh)_(MP3_Quran)&tr=http%3A%2F%2Ftorrent.mp3quran.net%2Fannounce.php&tr=wss%3A%2F%2Ftracker.btorrent.xyz&tr=wss%3A%2F%2Ftracker.openwebtorrent.com',
 
     complet: true,
   },

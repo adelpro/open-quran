@@ -1,5 +1,5 @@
 import { useAtomValue } from 'jotai';
-import React, { useRef, useState } from 'react';
+import React, { use, useEffect, useRef, useState } from 'react';
 import type { Torrent, TorrentFile, WebTorrent } from 'webtorrent';
 
 import { selectedReciterAtom } from '@/jotai/atom';
@@ -15,6 +15,8 @@ interface TorrentInfo {
 }
 
 export default function useTorrent() {
+  const MaxListenersLimit = 100;
+
   const [torrentInfo, setTorrentInfo] = useState<TorrentInfo | undefined>();
   const [error, setError] = useState<string | undefined>();
 
@@ -25,14 +27,15 @@ export default function useTorrent() {
   const initTorrent = React.useCallback(() => {
     try {
       setError(undefined);
+
       const client = new window.WebTorrent();
+      client.setMaxListeners(MaxListenersLimit);
 
       if (!isValidMagnetUri(magnetURI)) {
         throw new Error('Magnet URI not valid');
       }
-      console.log('torrent - 1', magnetURI);
+
       client.add(magnetURI, (torrent: Torrent) => {
-        console.log('torrent - 2');
         const audioFiles = torrent.files.filter((file) =>
           file.name.endsWith('.mp3')
         );
@@ -65,9 +68,6 @@ export default function useTorrent() {
         };
       });
 
-      client.on('torrent', (torrent: Torrent) => {
-        console.log('Torrent metadata fetched:', torrent.files);
-      });
       client.on('error', (error: unknown) => {
         setError(getErrorMessage(error));
       });
@@ -75,6 +75,12 @@ export default function useTorrent() {
       setError(getErrorMessage(error));
     }
   }, [magnetURI]);
+
+  useEffect(() => {
+    if (magnetURI) {
+      initTorrent();
+    }
+  }, [magnetURI, initTorrent]);
 
   return { initTorrent, torrentInfo, error, setError };
 }

@@ -12,21 +12,21 @@ import { selectedReciterAtom } from '@/jotai/atom';
 import MusicPlayer from './music-player';
 
 export default function TorrentPlayer() {
-  const { error, setError, torrentInfo, initTorrent } = useTorrent();
+  const { error, setError, torrentInfo } = useTorrent();
   const [scriptLoaded, setScriptLoaded] = useState(false);
   const selectedReciterValue = useAtomValue(selectedReciterAtom);
 
-  useEffect(() => {
-    scriptLoaded && initTorrent();
-  }, [scriptLoaded, initTorrent]);
-
   return (
-    <div className="my-2.5 rounded bg-gray-100 p-2.5">
+    <div className="flex flex-col gap-2">
       <Script
         src="https://cdn.jsdelivr.net/npm/webtorrent@latest/webtorrent.min.js"
         strategy="lazyOnload"
-        onLoad={() => setScriptLoaded(true)}
-        onError={() => setError('Failed to load WebTorrent')}
+        onLoad={() => {
+          setScriptLoaded(true);
+        }}
+        onError={() => {
+          setError('Failed to load WebTorrent');
+        }}
       />
 
       {error ? (
@@ -45,13 +45,6 @@ export default function TorrentPlayer() {
             {(torrentInfo.downloadSpeed / 1024).toFixed(2)}KB/s | Progress:{' '}
             {(torrentInfo.progress * 100).toFixed(1)}%
           </p>
-
-          {torrentInfo.files === undefined ||
-          torrentInfo.files?.length === 0 ? (
-            <p>No audio files found</p>
-          ) : (
-            torrentInfo.files.map((file) => <p key={file.name}>{file.name}</p>)
-          )}
         </>
       ) : (
         <>

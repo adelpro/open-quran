@@ -27,10 +27,10 @@ const config = {
     removeConsole: isProduction && { exclude: ['error'] },
   },
   typescript: {
-    ignoreBuildErrors: false, // Set this to false if you want production builds to abort if there's type errors
+    ignoreBuildErrors: !isProduction, // Set this to false if you want production builds to abort if there's type errors
   },
   eslint: {
-    ignoreDuringBuilds: false, // Set this to false if you want production builds to abort if there's lint errors
+    ignoreDuringBuilds: !isProduction, // Set this to false if you want production builds to abort if there's lint errors
   },
   experimental: {
     //nextScriptWorkers: true,
