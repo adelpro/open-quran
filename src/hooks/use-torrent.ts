@@ -1,6 +1,6 @@
 import { useAtomValue } from 'jotai';
-import React, { use, useEffect, useRef, useState } from 'react';
-import type { Torrent, TorrentFile, WebTorrent } from 'webtorrent';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import type { Instance, Torrent, TorrentFile } from 'webtorrent';
 
 import { selectedReciterAtom } from '@/jotai/atom';
 import { isValidMagnetUri } from '@/utils';
@@ -15,36 +15,40 @@ interface TorrentInfo {
 }
 
 export default function useTorrent() {
-  const MaxListenersLimit = 100;
+  const MAX_LISTENERS_LIMIT = 100;
 
   const [torrentInfo, setTorrentInfo] = useState<TorrentInfo | undefined>();
   const [error, setError] = useState<string | undefined>();
+  const clientRef = useRef<Instance>(null);
 
   const selectedReciterValue = useAtomValue(selectedReciterAtom);
 
   const magnetURI = selectedReciterValue ? selectedReciterValue.magnet : '';
 
-  const initTorrent = React.useCallback(() => {
+  const initTorrent = useCallback(() => {
     try {
       setError(undefined);
 
-      const client = new window.WebTorrent();
-      client.setMaxListeners(MaxListenersLimit);
+      if (typeof window === 'undefined' || !window.WebTorrent) {
+        throw new Error('WebTorrent is not available');
+      }
+      const WebTorrent = window.WebTorrent;
+      clientRef.current = new WebTorrent();
+      clientRef.current.setMaxListeners(MAX_LISTENERS_LIMIT);
 
       if (!isValidMagnetUri(magnetURI)) {
         throw new Error('Magnet URI not valid');
       }
 
-      client.add(magnetURI, (torrent: Torrent) => {
+      clientRef.current.add(magnetURI, (torrent: Torrent) => {
         const audioFiles = torrent.files.filter((file) =>
           file.name.endsWith('.mp3')
         );
 
-        /*         if (!audioFiles) {
+        if (audioFiles.length === 0) {
           setError('No MP3 found in torrent');
-          client.destroy();
           return;
-        } */
+        }
 
         // Progress updates
         const updateProgress = () => {
@@ -68,7 +72,7 @@ export default function useTorrent() {
         };
       });
 
-      client.on('error', (error: unknown) => {
+      clientRef.current.on('error', (error: unknown) => {
         setError(getErrorMessage(error));
       });
     } catch (error: unknown) {
@@ -81,6 +85,16 @@ export default function useTorrent() {
       initTorrent();
     }
   }, [magnetURI, initTorrent]);
+
+  // Cleanup WebTorrent client on unmount
+  useEffect(() => {
+    const client = clientRef.current;
+    return () => {
+      if (client) {
+        client.destroy();
+      }
+    };
+  }, []);
 
   return { initTorrent, torrentInfo, error, setError };
 }
