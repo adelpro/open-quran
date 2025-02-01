@@ -16,18 +16,26 @@ export default function TorrentPlayer() {
   const [scriptLoaded, setScriptLoaded] = useState(false);
   const selectedReciterValue = useAtomValue(selectedReciterAtom);
 
-  /*   useEffect(() => {
-    console.table([torrentInfo?.files, error, scriptLoaded]);
-  }, [error, scriptLoaded, torrentInfo]); */
-  if (!selectedReciterValue?.magnet) {
-    return <p>Please select a reciter</p>;
-  }
+  const content = (): React.ReactNode => {
+    if (error) {
+      return <p>Error: {error}</p>;
+    }
+    if (!scriptLoaded) {
+      return <p>Loading Webtorrent...</p>;
+    }
+
+    if (!selectedReciterValue?.magnet) {
+      return <p>Please select a reciter</p>;
+    }
+
+    return <p>Loading torrent...</p>;
+  };
 
   return (
     <div className="flex flex-col gap-2">
       <Script
         src="https://cdn.jsdelivr.net/npm/webtorrent@latest/webtorrent.min.js"
-        strategy="lazyOnload"
+        strategy="afterInteractive"
         onLoad={() => {
           setScriptLoaded(true);
         }}
@@ -36,20 +44,19 @@ export default function TorrentPlayer() {
         }}
       />
 
-      {error ? (
-        <p className="text-red-500">Error: {error}</p>
-      ) : torrentInfo ? (
+      {torrentInfo ? (
         <>
           {/* TODO replace dummy playlist with real data from torrentinfo */}
           <MusicPlayer playlist={playlist} />
           <p>
             Downloaded: {(torrentInfo.downloaded / 1e6).toFixed(2)}MB | Speed:{' '}
             {(torrentInfo.downloadSpeed / 1024).toFixed(2)}KB/s | Progress:{' '}
-            {(torrentInfo.progress * 100).toFixed(1)}%
+            {(torrentInfo.progress * 100).toFixed(1)}% | Seeders:{' '}
+            {torrentInfo.seeders}
           </p>
         </>
       ) : (
-        <p>{scriptLoaded ? 'Loading torrent...' : 'Loading WebTorrent...'}</p>
+        content()
       )}
     </div>
   );

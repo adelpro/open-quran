@@ -12,6 +12,7 @@ interface TorrentInfo {
   downloadSpeed: number;
   uploadSpeed: number;
   progress: number;
+  seeders: number;
 }
 
 export default function useTorrent() {
@@ -27,13 +28,12 @@ export default function useTorrent() {
 
   const initTorrent = useCallback(() => {
     try {
-      setError(undefined);
+      setError('');
 
       if (typeof window === 'undefined' || !window.WebTorrent) {
         throw new Error('WebTorrent is not available');
       }
-      const WebTorrent = window.WebTorrent;
-      clientRef.current = new WebTorrent();
+      clientRef.current = new window.WebTorrent();
       clientRef.current.setMaxListeners(MAX_LISTENERS_LIMIT);
 
       if (!isValidMagnetUri(magnetURI)) {
@@ -58,6 +58,7 @@ export default function useTorrent() {
             downloadSpeed: torrent.downloadSpeed,
             uploadSpeed: torrent.uploadSpeed,
             progress: torrent.progress,
+            seeders: torrent.numPeers,
           });
         };
 
