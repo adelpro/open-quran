@@ -4,7 +4,7 @@ import Image from 'next/image';
 import React from 'react';
 
 import useTorrent from '@/hooks/use-torrent';
-import { selectedReciterAtom } from '@/jotai/atom';
+import { selectedReciterAtom, webtorrentReadyAtom } from '@/jotai/atom';
 import connectionSVG from '@/svgs/connection.svg';
 import connectionAnimatedSVG from '@/svgs/connection-animated.svg';
 import searchSVG from '@/svgs/search.svg';
@@ -13,8 +13,8 @@ import ReciterSelectorDialog from './reciter-selector-dialog';
 
 export default function ReciterrSelector() {
   const [isOpen, setIsOpen] = React.useState<boolean>(false);
-  //TODO MAke torrent ready globale state
-  const { torrentInfo } = useTorrent(false);
+  const webtorrentReady = useAtomValue(webtorrentReadyAtom);
+  const { torrentInfo } = useTorrent();
   const selectedReciterValue = useAtomValue(selectedReciterAtom);
   const onButtonClick = () => {
     setIsOpen(true);
@@ -35,6 +35,9 @@ export default function ReciterrSelector() {
       />
     );
   };
+  if (!webtorrentReady) {
+    return <></>;
+  }
   return (
     <div className="flex w-full justify-center">
       <button

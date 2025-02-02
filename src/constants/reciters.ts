@@ -1,6 +1,7 @@
 import { Reciter, Riwaya } from '@/types';
+import { ensureTrackerInMagnetURI } from '@/utils/ensure-tracker-in-magnet-uri';
 
-export const RECITERS: Reciter[] = [
+const recitersArray: Reciter[] = [
   {
     id: 1,
     name: 'سعد الغامدي',
@@ -95,3 +96,14 @@ export const RECITERS: Reciter[] = [
     complet: true,
   },
 ];
+
+export const RECITERS = recitersArray.map((reciter) => {
+  const newMagnet = ensureTrackerInMagnetURI(
+    reciter.magnet,
+    'wss://tracker.openwebtorrent.com'
+  );
+  return {
+    ...reciter,
+    magnet: newMagnet,
+  };
+});

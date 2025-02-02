@@ -39,6 +39,14 @@ const config = {
       rules: {},
     },
   },
+  /*   webpack(config: any) {
+    config.module.rules.push({
+      test: /\.svg$/,
+      issuer: /\.[jt]sx?$/,
+      use: ['@svgr/webpack'],
+    });
+    return config;
+  }, */
 };
 
 const nextConfig: NextConfig | PWAConfig = withPWA(pwaConfig)(config);

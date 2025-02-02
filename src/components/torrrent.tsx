@@ -1,43 +1,48 @@
 //TODO load torrent files to the player list
 'use client';
 
-import { useAtomValue } from 'jotai';
+import { useAtom, useAtomValue } from 'jotai';
 import Script from 'next/script';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 
 import MusicPlayer from '@/components/music-player';
 import { PLAYLIST } from '@/constants';
 import useTorrent from '@/hooks/use-torrent';
-import { selectedReciterAtom } from '@/jotai/atom';
+import { selectedReciterAtom, webtorrentReadyAtom } from '@/jotai/atom';
+
+import Loader from './loader';
 
 export default function TorrentPlayer() {
-  const [webtorrentReady, setWebTorrentReady] = useState<boolean>(false);
-  const { error, setError, torrentInfo } = useTorrent(webtorrentReady);
+  const [webtorrentReady, setWebTorrentReady] = useAtom(webtorrentReadyAtom);
+  const { error, setError, torrentInfo } = useTorrent();
   const selectedReciterValue = useAtomValue(selectedReciterAtom);
 
   useEffect(() => {
-    if (typeof window === 'undefined') {
+    if (typeof window === 'undefined' || !('WebTorrent' in window)) {
       console.log('WebTorrent is not available');
+      // WebTorrent may be still loading ...
+      setError(undefined);
+      setWebTorrentReady(false);
       return;
     }
-
     console.log('WebTorrent is available');
+    setError('');
     setWebTorrentReady(true);
-  }, []);
+  }, [setError, setWebTorrentReady]);
 
   const content = (): React.ReactNode => {
     if (error) {
       return <p>Error: {error}</p>;
     }
     if (!webtorrentReady) {
-      return <p>Loading Webtorrent...</p>;
+      return <Loader message="Loading Webtorrent" textClassName="text-xl" />;
     }
 
     if (!selectedReciterValue?.magnet) {
-      return <p>Please select a reciter</p>;
+      return <p>Please select a reciter </p>;
     }
 
-    return <p>Loading torrent...</p>;
+    return <Loader message="Loading torrent" textClassName="text-xl" />;
   };
 
   return (
@@ -47,9 +52,11 @@ export default function TorrentPlayer() {
         strategy="lazyOnload"
         onLoad={() => {
           setWebTorrentReady(true);
+          setError(undefined);
         }}
         onError={() => {
           setError('Failed to load WebTorrent');
+          setWebTorrentReady(false);
         }}
       />
 
