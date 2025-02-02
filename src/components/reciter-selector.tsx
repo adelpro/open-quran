@@ -13,7 +13,8 @@ import ReciterSelectorDialog from './reciter-selector-dialog';
 
 export default function ReciterrSelector() {
   const [isOpen, setIsOpen] = React.useState<boolean>(false);
-  const { torrentInfo } = useTorrent();
+  //TODO MAke torrent ready globale state
+  const { torrentInfo } = useTorrent(false);
   const selectedReciterValue = useAtomValue(selectedReciterAtom);
   const onButtonClick = () => {
     setIsOpen(true);
