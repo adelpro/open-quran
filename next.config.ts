@@ -21,7 +21,7 @@ const pwaConfig: PWAConfig = {
 
 /** @type {import('next').NextConfig} */
 const config = {
-  reactStrictMode: !isProduction,
+  // reactStrictMode: !isProduction,
   poweredByHeader: !isProduction,
   transpilePackages: ['jotai-devtools'],
   compiler: {

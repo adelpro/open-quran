@@ -17,19 +17,6 @@ export default function TorrentPlayer() {
   const { error, setError, torrentInfo } = useTorrent();
   const selectedReciterValue = useAtomValue(selectedReciterAtom);
 
-  useEffect(() => {
-    if (typeof window === 'undefined' || !('WebTorrent' in window)) {
-      console.log('WebTorrent is not available');
-      // WebTorrent may be still loading ...
-      setError(undefined);
-      setWebTorrentReady(false);
-      return;
-    }
-    console.log('WebTorrent is available');
-    setError('');
-    setWebTorrentReady(true);
-  }, [setError, setWebTorrentReady]);
-
   const content = (): React.ReactNode => {
     if (error) {
       return <p>Error: {error}</p>;
@@ -42,38 +29,45 @@ export default function TorrentPlayer() {
       return <p>Please select a reciter </p>;
     }
 
-    return <Loader message="Loading torrent" textClassName="text-xl" />;
+    if (torrentInfo === undefined) {
+      return <Loader message="Loading torrent" textClassName="text-xl" />;
+    }
+
+    return (
+      <>
+        {/* TODO replace dummy playlist with real data from torrentinfo */}
+        <MusicPlayer playlist={PLAYLIST} />
+        <p>
+          Downloaded: {(torrentInfo?.downloaded / 1e6).toFixed(2)}MB | Speed:{' '}
+          {(torrentInfo?.downloadSpeed / 1024).toFixed(2)}KB/s | Progress:{' '}
+          {(torrentInfo?.progress * 100).toFixed(1)}% | Seeders:{' '}
+          {torrentInfo?.seeders}
+        </p>
+      </>
+    );
+
+    //return <Loader message="Loading torrent" textClassName="text-xl" />;
   };
 
   return (
     <div className="flex flex-col gap-2">
-      <Script
-        src="https://cdn.jsdelivr.net/npm/webtorrent@latest/webtorrent.min.js"
-        strategy="lazyOnload"
-        onLoad={() => {
-          setWebTorrentReady(true);
-          setError(undefined);
-        }}
-        onError={() => {
-          setError('Failed to load WebTorrent');
-          setWebTorrentReady(false);
-        }}
-      />
-
-      {torrentInfo ? (
-        <>
-          {/* TODO replace dummy playlist with real data from torrentinfo */}
-          <MusicPlayer playlist={PLAYLIST} />
-          <p>
-            Downloaded: {(torrentInfo.downloaded / 1e6).toFixed(2)}MB | Speed:{' '}
-            {(torrentInfo.downloadSpeed / 1024).toFixed(2)}KB/s | Progress:{' '}
-            {(torrentInfo.progress * 100).toFixed(1)}% | Seeders:{' '}
-            {torrentInfo.seeders}
-          </p>
-        </>
+      {webtorrentReady ? (
+        <></>
       ) : (
-        content()
+        <Script
+          src="https://cdn.jsdelivr.net/npm/webtorrent@latest/webtorrent.min.js"
+          strategy="lazyOnload"
+          onLoad={() => {
+            setWebTorrentReady(true);
+            setError(undefined);
+          }}
+          onError={() => {
+            setError('Failed to load WebTorrent');
+            setWebTorrentReady(false);
+          }}
+        />
       )}
+      {content()}
     </div>
   );
 }
