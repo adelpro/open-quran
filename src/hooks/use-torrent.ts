@@ -5,7 +5,6 @@ import type { Instance, Torrent, TorrentFile } from 'webtorrent';
 import { rtcConfig } from '@/constants';
 import { selectedReciterAtom, webtorrentReadyAtom } from '@/jotai/atom';
 import { isValidMagnetUri } from '@/utils';
-import { ensureTrackerInMagnetURI } from '@/utils/ensure-tracker-in-magnet-uri';
 import { getErrorMessage } from '@/utils/get-error-message';
 
 interface TorrentInfo {
@@ -61,8 +60,8 @@ export default function useTorrent() {
         }
 
         // Progress updates
-        const updateProgress = () => {
-          console.log('Progress updated:', torrent.progress);
+        const updateProgress = (event: any) => {
+          console.log('Progress updated:', event);
           setTorrentInfo({
             files: audioFiles,
             downloaded: torrent.downloaded,
@@ -73,8 +72,8 @@ export default function useTorrent() {
           });
         };
 
-        torrent.on('download', updateProgress);
-        torrent.on('upload', updateProgress);
+        torrent.on('download', (event) => updateProgress(event));
+        torrent.on('upload', (event) => updateProgress(event));
 
         return () => {
           torrent.off('download', updateProgress);

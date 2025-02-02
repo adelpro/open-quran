@@ -95,6 +95,14 @@ const recitersArray: Reciter[] = [
       'magnet:?xt=urn:btih:65495a38fa9b277fc7fde00d5df94ddd4f0b332b&dn=Khalid_Aljleel_Update2_(MP3_Quran)&tr=http%3A%2F%2Ftorrent.mp3quran.net%2Fannounce.php&tr=wss%3A%2F%2Ftracker.btorrent.xyz&tr=wss%3A%2F%2Ftracker.openwebtorrent.com',
     complet: true,
   },
+  {
+    id: 12,
+    name: 'سعد الغامدي - 2',
+    riwaya: Riwaya.Hafs,
+    magnet:
+      'magnet:?xt=urn:btih:5e0becf35d91ea4602f04db90d74621a172aa396&dn=Saad_Alghamdi_(MP3_Quran)&tr=http%3A%2F%2Ftorrent.mp3quran.net%2Fannounce.php&tr=wss%3A%2F%2Ftracker.btorrent.xyz&tr=wss%3A%2F%2Ftracker.openwebtorrent.com',
+    complet: true,
+  },
 ];
 
 export const RECITERS = recitersArray.map((reciter) => {
