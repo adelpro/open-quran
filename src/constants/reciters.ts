@@ -105,7 +105,7 @@ const recitersArray: Reciter[] = [
   },
   {
     id: 13,
-    name: 'مشاري رشيد الافاسي',
+    name: 'مشاري رشيد العفاسي',
     riwaya: Riwaya.Hafs,
     magnet:
       'magnet:?xt=urn:btih:823CE8332E2BD3D555B5C35FC12BAB50A6976481&tr=udp%3A%2F%2Ftracker.bitsearch.to%3A1337%2Fannounce&tr=udp%3A%2F%2Ftracker.zerobytes.xyz%3A1337%2Fannounce&tr=udp%3A%2F%2F9.rarbg.com%3A2920%2Fannounce&tr=udp%3A%2F%2Ftracker.0x.tf%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker2.dler.com%3A80%2Fannounce&dn=%5BBitsearch.to%5D+The+Holy+Quran+MP3+recited+by+Mishary+Rashid+Al+Afasy',
