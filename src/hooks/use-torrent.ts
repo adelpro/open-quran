@@ -59,6 +59,11 @@ export default function useTorrent() {
       return;
     }
 
+    const existingTorrent = clientRef.current.get(magnetURI);
+    if (existingTorrent) {
+      clientRef.current.remove(existingTorrent);
+    }
+
     clientRef.current.add(magnetURI, (torrent: Torrent) => {
       const audioFiles = torrent.files.filter((file) =>
         file.name.endsWith('.mp3')
@@ -81,6 +86,10 @@ export default function useTorrent() {
 
       torrent.on('download', updateProgress);
       torrent.on('upload', updateProgress);
+      torrent.once('ready', updateProgress);
+      torrent.on('error', (error: unknown) => {
+        setError(getErrorMessage(error));
+      });
     });
   }, [webtorrentReady, magnetURI]);
 
