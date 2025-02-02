@@ -1,6 +1,6 @@
 import { Reciter, Riwaya } from '@/types';
 
-export const reciters: Reciter[] = [
+export const RECITERS: Reciter[] = [
   {
     id: 1,
     name: 'سعد الغامدي',

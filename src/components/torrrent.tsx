@@ -5,7 +5,7 @@ import { useAtomValue } from 'jotai';
 import Script from 'next/script';
 import React, { useEffect, useState } from 'react';
 
-import { playlist } from '@/constants';
+import { PLAYLIST } from '@/constants';
 import useTorrent from '@/hooks/use-torrent';
 import { selectedReciterAtom } from '@/jotai/atom';
 
@@ -57,7 +57,7 @@ export default function TorrentPlayer() {
       {torrentInfo ? (
         <>
           {/* TODO replace dummy playlist with real data from torrentinfo */}
-          <MusicPlayer playlist={playlist} />
+          <MusicPlayer playlist={PLAYLIST} />
           <p>
             Downloaded: {(torrentInfo.downloaded / 1e6).toFixed(2)}MB | Speed:{' '}
             {(torrentInfo.downloadSpeed / 1024).toFixed(2)}KB/s | Progress:{' '}

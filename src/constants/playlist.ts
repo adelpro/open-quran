@@ -1,6 +1,6 @@
 import { TrackType } from '@/types';
 
-export const playlist: TrackType[] = [
+export const PLAYLIST: TrackType[] = [
   {
     surahId: 1,
     link: 'https://server7.mp3quran.net/basit/Almusshaf-Al-Mojawwad/001.mp3',

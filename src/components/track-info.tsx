@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { playlist, surahs } from '@/constants';
+import { PLAYLIST, SURAHS } from '@/constants';
 import { formatTime } from '@/utils';
 
 type Props = {
@@ -13,9 +13,9 @@ export default function TrackInfo({
   duration,
   currentTime,
 }: Props) {
-  const currentTrack = playlist[currentTrackId];
+  const currentTrack = PLAYLIST[currentTrackId];
   const { surahId } = currentTrack;
-  const surahName = surahs.find((s) => s.id === surahId)?.name;
+  const surahName = SURAHS.find((surah) => surah.id === surahId)?.name;
 
   return (
     <div className="flex items-center justify-center gap-2 font-bold text-gray-500">

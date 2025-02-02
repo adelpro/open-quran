@@ -2,7 +2,7 @@
 import { useSetAtom } from 'jotai';
 import React from 'react';
 
-import { reciters } from '@/constants';
+import { RECITERS } from '@/constants';
 import { selectedReciterAtom } from '@/jotai/atom';
 import { Reciter } from '@/types';
 
@@ -26,9 +26,8 @@ export default function RecitersList({ setIsOpen }: Props) {
           onChange={(event) => setSearchTerm(event.target.value)}
           className="mb-4 w-full rounded-lg border border-gray-200 bg-background p-2 text-right shadow-md dark:border-gray-400"
         />
-        {reciters
-          .filter((reciter) => reciter.name.includes(searchTerm))
-          .map((reciter) => (
+        {RECITERS.filter((reciter) => reciter.name.includes(searchTerm)).map(
+          (reciter) => (
             <button
               key={reciter.id}
               className="w-full flex-1 cursor-pointer rounded-lg border border-gray-200 p-2 shadow-md transition-transform hover:scale-105 dark:border-gray-400"
@@ -39,7 +38,8 @@ export default function RecitersList({ setIsOpen }: Props) {
               </h2>
               <p className="mb-1 text-right">{`برواية ${reciter.riwaya}`}</p>
             </button>
-          ))}
+          )
+        )}
       </div>
     </section>
   );

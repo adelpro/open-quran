@@ -1,6 +1,6 @@
 import { Surah } from '@/types/surah';
 
-export const surahs: Surah[] = [
+export const SURAHS: Surah[] = [
   { id: 1, name: 'الفاتحة' },
   { id: 2, name: 'البقرة' },
   { id: 3, name: 'آل عمران' },

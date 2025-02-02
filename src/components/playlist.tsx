@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { playlist, surahs } from '@/constants';
+import { PLAYLIST, SURAHS } from '@/constants';
 type Props = {
   setIsOpen: (isOpen: boolean) => void;
   setCurrentTrack: React.Dispatch<React.SetStateAction<number>>;
@@ -16,13 +16,13 @@ export default function Playlist({ setIsOpen, setCurrentTrack }: Props) {
     <main>
       <h1 className="my-2 w-full text-center">القائمة</h1>
       <ul className="my-2 w-full pl-3 text-right">
-        {playlist.map((element, index) => (
+        {PLAYLIST.map((element, index) => (
           <li
             key={index}
             className="mx-2 my-3 w-full cursor-pointer rounded p-2 text-slate-500 transition-colors duration-300 hover:bg-gray-200 hover:text-slate-800"
             onClick={() => handlePlylistItemClick(index)}
           >
-            {surahs.find((s) => s.id === element.surahId)?.name}
+            {SURAHS.find((s) => s.id === element.surahId)?.name}
           </li>
         ))}
       </ul>
