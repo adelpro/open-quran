@@ -5,19 +5,18 @@ import { useAtomValue } from 'jotai';
 import Script from 'next/script';
 import React, { useEffect, useState } from 'react';
 
+import MusicPlayer from '@/components/music-player';
 import { PLAYLIST } from '@/constants';
 import useTorrent from '@/hooks/use-torrent';
 import { selectedReciterAtom } from '@/jotai/atom';
 
-import MusicPlayer from './music-player';
-
 export default function TorrentPlayer() {
-  const { error, setError, torrentInfo } = useTorrent();
-  const [webTorrentReady, setWebTorrentReady] = useState(false);
+  const [webtorrentReady, setWebTorrentReady] = useState<boolean>(false);
+  const { error, setError, torrentInfo } = useTorrent(webtorrentReady);
   const selectedReciterValue = useAtomValue(selectedReciterAtom);
 
   useEffect(() => {
-    if (typeof window === 'undefined' || !window.WebTorrent) {
+    if (typeof window === 'undefined') {
       console.log('WebTorrent is not available');
       return;
     }
@@ -30,7 +29,7 @@ export default function TorrentPlayer() {
     if (error) {
       return <p>Error: {error}</p>;
     }
-    if (!webTorrentReady) {
+    if (!webtorrentReady) {
       return <p>Loading Webtorrent...</p>;
     }
 
@@ -45,7 +44,7 @@ export default function TorrentPlayer() {
     <div className="flex flex-col gap-2">
       <Script
         src="https://cdn.jsdelivr.net/npm/webtorrent@latest/webtorrent.min.js"
-        strategy="afterInteractive"
+        strategy="lazyOnload"
         onLoad={() => {
           setWebTorrentReady(true);
         }}

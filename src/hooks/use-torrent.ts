@@ -4,6 +4,7 @@ import type { Instance, Torrent, TorrentFile } from 'webtorrent';
 
 import { selectedReciterAtom } from '@/jotai/atom';
 import { isValidMagnetUri } from '@/utils';
+import { ensureTrackerInMagnetURI } from '@/utils/ensure-tracker-in-magnet-uri';
 import { getErrorMessage } from '@/utils/get-error-message';
 
 interface TorrentInfo {
@@ -15,7 +16,7 @@ interface TorrentInfo {
   seeders: number;
 }
 
-export default function useTorrent() {
+export default function useTorrent(webtorrentReady: boolean) {
   const MAX_LISTENERS_LIMIT = 200;
 
   const [torrentInfo, setTorrentInfo] = useState<TorrentInfo | undefined>();
@@ -37,14 +38,20 @@ export default function useTorrent() {
       clientRef.current.setMaxListeners(MAX_LISTENERS_LIMIT);
 
       if (!isValidMagnetUri(magnetURI)) {
+        console.error('Invalid magnet URI:', magnetURI);
         throw new Error('Magnet URI not valid');
       }
-      clientRef.current.add(magnetURI, (torrent: Torrent) => {
+      const updatedMagnetURI = ensureTrackerInMagnetURI(
+        magnetURI,
+        'wws://tracker.openbittorrent.com:80'
+      );
+      clientRef.current.add(updatedMagnetURI, (torrent: Torrent) => {
+        console.log('Torrent added successfully:', torrent);
+
         const audioFiles = torrent.files.filter((file) =>
           file.name.endsWith('.mp3')
         );
-
-        console.log('audioFiles:', audioFiles);
+        console.log('Audio files in torrent:', audioFiles);
 
         if (audioFiles.length === 0) {
           setError('No MP3 found in torrent');
@@ -52,7 +59,8 @@ export default function useTorrent() {
         }
 
         // Progress updates
-        const updateProgress = () => {
+        const updateProgress = (event: any) => {
+          console.log('Progress update:', event);
           setTorrentInfo({
             files: audioFiles,
             downloaded: torrent.downloaded,
@@ -65,8 +73,6 @@ export default function useTorrent() {
 
         torrent.on('download', updateProgress);
         torrent.on('upload', updateProgress);
-        torrent.on('metadata', updateProgress);
-        torrent.on('infoHash', updateProgress);
 
         return () => {
           torrent.off('download', updateProgress);
@@ -74,16 +80,23 @@ export default function useTorrent() {
         };
       });
 
+      clientRef.current.on('torrent', (torrent: Torrent) => {
+        console.log('torrent from client  on torrent:', torrent);
+      });
+
       clientRef.current.on('error', (error: unknown) => {
         setError(getErrorMessage(error));
       });
     } catch (error: unknown) {
+      console.error('Error initializing torrent:', error);
       setError(getErrorMessage(error));
     }
   }, [magnetURI]);
 
   useEffect(() => {
-    if (magnetURI) {
+    console.log('use-torrent - webtorrentReady:', webtorrentReady);
+    console.log('use-torrent - magnetURI:', magnetURI);
+    if (webtorrentReady && magnetURI) {
       initTorrent();
     }
 
@@ -92,7 +105,7 @@ export default function useTorrent() {
         clientRef.current.destroy();
       }
     };
-  }, [magnetURI, initTorrent]);
+  }, [magnetURI, initTorrent, webtorrentReady]);
 
-  return { initTorrent, torrentInfo, error, setError };
+  return { torrentInfo, error, setError };
 }
