@@ -46,7 +46,7 @@ export default function useTorrent() {
     return () => {
       clientRef.current?.destroy();
     };
-  }, []);
+  }, [webtorrentReady]);
 
   // Add torrent when client is ready and a valid magnet URI exists
   useEffect(() => {
