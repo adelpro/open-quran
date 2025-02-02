@@ -13,14 +13,24 @@ import MusicPlayer from './music-player';
 
 export default function TorrentPlayer() {
   const { error, setError, torrentInfo } = useTorrent();
-  const [scriptLoaded, setScriptLoaded] = useState(false);
+  const [webTorrentReady, setWebTorrentReady] = useState(false);
   const selectedReciterValue = useAtomValue(selectedReciterAtom);
+
+  useEffect(() => {
+    if (typeof window === 'undefined' || !window.WebTorrent) {
+      console.log('WebTorrent is not available');
+      return;
+    }
+
+    console.log('WebTorrent is available');
+    setWebTorrentReady(true);
+  }, []);
 
   const content = (): React.ReactNode => {
     if (error) {
       return <p>Error: {error}</p>;
     }
-    if (!scriptLoaded) {
+    if (!webTorrentReady) {
       return <p>Loading Webtorrent...</p>;
     }
 
@@ -37,7 +47,7 @@ export default function TorrentPlayer() {
         src="https://cdn.jsdelivr.net/npm/webtorrent@latest/webtorrent.min.js"
         strategy="afterInteractive"
         onLoad={() => {
-          setScriptLoaded(true);
+          setWebTorrentReady(true);
         }}
         onError={() => {
           setError('Failed to load WebTorrent');

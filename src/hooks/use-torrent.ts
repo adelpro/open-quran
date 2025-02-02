@@ -16,7 +16,7 @@ interface TorrentInfo {
 }
 
 export default function useTorrent() {
-  const MAX_LISTENERS_LIMIT = 100;
+  const MAX_LISTENERS_LIMIT = 200;
 
   const [torrentInfo, setTorrentInfo] = useState<TorrentInfo | undefined>();
   const [error, setError] = useState<string | undefined>();
@@ -28,7 +28,7 @@ export default function useTorrent() {
 
   const initTorrent = useCallback(() => {
     try {
-      setError('');
+      setError(undefined);
 
       if (typeof window === 'undefined' || !window.WebTorrent) {
         throw new Error('WebTorrent is not available');
@@ -39,11 +39,12 @@ export default function useTorrent() {
       if (!isValidMagnetUri(magnetURI)) {
         throw new Error('Magnet URI not valid');
       }
-
       clientRef.current.add(magnetURI, (torrent: Torrent) => {
         const audioFiles = torrent.files.filter((file) =>
           file.name.endsWith('.mp3')
         );
+
+        console.log('audioFiles:', audioFiles);
 
         if (audioFiles.length === 0) {
           setError('No MP3 found in torrent');
@@ -85,6 +86,12 @@ export default function useTorrent() {
     if (magnetURI) {
       initTorrent();
     }
+
+    return () => {
+      if (clientRef.current) {
+        clientRef.current.destroy();
+      }
+    };
   }, [magnetURI, initTorrent]);
 
   return { initTorrent, torrentInfo, error, setError };

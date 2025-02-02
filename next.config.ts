@@ -21,7 +21,8 @@ const pwaConfig: PWAConfig = {
 
 /** @type {import('next').NextConfig} */
 const config = {
-  productionBrowserSourceMaps: !isProduction,
+  reactStrictMode: !isProduction,
+  poweredByHeader: !isProduction,
   transpilePackages: ['jotai-devtools'],
   compiler: {
     removeConsole: isProduction && { exclude: ['error'] },
