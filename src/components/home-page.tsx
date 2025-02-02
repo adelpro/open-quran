@@ -8,7 +8,7 @@ import dynamic from 'next/dynamic';
 import React, { useEffect } from 'react';
 
 import PwaUpdater from '@/components/pwa-updater';
-import { reciters } from '@/constants';
+import { RECITERS } from '@/constants';
 import { selectedReciterAtom } from '@/jotai/atom';
 import { Reciter } from '@/types';
 
@@ -26,7 +26,7 @@ export default function HomePage({ id }: Props) {
       setSelectedReciter(undefined);
       return;
     }
-    const selectedReciter: Reciter = reciters[Number(id) - 1];
+    const selectedReciter: Reciter = RECITERS[Number(id) - 1];
     if (!selectedReciter) {
       setSelectedReciter(undefined);
       return;
