@@ -36,8 +36,14 @@ export default function useTorrent() {
       return;
     }
 
-    clientRef.current = new window.WebTorrent({ tracker: { rtcConfig } });
+    clientRef.current = new window.WebTorrent({
+      tracker: { rtcConfig },
+    });
     clientRef.current.setMaxListeners(MAX_LISTENERS_LIMIT);
+
+    clientRef.current.on('torrent', (event) => {
+      console.log('Torrent:', event);
+    });
 
     clientRef.current.on('error', (error_: unknown) =>
       setError(getErrorMessage(error_))
@@ -46,7 +52,7 @@ export default function useTorrent() {
     return () => {
       clientRef.current?.destroy();
     };
-  }, [webtorrentReady]);
+  }, [magnetURI, webtorrentReady]);
 
   // Add torrent when client is ready and a valid magnet URI exists
   useEffect(() => {
