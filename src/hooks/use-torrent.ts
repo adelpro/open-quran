@@ -36,10 +36,10 @@ export default function useTorrent() {
       return;
     }
 
-    /*     clientRef.current = new window.WebTorrent({
+    clientRef.current = new window.WebTorrent({
       tracker: { rtcConfig },
-    }); */
-    clientRef.current = new window.WebTorrent();
+    });
+    //clientRef.current = new window.WebTorrent();
     clientRef.current.setMaxListeners(MAX_LISTENERS_LIMIT);
 
     console.log('WebTorrent client initialized:', clientRef.current);
