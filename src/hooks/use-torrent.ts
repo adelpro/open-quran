@@ -120,7 +120,9 @@ export default function useTorrent() {
         setError(getErrorMessage(error));
       });
     });
-    console.log('Adding torrent - 6');
+
+    console.log('After adding torrent - 6:', clientRef.current);
+    console.log('Adding torrent - 7');
   }, [webtorrentReady, magnetURI]);
 
   return { torrentInfo, error, setError };
