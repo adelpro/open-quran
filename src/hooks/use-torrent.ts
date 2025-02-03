@@ -2,19 +2,10 @@ import { useAtomValue } from 'jotai';
 import { useEffect, useRef, useState } from 'react';
 import type { Instance, Torrent, TorrentFile } from 'webtorrent';
 
-import { rtcConfig } from '@/constants';
 import { selectedReciterAtom, webtorrentReadyAtom } from '@/jotai/atom';
+import { TorrentInfo } from '@/types/torrent-info';
 import { isValidMagnetUri } from '@/utils';
 import { getErrorMessage } from '@/utils/get-error-message';
-
-interface TorrentInfo {
-  magnetURI: string;
-  files?: TorrentFile[];
-  downloaded: number;
-  downloadSpeed: number;
-  uploadSpeed: number;
-  progress: number;
-}
 
 export default function useTorrent() {
   const webtorrentReady = useAtomValue(webtorrentReadyAtom);
@@ -98,51 +89,29 @@ export default function useTorrent() {
 
     clientRef.current.add(magnetURI);
 
-    clientRef.current.torrents[0].on('ready', () => {
-      console.log('Torrent ready');
-      if (clientRef?.current === null) {
-        return;
-      }
-      setTorrentInfo(() => {
-        if (clientRef.current === null) {
-          return;
-        }
-        return {
-          magnetURI: clientRef.current.torrents[0].magnetURI,
-          downloaded: clientRef.current.torrents[0].downloaded,
-          downloadSpeed: clientRef.current.torrents[0].downloadSpeed,
-          uploadSpeed: clientRef.current.torrents[0].uploadSpeed,
-          progress: clientRef.current.torrents[0].progress,
-        };
+    const updateTorrentInfo = (torrent: Torrent) => {
+      setTorrentInfo({
+        magnetURI: torrent.magnetURI,
+        downloaded: torrent.downloaded,
+        downloadSpeed: torrent.downloadSpeed,
+        uploadSpeed: torrent.uploadSpeed,
+        progress: torrent.progress,
+        peers: torrent.numPeers,
+        files: torrent.files,
+        ready: torrent.ready,
       });
+    };
+    if (clientRef?.current === null) {
+      return;
+    }
+    clientRef.current.torrents[0].on('ready', () => {
+      clientRef.current && updateTorrentInfo(clientRef.current.torrents[0]);
     });
     clientRef.current.torrents[0].on('download', () => {
-      setTorrentInfo(() => {
-        if (clientRef.current === null) {
-          return;
-        }
-        return {
-          magnetURI: clientRef.current.torrents[0].magnetURI,
-          downloaded: clientRef.current.torrents[0].downloaded,
-          downloadSpeed: clientRef.current.torrents[0].downloadSpeed,
-          uploadSpeed: clientRef.current.torrents[0].uploadSpeed,
-          progress: clientRef.current.torrents[0].progress,
-        };
-      });
+      clientRef.current && updateTorrentInfo(clientRef.current.torrents[0]);
     });
     clientRef.current.torrents[0].on('upload', () => {
-      setTorrentInfo(() => {
-        if (clientRef.current === null) {
-          return;
-        }
-        return {
-          magnetURI: clientRef.current.torrents[0].magnetURI,
-          downloaded: clientRef.current.torrents[0].downloaded,
-          downloadSpeed: clientRef.current.torrents[0].downloadSpeed,
-          uploadSpeed: clientRef.current.torrents[0].uploadSpeed,
-          progress: clientRef.current.torrents[0].progress,
-        };
-      });
+      clientRef.current && updateTorrentInfo(clientRef.current.torrents[0]);
     });
     clientRef.current.torrents[0].on('error', (error: unknown) => {
       setError(getErrorMessage(error));

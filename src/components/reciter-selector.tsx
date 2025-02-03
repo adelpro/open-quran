@@ -1,7 +1,7 @@
 'use client';
 import { useAtomValue } from 'jotai';
 import Image from 'next/image';
-import React from 'react';
+import React, { useState } from 'react';
 
 import useTorrent from '@/hooks/use-torrent';
 import { selectedReciterAtom, webtorrentReadyAtom } from '@/jotai/atom';
@@ -10,9 +10,11 @@ import connectionAnimatedSVG from '@/svgs/connection-animated.svg';
 import searchSVG from '@/svgs/search.svg';
 
 import ReciterSelectorDialog from './reciter-selector-dialog';
+import TorrentInfoDialog from './torrent-info-dialog';
 
 export default function ReciterrSelector() {
-  const [isOpen, setIsOpen] = React.useState<boolean>(false);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [torrentInfoIsOpen, setTorrentInfoIsOpen] = useState<boolean>(false);
   const webtorrentReady = useAtomValue(webtorrentReadyAtom);
   const { torrentInfo } = useTorrent();
   const selectedReciterValue = useAtomValue(selectedReciterAtom);
@@ -24,14 +26,21 @@ export default function ReciterrSelector() {
       return <></>;
     }
     return torrentInfo ? (
-      <Image src={connectionSVG} alt="connected" width={30} height={30} />
+      <Image
+        src={connectionSVG}
+        alt="connected"
+        className="cursor-pointer"
+        width={30}
+        height={30}
+        onClick={() => setTorrentInfoIsOpen(true)}
+      />
     ) : (
       <Image
         src={connectionAnimatedSVG}
         alt="connecting"
         width={30}
         height={30}
-        onClick={() => console.log('Show connection dialog')}
+        className="pointer-events-none"
       />
     );
   };
@@ -39,20 +48,25 @@ export default function ReciterrSelector() {
     return <></>;
   }
   return (
-    <div className="flex w-full justify-center">
-      <button
-        className="flex w-full max-w-md flex-row-reverse items-center justify-between rounded-md border border-slate-200 p-2 shadow-md transition-transform hover:scale-105"
-        onClick={onButtonClick}
-      >
-        <span>
-          {selectedReciterValue ? selectedReciterValue.name : 'اختر القارئ'}
-        </span>
-        <div className="flex flex-row items-center justify-center">
-          {connectionIcon()}
+    <div className="flex w-full flex-row items-center justify-center">
+      <div className="flex w-full max-w-md flex-row items-center justify-center gap-3 rounded-md border border-slate-200 p-2 shadow-md transition-transform hover:scale-105">
+        {connectionIcon()}
+        <button
+          className="flex w-full max-w-md flex-row-reverse items-center justify-between"
+          onClick={onButtonClick}
+        >
+          <span>
+            {selectedReciterValue ? selectedReciterValue.name : 'اختر القارئ'}
+          </span>
+
           <Image src={searchSVG} alt="search" width={30} height={30} />
-        </div>
-      </button>
+        </button>
+      </div>
       <ReciterSelectorDialog isOpen={isOpen} setIsOpen={setIsOpen} />
+      <TorrentInfoDialog
+        isOpen={torrentInfoIsOpen}
+        setIsOpen={setTorrentInfoIsOpen}
+      />
     </div>
   );
 }

@@ -37,7 +37,7 @@ export default function TorrentPlayer() {
   };
 
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex h-svh flex-col gap-2">
       {webtorrentReady ? (
         <></>
       ) : (
@@ -57,11 +57,6 @@ export default function TorrentPlayer() {
       {torrentInfo && (
         <div className="flex flex-col gap-5">
           <MusicPlayer playlist={PLAYLIST} />
-          <p className="text-center text-sm">
-            Downloaded: {(torrentInfo?.downloaded / 1e6).toFixed(2)}MB | Speed:{' '}
-            {(torrentInfo?.downloadSpeed / 1024).toFixed(2)}KB/s | Progress:{' '}
-            {(torrentInfo?.progress * 100).toFixed(1)}%
-          </p>
         </div>
       )}
 
