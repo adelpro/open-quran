@@ -45,8 +45,6 @@ export default function TorrentPlayer() {
         </p>
       </>
     );
-
-    //return <Loader message="Loading torrent" textClassName="text-xl" />;
   };
 
   return (

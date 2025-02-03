@@ -36,10 +36,13 @@ export default function useTorrent() {
       return;
     }
 
-    clientRef.current = new window.WebTorrent({
+    /*     clientRef.current = new window.WebTorrent({
       tracker: { rtcConfig },
-    });
+    }); */
+    clientRef.current = new window.WebTorrent();
     clientRef.current.setMaxListeners(MAX_LISTENERS_LIMIT);
+
+    console.log('WebTorrent client initialized:', clientRef.current);
 
     clientRef.current.on('torrent', (event) => {
       console.log('Torrent:', event);
@@ -50,27 +53,46 @@ export default function useTorrent() {
     );
 
     return () => {
-      clientRef.current?.destroy();
+      console.log('Destroying WebTorrent client...');
+      if (clientRef.current) {
+        clientRef.current.destroy();
+      }
+      console.log('WebTorrent client destroyed.');
     };
-  }, [magnetURI, webtorrentReady]);
+  }, [webtorrentReady]);
 
   // Add torrent when client is ready and a valid magnet URI exists
   useEffect(() => {
-    if (!webtorrentReady || !clientRef.current || !magnetURI) return;
-
+    console.log('Adding torrent - 1');
+    //Reset state
+    setTorrentInfo(undefined);
     setError(undefined);
+
+    if (!magnetURI) {
+      return;
+    }
+
+    if (!webtorrentReady || !clientRef.current) {
+      setError('Webtorrent is not ready');
+      return;
+    }
+
+    console.log('Adding torrent - 2');
 
     if (!isValidMagnetUri(magnetURI)) {
       setError('Invalid Magnet-URI');
       return;
     }
-
-    const existingTorrent = clientRef.current.get(magnetURI);
-    if (existingTorrent) {
-      clientRef.current.remove(existingTorrent);
+    console.log('Adding torrent - 3');
+    if (clientRef.current.get(magnetURI)) {
+      console.log('Torrent already added, skipping re-add.');
+      return;
     }
 
+    console.log('Adding torrent - 4');
     clientRef.current.add(magnetURI, (torrent: Torrent) => {
+      console.log('Adding torrent - 5');
+      console.log('Torrent:', torrent);
       const audioFiles = torrent.files.filter((file) =>
         file.name.endsWith('.mp3')
       );
@@ -94,9 +116,11 @@ export default function useTorrent() {
       torrent.on('upload', updateProgress);
       torrent.once('ready', updateProgress);
       torrent.on('error', (error: unknown) => {
+        setTorrentInfo(undefined);
         setError(getErrorMessage(error));
       });
     });
+    console.log('Adding torrent - 6');
   }, [webtorrentReady, magnetURI]);
 
   return { torrentInfo, error, setError };
