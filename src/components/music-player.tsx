@@ -112,8 +112,8 @@ export default function MusicPlayer({ playlist }: MusicPlayerProps) {
   };
 
   return (
-    <>
-      <main className="flex h-20 w-full max-w-md flex-col items-center justify-center rounded-t-md border border-slate-200 p-0 shadow-md transition-transform hover:scale-105">
+    <div className="flex w-full flex-col items-center justify-center gap-3">
+      <div className="flex h-20 w-full max-w-md flex-col items-center justify-center rounded-t-md border border-slate-200 p-0 shadow-md transition-transform hover:scale-105">
         <audio
           ref={audioRef}
           onTimeUpdate={handleTimeUpdate}
@@ -173,14 +173,12 @@ export default function MusicPlayer({ playlist }: MusicPlayerProps) {
           setIsOpen={setIsOpen}
           setCurrentTrack={setCurrentTrack}
         />
-      </main>
-
+      </div>
       <TrackInfo
         currentTrackId={currentTrack}
         duration={duration}
         currentTime={currentTime}
       />
-      <Torrrent />
-    </>
+    </div>
   );
 }

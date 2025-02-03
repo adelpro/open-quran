@@ -3,6 +3,7 @@
 
 import { useAtom, useAtomValue } from 'jotai';
 import Script from 'next/script';
+import { ReactNode } from 'react';
 
 import MusicPlayer from '@/components/music-player';
 import { PLAYLIST } from '@/constants';
@@ -16,7 +17,7 @@ export default function TorrentPlayer() {
   const { error, setError, torrentInfo } = useTorrent();
   const selectedReciterValue = useAtomValue(selectedReciterAtom);
 
-  const content = (): React.ReactNode => {
+  const content = (): ReactNode => {
     if (error) {
       return <p>Error: {error}</p>;
     }
@@ -53,21 +54,18 @@ export default function TorrentPlayer() {
           }}
         />
       )}
-      {torrentInfo ? (
-        <div id={torrentInfo.magnetURI}>
-          {/* TODO replace dummy playlist with real data from torrentinfo */}
+      {torrentInfo && (
+        <div className="flex flex-col gap-5">
           <MusicPlayer playlist={PLAYLIST} />
-          <p>
+          <p className="text-center text-sm">
             Downloaded: {(torrentInfo?.downloaded / 1e6).toFixed(2)}MB | Speed:{' '}
             {(torrentInfo?.downloadSpeed / 1024).toFixed(2)}KB/s | Progress:{' '}
             {(torrentInfo?.progress * 100).toFixed(1)}%
           </p>
         </div>
-      ) : (
-        <></>
       )}
 
-      {/* {content()} */}
+      {content()}
     </div>
   );
 }
