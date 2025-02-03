@@ -1,8 +1,8 @@
-export const rtcConfig = new RTCPeerConnection({
+export const rtcConfig: RTCConfiguration = {
   iceServers: [
     { urls: 'stun:stun.l.google.com:19302' },
     {
-      urls: process.env.NEXT_PUBLIC_EXPRESSTURN_SERVER_URL as string,
+      urls: 'relay1.expressturn.com:34788',
       username: process.env.NEXT_PUBLIC_EXPRESSTURN_USERNAME as string,
       credential: process.env.NEXT_PUBLIC_EXPRESSTURN_CREDENTIAL as string,
     },
@@ -30,4 +30,4 @@ export const rtcConfig = new RTCPeerConnection({
       credential: process.env.NEXT_PUBLIC_METERED_CREDENTIAL as string,
     },
   ],
-});
+};
