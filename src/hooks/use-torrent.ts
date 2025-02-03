@@ -8,12 +8,12 @@ import { isValidMagnetUri } from '@/utils';
 import { getErrorMessage } from '@/utils/get-error-message';
 
 interface TorrentInfo {
+  magnetURI: string;
   files?: TorrentFile[];
   downloaded: number;
   downloadSpeed: number;
   uploadSpeed: number;
   progress: number;
-  seeders: number;
 }
 
 export default function useTorrent() {
@@ -36,13 +36,11 @@ export default function useTorrent() {
       return;
     }
 
-    clientRef.current = new window.WebTorrent({
+    /*     clientRef.current = new window.WebTorrent({
       tracker: { rtcConfig },
-    });
-    //clientRef.current = new window.WebTorrent();
+    }); */
+    clientRef.current = new window.WebTorrent();
     clientRef.current.setMaxListeners(MAX_LISTENERS_LIMIT);
-
-    console.log('WebTorrent client initialized:', clientRef.current);
 
     clientRef.current.on('torrent', (event) => {
       console.log('Torrent:', event);
@@ -53,18 +51,15 @@ export default function useTorrent() {
     );
 
     return () => {
-      console.log('Destroying WebTorrent client...');
       if (clientRef.current) {
         clientRef.current.destroy();
       }
-      console.log('WebTorrent client destroyed.');
     };
   }, [webtorrentReady]);
 
   // Add torrent when client is ready and a valid magnet URI exists
   useEffect(() => {
-    console.log('Adding torrent - 1');
-    //Reset state
+    //Reset states
     setTorrentInfo(undefined);
     setError(undefined);
 
@@ -77,52 +72,88 @@ export default function useTorrent() {
       return;
     }
 
-    console.log('Adding torrent - 2');
-
+    // Check if magnet URI is valid
     if (!isValidMagnetUri(magnetURI)) {
       setError('Invalid Magnet-URI');
       return;
     }
-    console.log('Adding torrent - 3');
+
+    // Check if torrent is already added
     if (clientRef.current.get(magnetURI)) {
       console.log('Torrent already added, skipping re-add.');
       return;
     }
 
-    console.log('Adding torrent - 4');
-    clientRef.current.add(magnetURI, (torrent: Torrent) => {
-      console.log('Adding torrent - 5');
-      console.log('Torrent:', torrent);
-      const audioFiles = torrent.files.filter((file) =>
-        file.name.endsWith('.mp3')
-      );
-      if (audioFiles.length === 0) {
-        setError('No MP3 found in torrent');
+    // Clear all other torrents
+    if (
+      clientRef.current?.torrents &&
+      clientRef.current?.torrents?.length > 0
+    ) {
+      clientRef.current.torrents.forEach((torrent) => {
+        if (torrent.magnetURI !== magnetURI) {
+          torrent.destroy();
+        }
+      });
+    }
+
+    clientRef.current.add(magnetURI);
+
+    clientRef.current.torrents[0].on('ready', () => {
+      console.log('Torrent ready');
+      if (clientRef?.current === null) {
         return;
       }
-
-      const updateProgress = () => {
-        setTorrentInfo({
-          files: audioFiles,
-          downloaded: torrent.downloaded,
-          downloadSpeed: torrent.downloadSpeed,
-          uploadSpeed: torrent.uploadSpeed,
-          progress: torrent.progress,
-          seeders: torrent.numPeers,
-        });
-      };
-
-      torrent.on('download', updateProgress);
-      torrent.on('upload', updateProgress);
-      torrent.once('ready', updateProgress);
-      torrent.on('error', (error: unknown) => {
-        setTorrentInfo(undefined);
-        setError(getErrorMessage(error));
+      setTorrentInfo(() => {
+        if (clientRef.current === null) {
+          return;
+        }
+        return {
+          magnetURI: clientRef.current.torrents[0].magnetURI,
+          downloaded: clientRef.current.torrents[0].downloaded,
+          downloadSpeed: clientRef.current.torrents[0].downloadSpeed,
+          uploadSpeed: clientRef.current.torrents[0].uploadSpeed,
+          progress: clientRef.current.torrents[0].progress,
+        };
       });
     });
+    clientRef.current.torrents[0].on('download', () => {
+      setTorrentInfo(() => {
+        if (clientRef.current === null) {
+          return;
+        }
+        return {
+          magnetURI: clientRef.current.torrents[0].magnetURI,
+          downloaded: clientRef.current.torrents[0].downloaded,
+          downloadSpeed: clientRef.current.torrents[0].downloadSpeed,
+          uploadSpeed: clientRef.current.torrents[0].uploadSpeed,
+          progress: clientRef.current.torrents[0].progress,
+        };
+      });
+    });
+    clientRef.current.torrents[0].on('upload', () => {
+      setTorrentInfo(() => {
+        if (clientRef.current === null) {
+          return;
+        }
+        return {
+          magnetURI: clientRef.current.torrents[0].magnetURI,
+          downloaded: clientRef.current.torrents[0].downloaded,
+          downloadSpeed: clientRef.current.torrents[0].downloadSpeed,
+          uploadSpeed: clientRef.current.torrents[0].uploadSpeed,
+          progress: clientRef.current.torrents[0].progress,
+        };
+      });
+    });
+    clientRef.current.torrents[0].on('error', (error: unknown) => {
+      setError(getErrorMessage(error));
+      console.log('Torrent error:', error);
+    });
 
-    console.log('After adding torrent - 6:', clientRef.current);
-    console.log('Adding torrent - 7');
+    return () => {
+      if (clientRef.current?.get(magnetURI)) {
+        clientRef.current.remove(magnetURI);
+      }
+    };
   }, [webtorrentReady, magnetURI]);
 
   return { torrentInfo, error, setError };

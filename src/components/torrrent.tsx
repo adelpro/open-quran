@@ -3,7 +3,6 @@
 
 import { useAtom, useAtomValue } from 'jotai';
 import Script from 'next/script';
-import React, { useEffect } from 'react';
 
 import MusicPlayer from '@/components/music-player';
 import { PLAYLIST } from '@/constants';
@@ -33,18 +32,7 @@ export default function TorrentPlayer() {
       return <Loader message="Loading torrent" textClassName="text-xl" />;
     }
 
-    return (
-      <>
-        {/* TODO replace dummy playlist with real data from torrentinfo */}
-        <MusicPlayer playlist={PLAYLIST} />
-        <p>
-          Downloaded: {(torrentInfo?.downloaded / 1e6).toFixed(2)}MB | Speed:{' '}
-          {(torrentInfo?.downloadSpeed / 1024).toFixed(2)}KB/s | Progress:{' '}
-          {(torrentInfo?.progress * 100).toFixed(1)}% | Seeders:{' '}
-          {torrentInfo?.seeders}
-        </p>
-      </>
-    );
+    return <></>;
   };
 
   return (
@@ -65,7 +53,21 @@ export default function TorrentPlayer() {
           }}
         />
       )}
-      {content()}
+      {torrentInfo ? (
+        <div id={torrentInfo.magnetURI}>
+          {/* TODO replace dummy playlist with real data from torrentinfo */}
+          <MusicPlayer playlist={PLAYLIST} />
+          <p>
+            Downloaded: {(torrentInfo?.downloaded / 1e6).toFixed(2)}MB | Speed:{' '}
+            {(torrentInfo?.downloadSpeed / 1024).toFixed(2)}KB/s | Progress:{' '}
+            {(torrentInfo?.progress * 100).toFixed(1)}%
+          </p>
+        </div>
+      ) : (
+        <></>
+      )}
+
+      {/* {content()} */}
     </div>
   );
 }
