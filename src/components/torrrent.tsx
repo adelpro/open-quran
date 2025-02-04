@@ -19,25 +19,33 @@ export default function TorrentPlayer() {
 
   const content = (): ReactNode => {
     if (error) {
-      return <p>Error: {error}</p>;
+      return <p className="text-lg">خطأ: {error}</p>;
     }
     if (!webtorrentReady) {
-      return <Loader message="Loading Webtorrent" textClassName="text-xl" />;
+      return (
+        <Loader
+          message="جاري تحميل Webtorrent"
+          textClassName="text-lg"
+          rightIcon
+        />
+      );
     }
 
     if (!selectedReciterValue?.magnet) {
-      return <p>Please select a reciter </p>;
+      return <></>;
     }
 
     if (torrentInfo === undefined) {
-      return <Loader message="Loading torrent" textClassName="text-xl" />;
+      return (
+        <Loader message="جاري تحميل الملف" textClassName="text-lg" rightIcon />
+      );
     }
 
     return <></>;
   };
 
   return (
-    <div className="flex h-svh flex-col gap-2">
+    <div className="flex flex-col gap-2">
       {webtorrentReady ? (
         <></>
       ) : (
