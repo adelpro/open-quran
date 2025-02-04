@@ -1,5 +1,6 @@
 'use client';
 import { useSetAtom } from 'jotai';
+import { useRouter } from 'next/navigation';
 import React from 'react';
 
 import { RECITERS } from '@/constants';
@@ -10,11 +11,14 @@ type Props = {
   setIsOpen: (isOpen: boolean) => void;
 };
 export default function RecitersList({ setIsOpen }: Props) {
+  const navigate = useRouter();
   const [searchTerm, setSearchTerm] = React.useState<string>('');
   const setSelectedReciter = useSetAtom(selectedReciterAtom);
   const selectedReciterClickHandler = (reciter: Reciter) => {
     setSelectedReciter(reciter);
     setIsOpen(false);
+    setSearchTerm('');
+    navigate.push(`/reciter/${reciter.id}`);
   };
   return (
     <section className="w-full">

@@ -12,7 +12,7 @@ import searchSVG from '@/svgs/search.svg';
 import ReciterSelectorDialog from './reciter-selector-dialog';
 import TorrentInfoDialog from './torrent-info-dialog';
 
-export default function ReciterrSelector() {
+export default function ReciterSelector() {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [torrentInfoIsOpen, setTorrentInfoIsOpen] = useState<boolean>(false);
   const webtorrentReady = useAtomValue(webtorrentReadyAtom);

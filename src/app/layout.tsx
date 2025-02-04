@@ -8,8 +8,8 @@ const tajawal = Tajawal({
   preload: true,
 });
 export const metadata: Metadata = {
-  title: 'Quran Stream - سيل القرآن',
-  description: 'Quran streaming application',
+  title: `${process.env.NEXT_PUBLIC_APP_NAME}`,
+  description: 'استمع إلى تلاوات سيل القرآن',
 };
 
 export default function RootLayout({

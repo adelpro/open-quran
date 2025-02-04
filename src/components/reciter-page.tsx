@@ -4,6 +4,7 @@ import 'jotai-devtools/styles.css';
 
 import { useSetAtom } from 'jotai';
 import { DevTools } from 'jotai-devtools';
+import dynamic from 'next/dynamic';
 import React, { useEffect } from 'react';
 
 import PwaUpdater from '@/components/pwa-updater';
@@ -11,10 +12,13 @@ import { RECITERS } from '@/constants';
 import { selectedReciterAtom } from '@/jotai/atom';
 import { Reciter } from '@/types';
 
-import ReciterrSelector from './reciter-selector';
+import ReciterSelector from './reciter-selector';
 
-type Props = { id: string | undefined };
-export default function HomePage({ id }: Props) {
+type Props = { id: number };
+export default function ReciterPage({ id }: Props) {
+  const Torrent = dynamic(() => import('@/components/torrrent'), {
+    ssr: false,
+  });
   const setSelectedReciter = useSetAtom(selectedReciterAtom);
 
   useEffect(() => {
@@ -34,7 +38,8 @@ export default function HomePage({ id }: Props) {
     <div className="flex w-full items-center justify-center p-2 md:p-5">
       <div className="flex w-full max-w-lg flex-col items-center justify-center gap-2">
         <DevTools />
-        <ReciterrSelector />
+        <ReciterSelector />
+        <Torrent />
         <PwaUpdater />
       </div>
     </div>
