@@ -1,4 +1,3 @@
-import { GetStaticPaths, GetStaticProps, Metadata } from 'next';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
 
@@ -7,9 +6,9 @@ import { RECITERS } from '@/constants';
 import { normalizeAppUrl } from '@/utils';
 
 type Props = {
-  params: {
+  params: Promise<{
     id: string | undefined;
-  };
+  }>;
 };
 
 export async function generateStaticParams() {
