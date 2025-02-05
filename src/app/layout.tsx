@@ -3,14 +3,14 @@ import './globals.css';
 import type { Metadata } from 'next';
 import { Tajawal } from 'next/font/google';
 
-import { config } from '@/utils';
+import { clientConfig } from '@/utils';
 const tajawal = Tajawal({
   weight: ['400', '700', '900'],
   subsets: ['arabic'],
   preload: true,
 });
 export const metadata: Metadata = {
-  title: config.APP_NAME,
+  title: clientConfig.APP_NAME,
   description: 'استمع إلى تلاوات سيل القرآن',
 };
 
