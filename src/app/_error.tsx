@@ -7,10 +7,7 @@ type Props = {
   error: Error & { digest?: string };
   reset: () => void;
 };
-export default function GlobalError({
-  error,
-  reset,
-}: Props): React.ReactElement {
+export default function Error({ error, reset }: Props): React.ReactElement {
   const title = `Error - ${error.name}`;
 
   const content = error.digest;
