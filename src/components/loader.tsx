@@ -22,6 +22,8 @@ const Loader: React.FC<LoaderProps> = ({
 }) => {
   return (
     <div
+      role="status"
+      aria-live="polite"
       className={cn(
         'm-5 flex flex-row items-center justify-center gap-2',
         className,
