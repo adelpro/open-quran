@@ -33,7 +33,8 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "types/**/*.d.ts"
+    "types/**/*.d.ts",
+    "src/app/opengraph-image.alt.tst"
   ],
   "exclude": ["node_modules"]
 }
