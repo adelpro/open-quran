@@ -1,6 +1,6 @@
 import { clientConfig } from '@/utils';
 
-import Contact from './contact-page';
+import AboutPage from './about-page';
 
 export async function generateMetadata() {
   const title = 'Contact - ' + clientConfig.APP_NAME;
@@ -12,5 +12,5 @@ export async function generateMetadata() {
   };
 }
 export default function page() {
-  return <Contact />;
+  return <AboutPage />;
 }

@@ -3,6 +3,7 @@ import './globals.css';
 import type { Metadata } from 'next';
 import { Tajawal } from 'next/font/google';
 
+import Footer from '@/components/footer';
 import { clientConfig } from '@/utils';
 const tajawal = Tajawal({
   weight: ['400', '700', '900'],
@@ -21,7 +22,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ar">
-      <body className={`${tajawal.className} antialiased`}>{children}</body>
+      <body className={`${tajawal.className} relative h-svh antialiased`}>
+        {children}
+        <Footer />
+      </body>
     </html>
   );
 }

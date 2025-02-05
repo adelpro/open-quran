@@ -25,10 +25,12 @@ const sendFeedback = async (
       }),
     });
     return response;
-  } catch {}
+  } catch (error) {
+    console.error(error);
+  }
 };
 
-export default function Contact() {
+export default function ContactPage() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
@@ -38,19 +40,19 @@ export default function Contact() {
 
   const validateAndSend = (): void => {
     if (name === '') {
-      setError('Please enter a name.');
+      setError('الرجاء إدخال الاسم.');
       return;
     }
     if (email === '') {
-      setError('Please enter an email.');
+      setError('الرجاء إدخال البريد الإلكتروني.');
       return;
     }
     if (!isValidEmail(email)) {
-      setError('Please enter a valid email.');
+      setError('الرجاء إدخال بريد إلكتروني صالح.');
       return;
     }
     if (message === '') {
-      setError('Please enter a message.');
+      setError('الرجاء إدخال الرسالة.');
       return;
     }
     setLoading(true);
@@ -60,46 +62,50 @@ export default function Contact() {
         if (response?.status === 200) {
           setFormSubmitted(true);
         } else {
-          setError('Oops! Something went wrong, please try again');
+          setError('حدث خطأ ما، الرجاء المحاولة مرة أخرى.');
         }
       })
       .catch((error_) => {
         setError(JSON.stringify(error_));
       });
   };
+
   const buttonContent = loading ? (
-    <Loader message="Sending" rightIcon />
+    <Loader message="جاري الإرسال" rightIcon />
   ) : (
-    <>
-      <span className="mr-2 text-3xl font-bold">Send</span>
-      <Image src={sendSVG} alt="Send" width={30} height={30} />
-    </>
+    <div className="flex flex-row-reverse gap-2">
+      <span className="mr-2 text-3xl font-bold">إرسال</span>
+      <Image src={sendSVG} alt="إرسال" width={40} height={40} />
+    </div>
   );
+
   return (
     <>
       {formSubmitted ? (
-        <div className="flex h-[400px] flex-1 flex-col items-center justify-center">
-          <p className="mb-10 text-center text-5xl" role={'alert'}>
-            Thank you for contacting. We will be in touch with you soon!
+        <div
+          className="flex h-[400px] flex-1 flex-col items-center justify-center gap-2"
+          dir="rtl"
+        >
+          <p className="mb-10 text-center text-5xl" role="alert">
+            شكراً لتواصلك معنا. سنتواصل معك قريباً!
           </p>
           <Link href="/" className="mt-4 flex items-center space-x-2">
-            <Image src={backSVG} alt="logo" width={30} height={30} />
             <button className="text-2xl font-bold hover:underline">
-              Back to homepage
+              العودة إلى الصفحة الرئيسية
             </button>
           </Link>
         </div>
       ) : (
         <>
-          <h1 className="mb-20 text-center text-5xl font-bold">Contact us</h1>
-          <section className="container mx-auto max-w-2xl">
+          <h1 className="mb-20 text-center text-5xl font-bold">اتصل بنا</h1>
+          <section className="container mx-auto max-w-2xl" dir="rtl">
             <form className="flex flex-col">
               <input
                 type="text"
                 required
                 className="mb-4 border-b-2 border-gray-400 px-8 py-2 text-3xl ring-black focus:ring-4"
                 id="name"
-                placeholder="Name"
+                placeholder="الاسم"
                 value={name}
                 onChange={(event) => {
                   setError('');
@@ -112,7 +118,7 @@ export default function Contact() {
                 required
                 className="mb-4 border-b-2 border-gray-400 px-8 py-2 text-3xl ring-black focus:ring-4"
                 id="email"
-                placeholder="Email address"
+                placeholder="البريد الإلكتروني"
                 value={email}
                 onChange={(event) => {
                   setError('');
@@ -125,7 +131,7 @@ export default function Contact() {
                 id="message"
                 rows={3}
                 required
-                placeholder="Message"
+                placeholder="الرسالة"
                 value={message}
                 onChange={(event) => {
                   setError('');
@@ -133,7 +139,7 @@ export default function Contact() {
                 }}
               ></textarea>
               {error?.length > 0 ? (
-                <p className="m-2 p-2 text-xl text-red-600" role={'alert'}>
+                <p className="m-2 p-2 text-xl text-red-600" role="alert">
                   {error}
                 </p>
               ) : (
