@@ -1,42 +1,14 @@
-'use client';
+import Image from 'next/image';
 
-import 'jotai-devtools/styles.css';
-
-import { useSetAtom } from 'jotai';
-import { DevTools } from 'jotai-devtools';
-import React, { useEffect } from 'react';
-
-import PwaUpdater from '@/components/pwa-updater';
-import { RECITERS } from '@/constants';
-import { selectedReciterAtom } from '@/jotai/atom';
-import { Reciter } from '@/types';
-
-import ReciterrSelector from './reciter-selector';
-
-type Props = { id: string | undefined };
-export default function HomePage({ id }: Props) {
-  const setSelectedReciter = useSetAtom(selectedReciterAtom);
-
-  useEffect(() => {
-    if (!id) {
-      setSelectedReciter(undefined);
-      return;
-    }
-    const selectedReciter: Reciter = RECITERS[Number(id) - 1];
-    if (!selectedReciter) {
-      setSelectedReciter(undefined);
-      return;
-    }
-    setSelectedReciter(selectedReciter);
-  }, [id, setSelectedReciter]);
-
+export default function HomePage() {
   return (
-    <div className="flex w-full items-center justify-center p-2 md:p-5">
-      <div className="flex w-full max-w-lg flex-col items-center justify-center gap-2">
-        <DevTools />
-        <ReciterrSelector />
-        <PwaUpdater />
+    <>
+      <div className="mt-10 flex w-full items-center justify-center transition-transform duration-200 hover:scale-105">
+        <Image src="/logo.png" alt="logo" width={200} height={200} priority />
       </div>
-    </div>
+      <div className="width-full flex items-center justify-center">
+        <h1 className="text-4xl font-bold">القرآن الكريم</h1>
+      </div>
+    </>
   );
 }

@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation';
 
 import ReciterPage from '@/components/reciter-page';
 import { RECITERS } from '@/constants';
-import { normalizeAppUrl } from '@/utils';
+import { config, normalizeAppUrl } from '@/utils';
 
 type Props = {
   params: Promise<{
@@ -24,30 +24,30 @@ export async function generateMetadata({ params }: Props) {
 
   if (!reciter)
     return {
-      title: `${process.env.NEXT_PUBLIC_APP_NAME}`,
+      title: config.APP_NAME,
     };
   return {
-    metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || 'localhost:3000'),
+    metadataBase: new URL(config.APP_URL),
     manifest: 'manifest.json',
-    title: `${reciter?.name} | ${process.env.NEXT_PUBLIC_APP_NAME}`,
+    title: `${reciter?.name} | ${config.APP_NAME}`,
     description: `استمع إلى تلاوات ${reciter?.name}`,
     openGraph: {
-      title: `${reciter?.name} | ${process.env.NEXT_PUBLIC_APP_NAME}`,
+      title: `${reciter?.name} | ${config.APP_NAME}`,
       description: `استمع إلى تلاوات ${reciter?.name}`,
-      url: `${normalizeAppUrl(process.env.NEXT_PUBLIC_APP_URL)}/reciter/${reciter?.id}`,
+      url: `${normalizeAppUrl(config.APP_URL)}/reciter/${reciter?.id}`,
       images: [
         {
           url: `/logo-og.png`,
           width: 1024,
           height: 1024,
-          alt: `${process.env.NEXT_PUBLIC_APP_NAME}`,
+          alt: `${config.APP_NAME}`,
         },
       ],
-      siteName: `${process.env.NEXT_PUBLIC_APP_NAME}`,
+      siteName: `${config.APP_NAME}`,
     },
     twitter: {
       card: 'summary_large_image',
-      title: `${reciter?.name} | ${process.env.NEXT_PUBLIC_APP_NAME}`,
+      title: `${reciter?.name} | ${config.APP_NAME}`,
       description: `استمع إلى تلاوات ${reciter?.name}`,
       images: [
         {
@@ -57,7 +57,7 @@ export async function generateMetadata({ params }: Props) {
           alt: 'Quran - سيل القرآن',
         },
       ],
-      site: `${process.env.NEXT_PUBLIC_APP_NAME}`,
+      site: `${config.APP_NAME}`,
     },
   };
 }
@@ -77,7 +77,7 @@ export default async function Page({ params }: Props) {
             '@context': 'https://schema.org',
             '@type': 'Person',
             name: reciter.name,
-            url: `${normalizeAppUrl(process.env.NEXT_PUBLIC_APP_URL)}/reciter/${reciter.id}`,
+            url: `${normalizeAppUrl(config.APP_URL)}/reciter/${reciter.id}`,
           }),
         }}
       />

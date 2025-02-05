@@ -1,4 +1,5 @@
 export * from './cn';
+export * from './config';
 export * from './ensure-tracker-in-magnet-uri';
 export * from './format-time';
 export * from './get-error-message';

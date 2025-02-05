@@ -14,7 +14,7 @@ import { Reciter } from '@/types';
 
 import ReciterSelector from './reciter-selector';
 
-type Props = { id: number };
+type Props = { id: number | undefined };
 export default function ReciterPage({ id }: Props) {
   const Torrent = dynamic(() => import('@/components/torrrent'), {
     ssr: false,

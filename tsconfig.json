@@ -33,8 +33,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "types/**/*.d.ts",
-    "enveronment.d.ts"
+    "types/**/*.d.ts"
   ],
   "exclude": ["node_modules"]
 }
