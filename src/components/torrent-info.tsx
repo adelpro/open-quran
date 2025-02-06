@@ -27,11 +27,19 @@ export default function TorrentInfo({ setIsOpen }: Props) {
       <div className="flex flex-row gap-1">
         <div className="m-2 flex flex-row gap-1">
           <Image src={downloadSVG} alt="Download" width={20} height={20} />
-          <p>{`${(torrentInfo?.downloadSpeed / 1024).toFixed(2)}KB/s`}</p>
+          <p>
+            {torrentInfo?.downloadSpeed < 1024 * 1024
+              ? `${(torrentInfo?.downloadSpeed / 1024).toFixed(2)} KB/s`
+              : `${(torrentInfo?.downloadSpeed / (1024 * 1024)).toFixed(2)} MB/s`}
+          </p>
         </div>
         <div className="m-2 flex flex-row gap-1">
           <Image src={uploadSVG} alt="Upload" width={20} height={20} />
-          <p>{`${(torrentInfo?.uploadSpeed / 1024).toFixed(2)}KB/s`}</p>
+          <p>
+            {torrentInfo?.uploadSpeed < 1024 * 1024
+              ? `${(torrentInfo?.uploadSpeed / 1024).toFixed(2)} KB/s`
+              : `${(torrentInfo?.uploadSpeed / (1024 * 1024)).toFixed(2)} MB/s`}
+          </p>
         </div>
         <div className="m-2 flex flex-row gap-1">
           <Image src={savedSVG} alt="Saved" width={20} height={20} />
