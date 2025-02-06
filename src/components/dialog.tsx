@@ -38,9 +38,9 @@ export default function Dialog({
           setIsOpen(false);
         }
       }}
-      className="top-50 left-50 -translate-x-50 -translate-y-50 fixed z-10 w-full max-w-xl origin-top animate-slideInWithFade overflow-auto rounded-xl backdrop:bg-zinc-800/50 dark:backdrop:bg-zinc-200/50"
+      className="top-50 left-50 -translate-x-50 -translate-y-50 fixed z-10 mx-auto w-[98%] max-w-xl origin-top animate-slideInWithFade overflow-auto rounded-xl backdrop:bg-zinc-800/50 dark:backdrop:bg-zinc-200/50"
     >
-      <main className="w-full min-w-80 rounded-xl bg-background p-2 pr-5 text-foreground">
+      <main className="w-full rounded-xl bg-background p-2 pr-5 text-foreground">
         {!hideCloseButton && (
           <div className="flex justify-start">
             <button
