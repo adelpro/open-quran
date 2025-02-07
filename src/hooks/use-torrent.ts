@@ -86,13 +86,25 @@ export default function useTorrent() {
 
     clientRef.current.add(magnetURI);
 
-    const updateTorrentInfo = (torrent: Torrent) => {
-      const playlist: TrackType[] = torrent.files
-        .filter((file: TorrentFile) => file.name.endsWith('.mp3'))
-        .map((file: TorrentFile) => {
+    const updateTorrentInfo = async (torrent: Torrent) => {
+      const mp3Files = torrent.files.filter((file: TorrentFile) =>
+        file.name.endsWith('.mp3')
+      );
+      const playlist: TrackType[] = await Promise.all(
+        mp3Files.map(async (file: TorrentFile) => {
           const surahId = Number(file.name.split('.')[0]);
-          return { surahId, link: file.path };
-        });
+          const blobUrl = await new Promise<string>((resolve, reject) => {
+            file.getBlob((error_, blob) => {
+              if (error_ || !blob) {
+                reject(error_);
+              } else {
+                resolve(URL.createObjectURL(blob));
+              }
+            });
+          });
+          return { surahId, link: blobUrl };
+        })
+      );
 
       setTorrentInfo({
         magnetURI: torrent.magnetURI,
@@ -108,14 +120,20 @@ export default function useTorrent() {
     if (clientRef?.current === null) {
       return;
     }
-    clientRef.current.torrents[0].on('ready', () => {
-      clientRef.current && updateTorrentInfo(clientRef.current.torrents[0]);
+    clientRef.current.torrents[0].on('ready', async () => {
+      if (clientRef.current) {
+        await updateTorrentInfo(clientRef.current.torrents[0]);
+      }
     });
-    clientRef.current.torrents[0].on('download', () => {
-      clientRef.current && updateTorrentInfo(clientRef.current.torrents[0]);
+    clientRef.current.torrents[0].on('download', async () => {
+      if (clientRef.current) {
+        await updateTorrentInfo(clientRef.current.torrents[0]);
+      }
     });
-    clientRef.current.torrents[0].on('upload', () => {
-      clientRef.current && updateTorrentInfo(clientRef.current.torrents[0]);
+    clientRef.current.torrents[0].on('upload', async () => {
+      if (clientRef.current) {
+        await updateTorrentInfo(clientRef.current.torrents[0]);
+      }
     });
     clientRef.current.torrents[0].on('error', (error: unknown) => {
       setError(getErrorMessage(error));

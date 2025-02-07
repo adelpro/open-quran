@@ -29,7 +29,6 @@ export async function generateMetadata({ params }: Props) {
     };
   return {
     metadataBase: new URL(clientConfig.APP_URL),
-    manifest: 'manifest.json',
     title: `${reciter?.name} | ${clientConfig.APP_NAME}`,
     description: `استمع إلى تلاوات ${reciter?.name}`,
     openGraph: {
