@@ -35,7 +35,7 @@ export default function TorrentPlayer() {
       return <></>;
     }
 
-    if (torrentInfo === undefined) {
+    if (!torrentInfo?.ready) {
       return (
         <Loader message="جاري تحميل الملف" textClassName="text-lg" rightIcon />
       );
@@ -62,7 +62,7 @@ export default function TorrentPlayer() {
           }}
         />
       )}
-      {torrentInfo && (
+      {torrentInfo?.ready && (
         <div className="flex flex-col gap-5">
           <MusicPlayer playlist={PLAYLIST} />
         </div>

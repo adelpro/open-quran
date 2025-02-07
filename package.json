@@ -4,7 +4,9 @@
   "description": "Quran Stream",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbopack",
+    "dev": "next dev",
+    "dev:turbo": "next dev --turbopack",
+    "dev:inspect": "cross-env NODE_OPTIONS='--inspect' next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
@@ -24,6 +26,7 @@
     "@next/bundle-analyzer": "^15.1.5",
     "clsx": "^2.1.1",
     "commitizen": "^4.3.1",
+    "cross-env": "^7.0.3",
     "cz-conventional-changelog": "^3.3.0",
     "jotai": "^2.11.1",
     "jotai-devtools": "^0.10.1",

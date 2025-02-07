@@ -2822,6 +2822,13 @@ create-torrent@^6.1.0:
     run-parallel "^1.2.0"
     uint8-util "^2.2.5"
 
+cross-env@^7.0.3:
+  version "7.0.3"
+  resolved "https://registry.yarnpkg.com/cross-env/-/cross-env-7.0.3.tgz#865264b29677dc015ba8418918965dd232fc54cf"
+  integrity sha512-+/HKd6EgcQCJGh2PSjZuUitQBQynKor4wrFbRg4DtAgS1aWO+gU52xpH7M9ScGgXSYmAVS9bIJ8EzuaGw0oNAw==
+  dependencies:
+    cross-spawn "^7.0.1"
+
 cross-fetch-ponyfill@^1.0.1, cross-fetch-ponyfill@^1.0.3:
   version "1.0.3"
   resolved "https://registry.npmjs.org/cross-fetch-ponyfill/-/cross-fetch-ponyfill-1.0.3.tgz"
@@ -2830,7 +2837,7 @@ cross-fetch-ponyfill@^1.0.1, cross-fetch-ponyfill@^1.0.3:
     abort-controller "^3.0.0"
     node-fetch "^3.3.0"
 
-cross-spawn@^7.0.0, cross-spawn@^7.0.3, cross-spawn@^7.0.6:
+cross-spawn@^7.0.0, cross-spawn@^7.0.1, cross-spawn@^7.0.3, cross-spawn@^7.0.6:
   version "7.0.6"
   resolved "https://registry.npmjs.org/cross-spawn/-/cross-spawn-7.0.6.tgz"
   integrity sha512-uV2QOWP2nWzsy2aMp8aRibhi9dlzF5Hgh5SHaB9OiTGEyDTiJJyx0uy51QXdyWbtAHNua4XJzUKca3OzKUd3vA==

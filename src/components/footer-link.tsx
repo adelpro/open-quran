@@ -10,7 +10,7 @@ export const FooterLink = ({
   return (
     <Link
       href={href}
-      className="animate-all text-sm text-gray-700 duration-200 hover:-translate-y-1 hover:scale-105 hover:text-gray-500"
+      className="animate-all flex flex-row-reverse items-center justify-center gap-1 text-sm text-gray-700 duration-200 hover:-translate-y-1 hover:scale-105 hover:text-gray-500"
     >
       {children}
     </Link>

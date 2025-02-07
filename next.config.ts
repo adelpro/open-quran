@@ -35,9 +35,6 @@ const config = {
   },
   experimental: {
     //nextScriptWorkers: true,
-    turbo: {
-      rules: {},
-    },
   },
   /*   webpack(config: any) {
     config.module.rules.push({

@@ -90,6 +90,12 @@ export default function useTorrent() {
     clientRef.current.add(magnetURI);
 
     const updateTorrentInfo = (torrent: Torrent) => {
+      const audioFiles = torrent.files.filter((file: TorrentFile) =>
+        file.name.endsWith('.mp3')
+      );
+
+      console.log('files', audioFiles);
+
       setTorrentInfo({
         magnetURI: torrent.magnetURI,
         downloaded: torrent.downloaded,
@@ -97,7 +103,7 @@ export default function useTorrent() {
         uploadSpeed: torrent.uploadSpeed,
         progress: torrent.progress,
         peers: torrent.numPeers,
-        files: torrent.files,
+        files: audioFiles,
         ready: torrent.ready,
       });
     };
