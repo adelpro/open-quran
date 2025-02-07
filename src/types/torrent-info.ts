@@ -1,8 +1,8 @@
-import type { TorrentFile } from 'webtorrent';
+import { TrackType } from './track-type';
 
 export type TorrentInfo = {
   magnetURI: string;
-  files: TorrentFile[];
+  files: TrackType[];
   downloaded: number;
   downloadSpeed: number;
   uploadSpeed: number;

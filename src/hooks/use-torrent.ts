@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import type { Instance, Torrent, TorrentFile } from 'webtorrent';
 
 import { selectedReciterAtom, webtorrentReadyAtom } from '@/jotai/atom';
+import { TrackType } from '@/types';
 import { TorrentInfo } from '@/types/torrent-info';
 import { isValidMagnetUri } from '@/utils';
 import { getErrorMessage } from '@/utils/get-error-message';
@@ -32,10 +33,6 @@ export default function useTorrent() {
     }); */
     clientRef.current = new window.WebTorrent();
     clientRef.current.setMaxListeners(MAX_LISTENERS_LIMIT);
-
-    clientRef.current.on('torrent', (event) => {
-      console.log('Torrent:', event);
-    });
 
     clientRef.current.on('error', (error_: unknown) =>
       setError(getErrorMessage(error_))
@@ -90,11 +87,12 @@ export default function useTorrent() {
     clientRef.current.add(magnetURI);
 
     const updateTorrentInfo = (torrent: Torrent) => {
-      const audioFiles = torrent.files.filter((file: TorrentFile) =>
-        file.name.endsWith('.mp3')
-      );
-
-      console.log('files', audioFiles);
+      const playlist: TrackType[] = torrent.files
+        .filter((file: TorrentFile) => file.name.endsWith('.mp3'))
+        .map((file: TorrentFile) => {
+          const surahId = Number(file.name.split('.')[0]);
+          return { surahId, link: file.path };
+        });
 
       setTorrentInfo({
         magnetURI: torrent.magnetURI,
@@ -103,7 +101,7 @@ export default function useTorrent() {
         uploadSpeed: torrent.uploadSpeed,
         progress: torrent.progress,
         peers: torrent.numPeers,
-        files: audioFiles,
+        files: playlist,
         ready: torrent.ready,
       });
     };

@@ -12,7 +12,6 @@ import { TrackType } from '@/types';
 
 import PlaylistDialog from './playlist-dialog';
 import Range from './range';
-import Torrrent from './torrrent';
 import TrackInfo from './track-info';
 
 interface MusicPlayerProps {

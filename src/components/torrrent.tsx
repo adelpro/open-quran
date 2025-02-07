@@ -1,4 +1,3 @@
-//TODO load torrent files to the player list
 'use client';
 
 import { useAtom, useAtomValue } from 'jotai';
@@ -6,7 +5,6 @@ import Script from 'next/script';
 import { ReactNode } from 'react';
 
 import MusicPlayer from '@/components/music-player';
-import { PLAYLIST } from '@/constants';
 import useTorrent from '@/hooks/use-torrent';
 import { selectedReciterAtom, webtorrentReadyAtom } from '@/jotai/atom';
 
@@ -62,9 +60,9 @@ export default function TorrentPlayer() {
           }}
         />
       )}
-      {torrentInfo?.ready && (
+      {torrentInfo?.files.length && (
         <div className="flex flex-col gap-5">
-          <MusicPlayer playlist={PLAYLIST} />
+          <MusicPlayer playlist={torrentInfo.files} />
         </div>
       )}
 
