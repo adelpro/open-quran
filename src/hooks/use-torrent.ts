@@ -1,12 +1,17 @@
 import { useAtomValue } from 'jotai';
 import { useEffect, useRef, useState } from 'react';
-import type { Instance, Torrent, TorrentFile } from 'webtorrent';
+import type { Instance, Options, Torrent, TorrentFile } from 'webtorrent';
 
+import { announceList, rtcConfig } from '@/constants';
 import { selectedReciterAtom, webtorrentReadyAtom } from '@/jotai/atom';
 import { TrackType } from '@/types';
 import { TorrentInfo } from '@/types/torrent-info';
 import { isValidMagnetUri } from '@/utils';
 import { getErrorMessage } from '@/utils/get-error-message';
+
+interface ExtendedOptions extends Options {
+  rtcConfig?: RTCConfiguration;
+}
 
 export default function useTorrent() {
   const webtorrentReady = useAtomValue(webtorrentReadyAtom);
@@ -31,7 +36,7 @@ export default function useTorrent() {
     /*     clientRef.current = new window.WebTorrent({
       tracker: { rtcConfig },
     }); */
-    clientRef.current = new window.WebTorrent();
+    clientRef.current = new window.WebTorrent({ rtcConfig } as ExtendedOptions);
     clientRef.current.setMaxListeners(MAX_LISTENERS_LIMIT);
 
     clientRef.current.on('error', (error_: unknown) =>
@@ -84,7 +89,7 @@ export default function useTorrent() {
       });
     }
 
-    clientRef.current.add(magnetURI);
+    clientRef.current.add(magnetURI, { announce: announceList });
 
     const updateTorrentInfo = async (torrent: Torrent) => {
       const mp3Files = torrent.files.filter((file: TorrentFile) =>

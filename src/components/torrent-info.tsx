@@ -1,3 +1,4 @@
+import closeSVG from '@svgs/close.svg';
 import Image from 'next/image';
 import React from 'react';
 
@@ -27,7 +28,7 @@ export default function TorrentInfo({ setIsOpen }: Props) {
       <div className="flex flex-row gap-1">
         <div className="m-2 flex flex-row gap-1">
           <Image src={downloadSVG} alt="Download" width={20} height={20} />
-          <p>
+          <p className="truncate">
             {torrentInfo?.downloadSpeed < 1024 * 1024
               ? `${(torrentInfo?.downloadSpeed / 1024).toFixed(2)} KB/s`
               : `${(torrentInfo?.downloadSpeed / (1024 * 1024)).toFixed(2)} MB/s`}
@@ -35,7 +36,7 @@ export default function TorrentInfo({ setIsOpen }: Props) {
         </div>
         <div className="m-2 flex flex-row gap-1">
           <Image src={uploadSVG} alt="Upload" width={20} height={20} />
-          <p>
+          <p className="truncate">
             {torrentInfo?.uploadSpeed < 1024 * 1024
               ? `${(torrentInfo?.uploadSpeed / 1024).toFixed(2)} KB/s`
               : `${(torrentInfo?.uploadSpeed / (1024 * 1024)).toFixed(2)} MB/s`}
@@ -55,10 +56,15 @@ export default function TorrentInfo({ setIsOpen }: Props) {
           <Image src={peerSVG} alt="Peers count" width={20} height={20} />
           <p>{`${torrentInfo?.peers}`}</p>
         </div>
-        {torrentInfo?.ready && (
+        {torrentInfo?.ready ? (
           <div className="m-2 flex flex-row gap-1">
             <Image src={checkedSVG} alt="Ready status" width={20} height={20} />
             <p>Ready</p>
+          </div>
+        ) : (
+          <div className="m-2 flex flex-row gap-1">
+            <Image src={closeSVG} alt="Ready status" width={20} height={20} />
+            <p>Not ready</p>
           </div>
         )}
         <div className="m-2 flex flex-row gap-1">

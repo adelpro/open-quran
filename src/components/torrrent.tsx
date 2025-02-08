@@ -60,10 +60,12 @@ export default function TorrentPlayer() {
           }}
         />
       )}
-      {torrentInfo?.files.length && (
+      {torrentInfo?.files.length ? (
         <div className="flex flex-col gap-5">
           <MusicPlayer playlist={torrentInfo.files} />
         </div>
+      ) : (
+        <></>
       )}
 
       {content()}
