@@ -64,7 +64,7 @@ export default function TorrentInfo({ setIsOpen }: Props) {
         ) : (
           <div className="m-2 flex flex-row gap-1">
             <Image src={closeSVG} alt="Ready status" width={20} height={20} />
-            <p>Not ready</p>
+            <p className="truncate">Not ready</p>
           </div>
         )}
         <div className="m-2 flex flex-row gap-1">

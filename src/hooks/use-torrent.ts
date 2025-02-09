@@ -36,7 +36,10 @@ export default function useTorrent() {
     /*     clientRef.current = new window.WebTorrent({
       tracker: { rtcConfig },
     }); */
-    clientRef.current = new window.WebTorrent({ rtcConfig } as ExtendedOptions);
+    clientRef.current = new window.WebTorrent({
+      rtcConfig,
+      tracker: { wrtc: true },
+    } as ExtendedOptions);
     clientRef.current.setMaxListeners(MAX_LISTENERS_LIMIT);
 
     clientRef.current.on('error', (error_: unknown) =>

@@ -10,7 +10,12 @@ type Props = {
 
 export default function TorrentInfoDialog({ isOpen, setIsOpen }: Props) {
   return (
-    <Dialog isOpen={isOpen} setIsOpen={setIsOpen} hideCloseButton>
+    <Dialog
+      isOpen={isOpen}
+      setIsOpen={setIsOpen}
+      hideCloseButton
+      className="max-w-2xl"
+    >
       <TorrentInfo setIsOpen={setIsOpen} />
     </Dialog>
   );
