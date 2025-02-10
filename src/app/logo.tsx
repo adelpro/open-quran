@@ -3,7 +3,7 @@ import Image from 'next/image';
 export default function Logo() {
   return (
     <>
-      <div className="mt-10 flex w-full items-center justify-center transition-transform duration-200 hover:scale-105">
+      <div className="mt-10 flex w-full items-center justify-center">
         <Image
           src="/images/logo.png"
           alt="logo"
