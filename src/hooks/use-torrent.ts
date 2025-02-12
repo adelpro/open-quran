@@ -2,11 +2,11 @@ import { useAtomValue } from 'jotai';
 import { useEffect, useRef, useState } from 'react';
 import type { Instance, Options, Torrent, TorrentFile } from 'webtorrent';
 
-import { announceList, rtcConfig } from '@/constants';
+import { rtcConfig, TRACKERS } from '@/constants';
 import { selectedReciterAtom, webtorrentReadyAtom } from '@/jotai/atom';
 import { TrackType } from '@/types';
 import { TorrentInfo } from '@/types/torrent-info';
-import { isValidMagnetUri } from '@/utils';
+import { ensureTrackerInMagnetURI, isValidMagnetUri } from '@/utils';
 import { getErrorMessage } from '@/utils/get-error-message';
 
 interface ExtendedOptions extends Options {
@@ -33,13 +33,12 @@ export default function useTorrent() {
       return;
     }
 
-    /*     clientRef.current = new window.WebTorrent({
-      tracker: { rtcConfig },
-    }); */
-    clientRef.current = new window.WebTorrent({
+    const webtorrentOptions: ExtendedOptions = {
       rtcConfig,
       tracker: { wrtc: true },
-    } as ExtendedOptions);
+    };
+
+    clientRef.current = new window.WebTorrent(webtorrentOptions);
     clientRef.current.setMaxListeners(MAX_LISTENERS_LIMIT);
 
     clientRef.current.on('error', (error_: unknown) =>
@@ -74,6 +73,14 @@ export default function useTorrent() {
       return;
     }
 
+    // Update trackers in magnet URI
+    ensureTrackerInMagnetURI(magnetURI, 'wss://tracker.openwebtorrent.com');
+    ensureTrackerInMagnetURI(magnetURI, 'wss://tracker.openquran.us.kg');
+    ensureTrackerInMagnetURI(
+      magnetURI,
+      'https://tracker.openquran.us.kg/announce'
+    );
+
     // Check if torrent is already added
     if (clientRef.current.get(magnetURI)) {
       console.log('Torrent already added, skipping re-add.');
@@ -92,7 +99,8 @@ export default function useTorrent() {
       });
     }
 
-    clientRef.current.add(magnetURI, { announce: announceList });
+    clientRef.current.add(magnetURI, { announce: TRACKERS });
+    //clientRef.current.add(magnetURI);
 
     const updateTorrentInfo = async (torrent: Torrent) => {
       const mp3Files = torrent.files.filter((file: TorrentFile) =>
