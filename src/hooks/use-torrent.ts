@@ -13,6 +13,8 @@ interface ExtendedOptions extends Options {
   rtcConfig?: RTCConfiguration;
 }
 
+const TORRENT_TIMEOUT = 30_000; // 30 seconds
+
 export default function useTorrent() {
   const webtorrentReady = useAtomValue(webtorrentReadyAtom);
   const selectedReciterValue = useAtomValue(selectedReciterAtom);
@@ -35,7 +37,12 @@ export default function useTorrent() {
 
     const webtorrentOptions: ExtendedOptions = {
       rtcConfig,
-      tracker: { wrtc: true },
+      tracker: {
+        wrtc: true,
+        maxWebConns: 10, // Better for browser limits
+        rtcConfig, // Pass config to tracker
+      },
+      dht: false, // Disable DHT for browser-only
     };
 
     clientRef.current = new window.WebTorrent(webtorrentOptions);
@@ -76,14 +83,13 @@ export default function useTorrent() {
     // Update trackers in magnet URI
     ensureTrackerInMagnetURI(magnetURI, 'wss://tracker.openwebtorrent.com');
     ensureTrackerInMagnetURI(magnetURI, 'wss://tracker.openquran.us.kg');
-    ensureTrackerInMagnetURI(
-      magnetURI,
-      'https://tracker.openquran.us.kg/announce'
-    );
 
     // Check if torrent is already added
-    if (clientRef.current.get(magnetURI)) {
-      console.log('Torrent already added, skipping re-add.');
+    const existingTorrent = clientRef.current.get(magnetURI);
+    if (existingTorrent) {
+      console.log(
+        `Torrent already added (${existingTorrent.name}), skipping re-add.`
+      );
       return;
     }
 
@@ -103,6 +109,7 @@ export default function useTorrent() {
     //clientRef.current.add(magnetURI);
 
     const updateTorrentInfo = async (torrent: Torrent) => {
+      console.log('Torrent info updated', torrent);
       const mp3Files = torrent.files.filter((file: TorrentFile) =>
         file.name.endsWith('.mp3')
       );
@@ -136,7 +143,20 @@ export default function useTorrent() {
     if (clientRef?.current === null) {
       return;
     }
+
+    // Add timeout handling
+    /*     const destroyClient = () => {
+      clientRef.current?.torrents.forEach((t) => t.destroy());
+      clientRef.current?.destroy();
+    };
+
+    const timeout = setTimeout(() => {
+      setError('Torrent initialization timeout');
+      destroyClient();
+    }, TORRENT_TIMEOUT); */
+
     clientRef.current.torrents[0].on('ready', async () => {
+      //clearTimeout(timeout);
       if (clientRef.current) {
         await updateTorrentInfo(clientRef.current.torrents[0]);
       }
@@ -154,6 +174,10 @@ export default function useTorrent() {
     clientRef.current.torrents[0].on('error', (error: unknown) => {
       setError(getErrorMessage(error));
       console.log('Torrent error:', error);
+    });
+    clientRef.current.torrents[0].on('warning', (error: unknown) => {
+      setError(getErrorMessage(error));
+      console.log('Torrent warning:', error);
     });
 
     return () => {
