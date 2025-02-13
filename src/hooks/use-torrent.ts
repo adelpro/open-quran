@@ -4,10 +4,12 @@ import type { Instance, Options, Torrent, TorrentFile } from 'webtorrent';
 
 import { rtcConfig, TRACKERS } from '@/constants';
 import { selectedReciterAtom, webtorrentReadyAtom } from '@/jotai/atom';
-import { TrackType } from '@/types';
-import { TorrentInfo } from '@/types/torrent-info';
-import { ensureTrackerInMagnetURI, isValidMagnetUri } from '@/utils';
-import { getErrorMessage } from '@/utils/get-error-message';
+import { TorrentInfo, TrackType } from '@/types';
+import {
+  getErrorMessage,
+  isValidMagnetUri,
+  updateTrackerInMagnetURI,
+} from '@/utils';
 
 interface ExtendedOptions extends Options {
   rtcConfig?: RTCConfiguration;
@@ -81,11 +83,11 @@ export default function useTorrent() {
     }
 
     // Update trackers in magnet URI
-    ensureTrackerInMagnetURI(magnetURI, 'wss://tracker.openwebtorrent.com');
-    ensureTrackerInMagnetURI(magnetURI, 'wss://tracker.openquran.us.kg');
+
+    const newMagnetURI = updateTrackerInMagnetURI(magnetURI);
 
     // Check if torrent is already added
-    const existingTorrent = clientRef.current.get(magnetURI);
+    const existingTorrent = clientRef.current.get(newMagnetURI);
     if (existingTorrent) {
       console.log(
         `Torrent already added (${existingTorrent.name}), skipping re-add.`
