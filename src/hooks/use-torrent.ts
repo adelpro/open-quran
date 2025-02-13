@@ -2,7 +2,7 @@ import { useAtomValue } from 'jotai';
 import { useEffect, useRef, useState } from 'react';
 import type { Instance, Options, Torrent, TorrentFile } from 'webtorrent';
 
-import { rtcConfig, TRACKERS } from '@/constants';
+import { rtcConfig } from '@/constants';
 import { selectedReciterAtom, webtorrentReadyAtom } from '@/jotai/atom';
 import { TorrentInfo, TrackType } from '@/types';
 import {
@@ -15,7 +15,8 @@ interface ExtendedOptions extends Options {
   rtcConfig?: RTCConfiguration;
 }
 
-const TORRENT_TIMEOUT = 30_000; // 30 seconds
+const TORRENT_TIMEOUT = 180_000; // 3 minutes
+const MAX_WEB_CONNS = 30;
 
 export default function useTorrent() {
   const webtorrentReady = useAtomValue(webtorrentReadyAtom);
@@ -41,7 +42,7 @@ export default function useTorrent() {
       rtcConfig,
       tracker: {
         wrtc: true,
-        maxWebConns: 10, // Better for browser limits
+        maxWebConns: MAX_WEB_CONNS, // Better for browser limits
         rtcConfig, // Pass config to tracker
       },
       dht: false, // Disable DHT for browser-only
@@ -84,10 +85,10 @@ export default function useTorrent() {
 
     // Update trackers in magnet URI
 
-    const newMagnetURI = updateTrackerInMagnetURI(magnetURI);
+    const updatedMagnetURI = updateTrackerInMagnetURI(magnetURI);
 
     // Check if torrent is already added
-    const existingTorrent = clientRef.current.get(newMagnetURI);
+    const existingTorrent = clientRef.current.get(updatedMagnetURI);
     if (existingTorrent) {
       console.log(
         `Torrent already added (${existingTorrent.name}), skipping re-add.`
@@ -101,14 +102,13 @@ export default function useTorrent() {
       clientRef.current?.torrents?.length > 0
     ) {
       clientRef.current.torrents.forEach((torrent) => {
-        if (torrent.magnetURI !== magnetURI) {
+        if (torrent.magnetURI !== updatedMagnetURI) {
           torrent.destroy();
         }
       });
     }
 
-    clientRef.current.add(magnetURI, { announce: TRACKERS });
-    //clientRef.current.add(magnetURI);
+    clientRef.current.add(updatedMagnetURI);
 
     const updateTorrentInfo = async (torrent: Torrent) => {
       console.log('Torrent info updated', torrent);
@@ -147,7 +147,7 @@ export default function useTorrent() {
     }
 
     // Add timeout handling
-    /*     const destroyClient = () => {
+    const destroyClient = () => {
       clientRef.current?.torrents.forEach((t) => t.destroy());
       clientRef.current?.destroy();
     };
@@ -155,7 +155,7 @@ export default function useTorrent() {
     const timeout = setTimeout(() => {
       setError('Torrent initialization timeout');
       destroyClient();
-    }, TORRENT_TIMEOUT); */
+    }, TORRENT_TIMEOUT);
 
     clientRef.current.torrents[0].on('ready', async () => {
       //clearTimeout(timeout);

@@ -1,20 +1,5 @@
-const TRACKERS = [
-  'wss://tracker.openquran.us.kg',
+import { TRACKERS } from '@/constants';
 
-  'wss://tracker.webtorrent.dev:443/announce',
-
-  'wss://tracker.files.fm:7073/announce',
-
-  'ws://tracker.files.fm:7072/announce',
-
-  'wss://tracker.openwebtorrent.com:443/announce',
-
-  'wss://tracker.magnetoo.io:443/announce',
-
-  'wss://tracker.btorrent.xyz:443/announce',
-
-  'wss://spacetradersapi-chatbox.herokuapp.com:443/announce',
-];
 export const updateTrackerInMagnetURI = (magnetURI: string) => {
   if (!TRACKERS?.length) {
     return magnetURI;
@@ -45,7 +30,7 @@ export const updateTrackerInMagnetURI = (magnetURI: string) => {
   for (const tracker of TRACKERS) {
     const trackerParameter = `tr=${encodeURIComponent(tracker)}`;
     if (!newMagnetURI.includes(trackerParameter)) {
-      newMagnetURI =
+      newMagnetURI +=
         (newMagnetURI.includes('?') ? '&' : '?') + trackerParameter;
     }
   }
