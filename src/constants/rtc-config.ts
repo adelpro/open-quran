@@ -27,7 +27,8 @@ const expressTurnServers =
 export const rtcConfig: RTCConfiguration = {
   iceServers: [
     // Primary STUN
-    { urls: 'stun:global.stun.twilio.com:3478' }, // More reliable than Google's
+    { urls: 'stun:global.stun.twilio.com:3478' },
+    { urls: 'stun:stun.cloudflare.com' },
     { urls: 'stun:stun.l.google.com:19302' },
 
     // TURN servers (prioritize TCP/TLS)
