@@ -5,7 +5,6 @@ import Link from 'next/link';
 import React, { useState } from 'react';
 
 import Loader from '@/components/loader';
-import backSVG from '@/svgs/back.svg';
 import sendSVG from '@/svgs/send.svg';
 import { isValidEmail } from '@/utils';
 

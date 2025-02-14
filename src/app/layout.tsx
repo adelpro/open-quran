@@ -22,9 +22,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ar">
-      <body className={`${tajawal.className} relative h-svh antialiased`}>
-        {children}
-        <Footer />
+      <body className={`${tajawal.className} antialiased`}>
+        <main className="flex h-dvh w-full flex-col items-center justify-center bg-background text-foreground">
+          <div className="w-full flex-1">{children}</div>
+          <Footer />
+        </main>
       </body>
     </html>
   );
