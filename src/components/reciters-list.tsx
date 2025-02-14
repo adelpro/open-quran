@@ -81,6 +81,9 @@ export default function RecitersList({ setIsOpen }: Props) {
         </div>
         {filteredReciters
           .filter((reciter) => reciter.name.includes(searchTerm))
+          .sort((a, b) =>
+            a.name.localeCompare(b.name, 'ar', { sensitivity: 'base' })
+          )
           .map((reciter) => (
             <button
               key={reciter.id}

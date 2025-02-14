@@ -148,10 +148,28 @@ export const RECITERS: Reciter[] = [
   {
     id: 20,
     name: 'محمد الكنتاوي',
-    riwaya: Riwaya.Hafs,
+    riwaya: Riwaya.Warsh,
     magnet:
       'magnet:?xt=urn:btih:bb7093b290ac61d10b5a6357087cd670bb6ba931&dn=Mohammed_El_Kantaoui_Warsh&tr=http%3A%2F%2Fibnradman.com%2Fannounce.php&tr=http%3A%2F%2Ftorrent.islamhouse.com%2Fannounce.php&tr=wss%3A%2F%2Ftracker.btorrent.xyz&tr=wss%3A%2F%2Ftracker.openwebtorrent.com&tr=wss://tracker.openquran.us.kg',
     complet: true,
+    source: MagnetlinkSource.ISLAMHOUSE,
+  },
+  {
+    id: 21,
+    name: 'محمود خليل الحصري',
+    riwaya: Riwaya.Qalun,
+    magnet:
+      'magnet:?xt=urn:btih:c4ac5dece90004fb389a2fc378847dab54d9f1d3&dn=ar_Alhosari_Qalon&tr=https%3A%2F%2Ftorrent.islamhouse.com%2Fannounce.php&tr=wss%3A%2F%2Ftracker.btorrent.xyz&tr=wss%3A%2F%2Ftracker.openwebtorrent.com&tr=wss://tracker.openquran.us.kg',
+    complet: false,
+    source: MagnetlinkSource.ISLAMHOUSE,
+  },
+  {
+    id: 22,
+    name: 'محمود خليل الحصري',
+    riwaya: Riwaya.Hafs,
+    magnet:
+      'magnet:?xt=urn:btih:4dd0536b0d17d0f463ea221a211384d185511bec&dn=Mahmood_Khaleel_Al-Husaree&tr=https%3A%2F%2Ftorrent.islamhouse.com%2Fannounce.php&tr=wss%3A%2F%2Ftracker.btorrent.xyz&tr=wss%3A%2F%2Ftracker.openwebtorrent.com&tr=wss://tracker.openquran.us.kg',
+    complet: false,
     source: MagnetlinkSource.ISLAMHOUSE,
   },
 ];

@@ -1,5 +1,5 @@
 export enum Riwaya {
-  Hafs = 'حفظ',
+  Hafs = 'حفص',
   Warsh = 'ورش',
   Qalun = 'قالون',
 }
