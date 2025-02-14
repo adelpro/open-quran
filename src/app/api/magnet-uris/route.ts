@@ -7,5 +7,5 @@ export async function GET() {
   const magnetURIArray = Object.values(RECITERS).map(({ magnet }) => {
     return updateTrackerInMagnetURI(magnet);
   });
-  return NextResponse.json(magnetURIArray);
+  return NextResponse.json({ magneturis: magnetURIArray });
 }
