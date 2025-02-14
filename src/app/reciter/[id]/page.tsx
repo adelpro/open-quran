@@ -2,7 +2,7 @@ import Image from 'next/image';
 import { notFound } from 'next/navigation';
 
 import Logo from '@/app/logo';
-import ReciterPage from '@/components/reciter-page';
+import ReciterPage from '@/app/reciter/[id]/reciter-page';
 import { RECITERS } from '@/constants';
 import { clientConfig, normalizeAppUrl } from '@/utils';
 
@@ -81,7 +81,7 @@ export default async function Page({ params }: Props) {
           }),
         }}
       />
-      <main className="flex h-dvh w-full flex-col items-center justify-center bg-background text-foreground">
+      <main className="flex w-full flex-col items-center justify-center bg-background text-foreground">
         <Logo />
         <ReciterPage id={reciter.id} />
       </main>

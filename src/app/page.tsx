@@ -1,4 +1,4 @@
-import ReciterPage from '@/components/reciter-page';
+import ReciterPage from '@/app/reciter/[id]/reciter-page';
 import UnderConstruction from '@/components/under-construction';
 
 import Logo from './logo';

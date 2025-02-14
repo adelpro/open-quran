@@ -51,7 +51,7 @@ export const RECITERS: Reciter[] = [
     name: 'ماهر المعيقلي',
     riwaya: Riwaya.Hafs,
     magnet:
-      'magnet:?xt=urn:btih:14cfaedfe76a3aafc2ae58f17eb4f830ff964aca&dn=Maher_Al-Muaiqly&tr=https://torrent.islamhouse.com/announce&tr=wss://tracker.btorrent.xyz&tr=wss://tracker.openwebtorrent.com&tr=wss://tracker.openquran.us.kg',
+      'magnet:?xt=urn:btih:465aa4a5cc2dafe86cd616f1dc9e94b1dce36496&dn=Maher_Al-Muaiqly&tr=https://torrent.islamhouse.com/announce&tr=wss://tracker.btorrent.xyz&tr=wss://tracker.openwebtorrent.com&tr=wss://tracker.openquran.us.kg',
     complet: true,
     source: MagnetlinkSource.ISLAMHOUSE,
   },
@@ -106,6 +106,51 @@ export const RECITERS: Reciter[] = [
     riwaya: Riwaya.Warsh,
     magnet:
       'magnet:?xt=urn:btih:012101c66ee42d7c5905ab910e2b129335f4f30d&dn=Yassine_El_Jazairi_Warsh&tr=https://torrent.islamhouse.com/announce&tr=wss://tracker.btorrent.xyz&tr=wss://tracker.openwebtorrent.com&tr=wss://tracker.openquran.us.kg',
+    complet: true,
+    source: MagnetlinkSource.ISLAMHOUSE,
+  },
+  {
+    id: 16,
+    name: 'ياسر الدوسري',
+    riwaya: Riwaya.Hafs,
+    magnet:
+      'magnet:?xt=urn:btih:f5fb5572e70163e72b1fb6add43da32da60dd97f&dn=Yasser_Aldosari&tr=https%3A%2F%2Ftorrent.mp3quran.net%2Fannounce.php&tr=wss%3A%2F%2Ftracker.btorrent.xyz&tr=wss%3A%2F%2Ftracker.openwebtorrent.com&tr=wss://tracker.openquran.us.kg',
+    complet: true,
+    source: MagnetlinkSource.MP3QURAN,
+  },
+  {
+    id: 17,
+    name: 'ماهر الفاضلي',
+    riwaya: Riwaya.Hafs,
+    magnet:
+      'magnet:?xt=urn:btih:8f3b8f8f3b8f8f8f8f8f8f8f8f8f8f8f8f8f8f8f&dn=Maher_Al_Fadl&tr=wss://tracker.btorrent.xyz&tr=wss://tracker.openwebtorrent.com&tr=wss://tracker.openquran.us.kg&tr=wss://tracker.openquran.us.kg',
+    complet: true,
+    source: MagnetlinkSource.MP3QURAN,
+  },
+  {
+    id: 18,
+    name: 'محمد سعيد المنشاوي',
+    riwaya: Riwaya.Hafs,
+    magnet:
+      'magnet:?xt=urn:btih:fbf3bfbfbc5baad0d9d2395fb0f20294723b9930&dn=Mohammed_Siddiq_Al-Minshawi&tr=https%3A%2F%2Ftorrent.mp3quran.net%2Fannounce.php&tr=wss%3A%2F%2Ftracker.btorrent.xyz&tr=wss%3A%2F%2Ftracker.openwebtorrent.com&tr=wss://tracker.openquran.us.kg',
+    complet: true,
+    source: MagnetlinkSource.MP3QURAN,
+  },
+  {
+    id: 19,
+    name: 'فارس عباد',
+    riwaya: Riwaya.Hafs,
+    magnet:
+      'magnet:?xt=urn:btih:4d8cbf2a1b53bd2d18a8fa155684da30518cd99e&dn=Fares_Abbad&tr=http%3A%2F%2Ftorrent.mp3quran.net%2Fannounce.php&tr=wss%3A%2F%2Ftracker.btorrent.xyz&tr=wss%3A%2F%2Ftracker.openwebtorrent.com&tr=wss://tracker.openquran.us.kg',
+    complet: true,
+    source: MagnetlinkSource.MP3QURAN,
+  },
+  {
+    id: 20,
+    name: 'محمد الكنتاوي',
+    riwaya: Riwaya.Hafs,
+    magnet:
+      'magnet:?xt=urn:btih:bb7093b290ac61d10b5a6357087cd670bb6ba931&dn=Mohammed_El_Kantaoui_Warsh&tr=http%3A%2F%2Fibnradman.com%2Fannounce.php&tr=http%3A%2F%2Ftorrent.islamhouse.com%2Fannounce.php&tr=wss%3A%2F%2Ftracker.btorrent.xyz&tr=wss%3A%2F%2Ftracker.openwebtorrent.com&tr=wss://tracker.openquran.us.kg',
     complet: true,
     source: MagnetlinkSource.ISLAMHOUSE,
   },

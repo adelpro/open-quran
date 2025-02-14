@@ -4,7 +4,7 @@ import { RECITERS } from '@/constants';
 import { clientConfig } from '@/utils';
 export default function Sitemap(): MetadataRoute.Sitemap {
   const recitersMap = RECITERS.map((reciter) => ({
-    url: `/${clientConfig.APP_URL + /reciter/ + reciter.id}`,
+    url: `/${clientConfig.APP_URL}/reciter/${reciter.id}}`,
     lastModified: new Date(),
   }));
   return [
@@ -23,6 +23,12 @@ export default function Sitemap(): MetadataRoute.Sitemap {
       url: clientConfig.APP_URL + '/contact',
       lastModified: new Date(),
     },
+    // Privacy Page
+    {
+      url: clientConfig.APP_URL + '/privacy',
+      lastModified: new Date(),
+    },
+
     ...recitersMap,
   ];
 }

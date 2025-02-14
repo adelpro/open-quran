@@ -12,7 +12,7 @@ import { RECITERS } from '@/constants';
 import { selectedReciterAtom } from '@/jotai/atom';
 import { Reciter } from '@/types';
 
-import ReciterSelector from './reciter-selector';
+import ReciterSelector from '../../../components/reciter-selector';
 
 type Props = { id: number | undefined };
 export default function ReciterPage({ id }: Props) {
