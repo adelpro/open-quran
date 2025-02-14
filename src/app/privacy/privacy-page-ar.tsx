@@ -4,9 +4,9 @@ export default function PrivacyPageAr() {
   return (
     <div
       dir="rtl"
-      className="mt-10 flex w-full flex-col items-center justify-center bg-background text-foreground"
+      className="flex w-full flex-col items-center justify-center bg-background text-foreground md:p-6 md:ps-10"
     >
-      <div className="mx-auto w-full max-w-2xl">
+      <div className="w-full max-w-2xl p-2 ps-6">
         {/* Title Section */}
         <div className="border-b pb-6">
           <h1 className="text-3xl font-bold">سياسة خصوصية Open Quran</h1>
@@ -14,7 +14,7 @@ export default function PrivacyPageAr() {
         </div>
 
         {/* Content Sections */}
-        <div className="space-y-8 overflow-y-scroll rounded border-2 border-gray-200 p-8 text-right text-lg shadow-sm dark:border-gray-700">
+        <div className="space-y-8 border-gray-200 p-2 ps-6 text-lg dark:border-gray-700 md:rounded md:border md:p-6 md:ps-10 md:shadow-sm">
           <section className="space-y-4">
             <h2 className="text-2xl font-semibold">خصوصيتك مهمة بالنسبة لنا</h2>
             <p>

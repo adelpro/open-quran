@@ -23,15 +23,6 @@ export default function Footer() {
             معلومات عن التطبيق
           </p>
         </FooterLink>
-        <FooterLink href="/contact">
-          <Image
-            src={contactSVG}
-            alt="Contact page link"
-            height={20}
-            width={20}
-          />
-          <p className="hidden truncate text-right sm:block">اتصل بنا</p>
-        </FooterLink>
         <FooterLink href="/privacy">
           <Image
             src={privacySVG}
@@ -40,6 +31,15 @@ export default function Footer() {
             width={20}
           />
           <p className="hidden truncate text-right sm:block">سياسة الخصوصية</p>
+        </FooterLink>
+        <FooterLink href="/contact">
+          <Image
+            src={contactSVG}
+            alt="Contact page link"
+            height={20}
+            width={20}
+          />
+          <p className="hidden truncate text-right sm:block">اتصل بنا</p>
         </FooterLink>
       </div>
     </div>

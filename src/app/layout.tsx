@@ -23,8 +23,8 @@ export default function RootLayout({
   return (
     <html lang="ar">
       <body className={`${tajawal.className} antialiased`}>
-        <main className="flex h-dvh w-full flex-col items-center justify-center bg-background text-foreground">
-          <div className="w-full flex-1">{children}</div>
+        <main className="flex min-h-dvh w-full flex-col items-center justify-center bg-background text-foreground">
+          <div className="w-full flex-grow">{children}</div>
           <Footer />
         </main>
       </body>
