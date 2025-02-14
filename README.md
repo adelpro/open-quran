@@ -12,7 +12,7 @@
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/270e870a48f342ef9ba384229681db23)](https://app.codacy.com/gh/adelpro/open-quran/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
 ![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https://github.com/adelpro/open-quran&count_bg=%2379C83D&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=false)
 
-Open Mushaf is an open-source Quran application designed to provide an optimal reading experience across various platforms. Built with modern web technologies, it ensures performance, offline access, and responsive design. The use of WebTorrent also allows for decentralized storage of Quran content, eliminating the need for a central server and ensuring that the content is highly available.
+Open Quran is an open-source Quran application designed to provide an optimal quran audio streaming experience across various platforms. Built with modern web technologies, it ensures performance and responsive design. The use of WebTorrent also allows for decentralized storage of Quran audio content, eliminating the need for a central server and ensuring that the content is highly available.
 
 ## Features
 

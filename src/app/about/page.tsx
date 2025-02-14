@@ -3,8 +3,8 @@ import { clientConfig } from '@/utils';
 import AboutPage from './about-page';
 
 export async function generateMetadata() {
-  const title = 'Contact - ' + clientConfig.APP_NAME;
-  const description = 'Contact page for ' + clientConfig.APP_NAME;
+  const title = 'About - ' + clientConfig.APP_NAME;
+  const description = 'About page for ' + clientConfig.APP_NAME;
 
   return {
     title,
