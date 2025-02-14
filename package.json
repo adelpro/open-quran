@@ -1,7 +1,7 @@
 {
-  "name": "quran-stream",
-  "version": "1.0.8 - alpha",
-  "description": "Quran Stream",
+  "name": "open-quran",
+  "version": "1.1.0",
+  "description": "Quran streaming over webtorrent",
   "private": true,
   "scripts": {
     "dev": "next dev",
