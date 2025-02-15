@@ -95,8 +95,8 @@ export default function ContactPage() {
           </Link>
         </div>
       ) : (
-        <>
-          <h1 className="mb-20 text-center text-5xl font-bold">اتصل بنا</h1>
+        <div className="p-2 md:p-8">
+          <h1 className="mb-20 text-center text-5xl font-bold">إتصل بنا</h1>
           <section className="container mx-auto max-w-2xl" dir="rtl">
             <form className="flex flex-col">
               <input
@@ -104,7 +104,7 @@ export default function ContactPage() {
                 required
                 className="mb-4 border-b-2 border-gray-400 px-8 py-2 text-3xl ring-black focus:ring-4"
                 id="name"
-                placeholder="الاسم"
+                placeholder="الإسم"
                 value={name}
                 onChange={(event) => {
                   setError('');
@@ -161,7 +161,7 @@ export default function ContactPage() {
               </button>
             </form>
           </section>
-        </>
+        </div>
       )}
     </>
   );

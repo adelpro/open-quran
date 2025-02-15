@@ -39,7 +39,7 @@ export default function Footer() {
             height={20}
             width={20}
           />
-          <p className="hidden truncate text-right sm:block">اتصل بنا</p>
+          <p className="hidden truncate text-right sm:block">إتصل بنا</p>
         </FooterLink>
       </div>
     </div>

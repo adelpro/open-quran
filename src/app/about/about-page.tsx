@@ -1,6 +1,10 @@
 import React from 'react';
 
+import packageJson from '@/../package.json';
+
 export default function AboutPage() {
+  const currentYear = new Date().getFullYear();
+  const version = packageJson.version;
   return (
     <div
       dir="rtl"
@@ -31,6 +35,13 @@ export default function AboutPage() {
           <p className="mt-4">
             يسعى التطبيق إلى توفير مصدر متاح للجميع ودائم للقرآن الكريم، مع
             الحفاظ على أعلى معايير الجودة التقنية والتصميمية.
+          </p>
+        </div>
+        <div className="mt-5 flex w-full max-w-2xl items-center justify-center text-sm text-gray-600">
+          <p>
+            <span>
+              جميع الحقوق محفوظة &copy; {currentYear} - v{packageJson.version}
+            </span>
           </p>
         </div>
       </div>
