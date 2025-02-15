@@ -21,9 +21,9 @@ export default function ActivityStatus() {
         <path
           fill="none"
           stroke="currentColor"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="2"
           d="M3 16h6l4-11l6 22l4-11h6"
         />
       </svg>

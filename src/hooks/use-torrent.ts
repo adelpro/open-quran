@@ -2,7 +2,7 @@ import { useAtomValue } from 'jotai';
 import { useEffect, useRef, useState } from 'react';
 import type { Instance, Options, Torrent, TorrentFile } from 'webtorrent';
 
-import { rtcConfig } from '@/constants';
+import { rtcConfig, TRACKERS } from '@/constants';
 import { selectedReciterAtom, webtorrentReadyAtom } from '@/jotai/atom';
 import { TorrentInfo, TrackType } from '@/types';
 import {
@@ -38,7 +38,7 @@ export default function useTorrent() {
       return;
     }
 
-    const webtorrentOptions: ExtendedOptions = {
+    /* const webtorrentOptions: ExtendedOptions = {
       rtcConfig,
       tracker: {
         wrtc: true,
@@ -46,9 +46,21 @@ export default function useTorrent() {
         rtcConfig, // Pass config to tracker
       },
       dht: false, // Disable DHT for browser-only
+    }; */
+
+    const webtorrentOptions = {
+      tracker: {
+        announce: TRACKERS,
+        rtcConfig,
+      },
     };
 
     clientRef.current = new window.WebTorrent(webtorrentOptions);
+
+    // Check for WebRTC support
+    if (!window.WebTorrent.WEBRTC_SUPPORT) {
+      setError('WebTorrent does not support WebRTC');
+    }
     clientRef.current.setMaxListeners(MAX_LISTENERS_LIMIT);
 
     clientRef.current.on('error', (error_: unknown) =>
@@ -83,12 +95,8 @@ export default function useTorrent() {
       return;
     }
 
-    // Update trackers in magnet URI
-
-    const updatedMagnetURI = updateTrackerInMagnetURI(magnetURI);
-
     // Check if torrent is already added
-    const existingTorrent = clientRef.current.get(updatedMagnetURI);
+    const existingTorrent = clientRef.current.get(magnetURI);
     if (existingTorrent) {
       console.log(
         `Torrent already added (${existingTorrent.name}), skipping re-add.`
@@ -101,14 +109,20 @@ export default function useTorrent() {
       clientRef.current?.torrents &&
       clientRef.current?.torrents?.length > 0
     ) {
-      clientRef.current.torrents.forEach((torrent) => {
-        if (torrent.magnetURI !== updatedMagnetURI) {
+      for (const torrent of clientRef.current.torrents) {
+        if (torrent.magnetURI !== magnetURI) {
           torrent.destroy();
         }
-      });
+      }
     }
 
-    clientRef.current.add(updatedMagnetURI);
+    const torrentOptions = {
+      announce: TRACKERS,
+    };
+    clientRef.current.add(magnetURI, torrentOptions, async (torrent) => {
+      console.log('Torrent added', JSON.stringify(torrent, undefined, 2));
+      await updateTorrentInfo(torrent);
+    });
 
     const updateTorrentInfo = async (torrent: Torrent) => {
       console.log('Torrent info updated', torrent);
@@ -148,8 +162,13 @@ export default function useTorrent() {
 
     // Add timeout handling
     const destroyClient = () => {
-      clientRef.current?.torrents.forEach((t) => t.destroy());
-      clientRef.current?.destroy();
+      if (clientRef.current) {
+        for (const torrent of clientRef.current?.torrents) torrent.destroy();
+        clientRef.current?.destroy();
+
+        // eslint-disable-next-line unicorn/no-null
+        clientRef.current = null;
+      }
     };
 
     const timeout = setTimeout(() => {
@@ -157,30 +176,33 @@ export default function useTorrent() {
       destroyClient();
     }, TORRENT_TIMEOUT);
 
-    clientRef.current.torrents[0].on('ready', async () => {
-      //clearTimeout(timeout);
-      if (clientRef.current) {
-        await updateTorrentInfo(clientRef.current.torrents[0]);
-      }
-    });
-    clientRef.current.torrents[0].on('download', async () => {
-      if (clientRef.current) {
-        await updateTorrentInfo(clientRef.current.torrents[0]);
-      }
-    });
-    clientRef.current.torrents[0].on('upload', async () => {
-      if (clientRef.current) {
-        await updateTorrentInfo(clientRef.current.torrents[0]);
-      }
-    });
-    clientRef.current.torrents[0].on('error', (error: unknown) => {
-      setError(getErrorMessage(error));
-      console.log('Torrent error:', error);
-    });
-    clientRef.current.torrents[0].on('warning', (error: unknown) => {
-      setError(getErrorMessage(error));
-      console.log('Torrent warning:', error);
-    });
+    const torrentInstance = clientRef.current.torrents[0];
+    if (torrentInstance) {
+      torrentInstance.on('ready', async () => {
+        clearTimeout(timeout);
+        if (clientRef.current) {
+          await updateTorrentInfo(clientRef.current.torrents[0]);
+        }
+      });
+      clientRef.current.torrents[0].on('download', async () => {
+        if (clientRef.current) {
+          await updateTorrentInfo(clientRef.current.torrents[0]);
+        }
+      });
+      clientRef.current.torrents[0].on('upload', async () => {
+        if (clientRef.current) {
+          await updateTorrentInfo(clientRef.current.torrents[0]);
+        }
+      });
+      clientRef.current.torrents[0].on('error', (error: unknown) => {
+        setError(getErrorMessage(error));
+        console.log('Torrent error:', error);
+      });
+      clientRef.current.torrents[0].on('warning', (error: unknown) => {
+        setError(getErrorMessage(error));
+        console.log('Torrent warning:', error);
+      });
+    }
 
     return () => {
       if (clientRef.current?.get(magnetURI)) {

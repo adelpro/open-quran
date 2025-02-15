@@ -25,7 +25,7 @@ export default function ReciterSelector() {
     if (selectedReciterValue === undefined) {
       return <></>;
     }
-    return torrentInfo ? (
+    return torrentInfo && torrentInfo.magnetURI ? (
       <Image
         src={connectionSVG}
         alt="connected"

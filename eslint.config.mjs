@@ -20,7 +20,6 @@ const config = [
       'next/core-web-vitals',
       'plugin:unicorn/recommended',
       'plugin:import/recommended',
-      'plugin:playwright/recommended',
       'plugin:prettier/recommended'
     )
   ),
@@ -32,10 +31,12 @@ const config = [
     rules: {
       'simple-import-sort/exports': 'error',
       'simple-import-sort/imports': 'error',
-      'unicorn/no-array-callback-reference': 'off',
-      'unicorn/no-array-for-each': 'off',
+      'unicorn/no-array-callback-reference': 'warn',
+      'unicorn/no-null': 'warn',
+      'unicorn/no-array-for-each': 'warn',
       'unicorn/no-array-reduce': 'off',
       'unicorn/prefer-global-this': 'off',
+      'unicorn/prefer-module': 'warn',
       'unicorn/prevent-abbreviations': [
         'error',
         {
@@ -50,13 +51,6 @@ const config = [
           },
         },
       ],
-    },
-  },
-  {
-    files: ['**/*.js'],
-
-    rules: {
-      'unicorn/prefer-module': 'off',
     },
   },
 ];
