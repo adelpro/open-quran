@@ -120,12 +120,12 @@ export const RECITERS: Reciter[] = [
   },
   {
     id: 17,
-    name: 'ماهر الفاضلي',
+    name: 'هزاع البلوشي',
     riwaya: Riwaya.Hafs,
     magnet:
-      'magnet:?xt=urn:btih:8f3b8f8f3b8f8f8f8f8f8f8f8f8f8f8f8f8f8f8f&dn=Maher_Al_Fadl&tr=wss://tracker.btorrent.xyz&tr=wss://tracker.openwebtorrent.com&tr=wss://tracker.openquran.us.kg&tr=wss://tracker.openquran.us.kg',
+      'magnet:?xt=urn:btih:98e5196da5665c10eab1f7d951cd1fc840cd73b6&dn=Quran-Huzza-Al_Baloushi&tr=http%3A%2F%2Fbt1.archive.org%3A6969%2Fannounce&tr=http%3A%2F%2Fbt2.archive.org%3A6969%2Fannounce&tr=wss%3A%2F%2Ftracker.btorrent.xyz&tr=wss%3A%2F%2Ftracker.openwebtorrent.com&ws=https%3A%2F%2Farchive.org%2Fdownload%2F&ws=http%3A%2F%2Fia601208.us.archive.org%2F33%2Fitems%2F&ws=%2F33%2Fitems%2F',
     complet: true,
-    source: MagnetlinkSource.MP3QURAN,
+    source: MagnetlinkSource.INTERNETARCHIVE,
   },
   {
     id: 18,
@@ -160,7 +160,7 @@ export const RECITERS: Reciter[] = [
     riwaya: Riwaya.Qalun,
     magnet:
       'magnet:?xt=urn:btih:c4ac5dece90004fb389a2fc378847dab54d9f1d3&dn=ar_Alhosari_Qalon&tr=https%3A%2F%2Ftorrent.islamhouse.com%2Fannounce.php&tr=wss%3A%2F%2Ftracker.btorrent.xyz&tr=wss%3A%2F%2Ftracker.openwebtorrent.com&tr=wss://tracker.openquran.us.kg',
-    complet: false,
+    complet: true,
     source: MagnetlinkSource.ISLAMHOUSE,
   },
   {
@@ -169,7 +169,17 @@ export const RECITERS: Reciter[] = [
     riwaya: Riwaya.Hafs,
     magnet:
       'magnet:?xt=urn:btih:4dd0536b0d17d0f463ea221a211384d185511bec&dn=Mahmood_Khaleel_Al-Husaree&tr=https%3A%2F%2Ftorrent.islamhouse.com%2Fannounce.php&tr=wss%3A%2F%2Ftracker.btorrent.xyz&tr=wss%3A%2F%2Ftracker.openwebtorrent.com&tr=wss://tracker.openquran.us.kg',
-    complet: false,
+    complet: true,
     source: MagnetlinkSource.ISLAMHOUSE,
+  },
+
+  {
+    id: 24,
+    name: 'test - file',
+    riwaya: Riwaya.Hafs,
+    magnet:
+      'magnet:?xt=urn:btih:4a3f5e08bcef825718eda30637230585e3330599&dn=ubuntu-24.04.1-desktop-amd64.iso&tr=https%3A%2F%2Ftorrent.ubuntu.com%2Fannounce&tr=https%3A%2F%2Fipv6.torrent.ubuntu.com%2Fannounce&tr=wss%3A%2F%2Ftracker.btorrent.xyz&tr=wss%3A%2F%2Ftracker.openwebtorrent.com',
+    complet: false,
+    source: MagnetlinkSource.UNKNOWN,
   },
 ];

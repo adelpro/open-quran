@@ -1,28 +1,32 @@
 import { useAtomValue } from 'jotai';
 import { useEffect, useRef, useState } from 'react';
-import type { Instance, Options, Torrent, TorrentFile } from 'webtorrent';
+import type { Instance, Torrent, TorrentFile } from 'webtorrent';
 
 import { rtcConfig, TRACKERS } from '@/constants';
 import { selectedReciterAtom, webtorrentReadyAtom } from '@/jotai/atom';
 import { TorrentInfo, TrackType } from '@/types';
-import {
-  getErrorMessage,
-  isValidMagnetUri,
-  updateTrackerInMagnetURI,
-} from '@/utils';
+import { getErrorMessage, isValidMagnetUri } from '@/utils';
 
-interface ExtendedOptions extends Options {
-  rtcConfig?: RTCConfiguration;
-}
+//const TORRENT_TIMEOUT = 300_000; // 5 minutes
+const MAX_LISTENERS_LIMIT = 100;
 
-const TORRENT_TIMEOUT = 180_000; // 3 minutes
-const MAX_WEB_CONNS = 30;
+const getCircularReplacer = () => {
+  const seen = new WeakSet();
+  return (key: string, value: any) => {
+    if (typeof value === 'object' && value !== null) {
+      if (seen.has(value)) {
+        return '[Circular]';
+      }
+      seen.add(value);
+    }
+    return value;
+  };
+};
 
 export default function useTorrent() {
   const webtorrentReady = useAtomValue(webtorrentReadyAtom);
   const selectedReciterValue = useAtomValue(selectedReciterAtom);
   const magnetURI = selectedReciterValue ? selectedReciterValue.magnet : '';
-  const MAX_LISTENERS_LIMIT = 200;
 
   const [torrentInfo, setTorrentInfo] = useState<TorrentInfo | undefined>();
   const [error, setError] = useState<string | undefined>();
@@ -38,16 +42,6 @@ export default function useTorrent() {
       return;
     }
 
-    /* const webtorrentOptions: ExtendedOptions = {
-      rtcConfig,
-      tracker: {
-        wrtc: true,
-        maxWebConns: MAX_WEB_CONNS, // Better for browser limits
-        rtcConfig, // Pass config to tracker
-      },
-      dht: false, // Disable DHT for browser-only
-    }; */
-
     const webtorrentOptions = {
       tracker: {
         announce: TRACKERS,
@@ -55,12 +49,13 @@ export default function useTorrent() {
       },
     };
 
-    clientRef.current = new window.WebTorrent(webtorrentOptions);
-
     // Check for WebRTC support
     if (!window.WebTorrent.WEBRTC_SUPPORT) {
       setError('WebTorrent does not support WebRTC');
     }
+
+    clientRef.current = new window.WebTorrent(webtorrentOptions);
+
     clientRef.current.setMaxListeners(MAX_LISTENERS_LIMIT);
 
     clientRef.current.on('error', (error_: unknown) =>
@@ -119,13 +114,14 @@ export default function useTorrent() {
     const torrentOptions = {
       announce: TRACKERS,
     };
-    clientRef.current.add(magnetURI, torrentOptions, async (torrent) => {
-      console.log('Torrent added', JSON.stringify(torrent, undefined, 2));
-      await updateTorrentInfo(torrent);
-    });
+    clientRef.current.add(magnetURI, torrentOptions);
 
     const updateTorrentInfo = async (torrent: Torrent) => {
-      console.log('Torrent info updated', torrent);
+      console.log(
+        'Torrent added',
+        JSON.stringify(torrent, getCircularReplacer(), 2)
+      );
+
       const mp3Files = torrent.files.filter((file: TorrentFile) =>
         file.name.endsWith('.mp3')
       );
@@ -171,15 +167,15 @@ export default function useTorrent() {
       }
     };
 
-    const timeout = setTimeout(() => {
+    /*     const timeout = setTimeout(() => {
       setError('Torrent initialization timeout');
       destroyClient();
-    }, TORRENT_TIMEOUT);
+    }, TORRENT_TIMEOUT); */
 
     const torrentInstance = clientRef.current.torrents[0];
     if (torrentInstance) {
       torrentInstance.on('ready', async () => {
-        clearTimeout(timeout);
+        //clearTimeout(timeout);
         if (clientRef.current) {
           await updateTorrentInfo(clientRef.current.torrents[0]);
         }
