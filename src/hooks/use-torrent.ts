@@ -5,67 +5,56 @@ import type { Instance, Torrent, TorrentFile } from 'webtorrent';
 import { rtcConfig, TRACKERS } from '@/constants';
 import { selectedReciterAtom, webtorrentReadyAtom } from '@/jotai/atom';
 import { TorrentInfo, TrackType } from '@/types';
-import { getErrorMessage, isValidMagnetUri } from '@/utils';
+import {
+  getCircularReplacer,
+  getErrorMessage,
+  isValidMagnetUri,
+} from '@/utils';
 
 //const TORRENT_TIMEOUT = 300_000; // 5 minutes
 const MAX_LISTENERS_LIMIT = 100;
 
-const getCircularReplacer = () => {
-  const seen = new WeakSet();
-  return (key: string, value: any) => {
-    if (typeof value === 'object' && value !== null) {
-      if (seen.has(value)) {
-        return '[Circular]';
-      }
-      seen.add(value);
-    }
-    return value;
-  };
-};
-
 export default function useTorrent() {
   const webtorrentReady = useAtomValue(webtorrentReadyAtom);
   const selectedReciterValue = useAtomValue(selectedReciterAtom);
-  const magnetURI = selectedReciterValue ? selectedReciterValue.magnet : '';
+  const magnetURI = selectedReciterValue?.magnet || undefined;
 
   const [torrentInfo, setTorrentInfo] = useState<TorrentInfo | undefined>();
   const [error, setError] = useState<string | undefined>();
-  const clientRef = useRef<Instance | null>(null);
+  const clientRef = useRef<Instance | undefined>(undefined);
 
   // Initialize WebTorrent client once on mount
   useEffect(() => {
-    if (typeof window === 'undefined') {
+    if (
+      typeof window === 'undefined' ||
+      !webtorrentReady ||
+      !window.WebTorrent
+    ) {
       return;
     }
 
-    if (!webtorrentReady || !window.WebTorrent) {
-      return;
+    // Check for WebRTC support
+    if (!window.WebTorrent?.WEBRTC_SUPPORT) {
+      setError('WebTorrent does not support WebRTC');
     }
 
     const webtorrentOptions = {
       tracker: {
         announce: TRACKERS,
-        rtcConfig,
+        rtcConfig: rtcConfig,
       },
     };
-
-    // Check for WebRTC support
-    if (!window.WebTorrent.WEBRTC_SUPPORT) {
-      setError('WebTorrent does not support WebRTC');
-    }
-
     clientRef.current = new window.WebTorrent(webtorrentOptions);
 
     clientRef.current.setMaxListeners(MAX_LISTENERS_LIMIT);
 
-    clientRef.current.on('error', (error_: unknown) =>
-      setError(getErrorMessage(error_))
+    clientRef.current.on('error', (error: unknown) =>
+      setError(getErrorMessage(error))
     );
 
     return () => {
-      if (clientRef.current) {
-        clientRef.current.destroy();
-      }
+      clientRef.current?.destroy();
+      clientRef.current = undefined;
     };
   }, [webtorrentReady]);
 
@@ -99,16 +88,9 @@ export default function useTorrent() {
       return;
     }
 
-    // Clear all other torrents
-    if (
-      clientRef.current?.torrents &&
-      clientRef.current?.torrents?.length > 0
-    ) {
-      for (const torrent of clientRef.current.torrents) {
-        if (torrent.magnetURI !== magnetURI) {
-          torrent.destroy();
-        }
-      }
+    // Clean up any other torrents before adding the new one
+    for (const torrent of clientRef.current.torrents) {
+      if (torrent.magnetURI !== magnetURI) torrent.destroy();
     }
 
     const torrentOptions = {
@@ -117,11 +99,13 @@ export default function useTorrent() {
     clientRef.current.add(magnetURI, torrentOptions);
 
     const updateTorrentInfo = async (torrent: Torrent) => {
-      console.log(
+      setTorrentInfo(undefined);
+      setError(undefined);
+
+      /*      console.log(
         'Torrent added',
         JSON.stringify(torrent, getCircularReplacer(), 2)
-      );
-
+      ); */
       const mp3Files = torrent.files.filter((file: TorrentFile) =>
         file.name.endsWith('.mp3')
       );
@@ -152,58 +136,30 @@ export default function useTorrent() {
         ready: torrent.ready,
       });
     };
-    if (clientRef?.current === null) {
-      return;
-    }
-
-    // Add timeout handling
-    const destroyClient = () => {
-      if (clientRef.current) {
-        for (const torrent of clientRef.current?.torrents) torrent.destroy();
-        clientRef.current?.destroy();
-
-        // eslint-disable-next-line unicorn/no-null
-        clientRef.current = null;
-      }
-    };
-
-    /*     const timeout = setTimeout(() => {
-      setError('Torrent initialization timeout');
-      destroyClient();
-    }, TORRENT_TIMEOUT); */
 
     const torrentInstance = clientRef.current.torrents[0];
     if (torrentInstance) {
       torrentInstance.on('ready', async () => {
-        //clearTimeout(timeout);
-        if (clientRef.current) {
-          await updateTorrentInfo(clientRef.current.torrents[0]);
-        }
+        await updateTorrentInfo(torrentInstance);
       });
-      clientRef.current.torrents[0].on('download', async () => {
-        if (clientRef.current) {
-          await updateTorrentInfo(clientRef.current.torrents[0]);
-        }
+      torrentInstance.on('download', async () => {
+        await updateTorrentInfo(torrentInstance);
       });
-      clientRef.current.torrents[0].on('upload', async () => {
-        if (clientRef.current) {
-          await updateTorrentInfo(clientRef.current.torrents[0]);
-        }
+      torrentInstance.on('upload', async () => {
+        await updateTorrentInfo(torrentInstance);
       });
-      clientRef.current.torrents[0].on('error', (error: unknown) => {
+      torrentInstance.on('error', (error: unknown) => {
         setError(getErrorMessage(error));
         console.log('Torrent error:', error);
       });
-      clientRef.current.torrents[0].on('warning', (error: unknown) => {
+      torrentInstance.on('warning', (error: unknown) => {
         setError(getErrorMessage(error));
         console.log('Torrent warning:', error);
       });
     }
 
     return () => {
-      if (clientRef.current?.get(magnetURI)) {
-        clientRef.current.remove(magnetURI);
-      }
+      clientRef.current?.remove(magnetURI);
     };
   }, [webtorrentReady, magnetURI]);
 

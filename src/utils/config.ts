@@ -1,9 +1,11 @@
 export const clientConfig = {
   APP_NAME: process.env.NEXT_PUBLIC_APP_NAME || 'App',
   APP_URL: process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000',
+  DEBUG: process.env.NEXT_PUBLIC_DEBUG || false,
 };
 
 export const serverConfig = {
+  PORT: process.env.PORT || 3000,
   EXPRESSTURN_USERNAME: process.env.EXPRESSTURN_USERNAME,
   EXPRESSTURN_CREDENTIAL: process.env.EXPRESSTURN_CREDENTIAL,
   METERED_USERNAME: process.env.METERED_USERNAME,

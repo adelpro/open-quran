@@ -4,9 +4,11 @@ declare namespace NodeJS {
     //Public env:
     NEXT_PUBLIC_APP_NAME: string;
     NEXT_PUBLIC_APP_URL: string;
+    NEXT_PUBLIC_DEBUG: boolean;
 
     //Private env:
     PORT: number;
+    DEBUG: boolean;
 
     FEED_BACK_EMAIL: string;
     FEED_BACK_PASSWORD: string;
