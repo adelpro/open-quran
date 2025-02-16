@@ -22,7 +22,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ar">
+    <html lang="ar" suppressHydrationWarning>
       <body className={`${tajawal.className} antialiased`}>
         <main className="relative flex min-h-dvh w-full flex-col items-center justify-center bg-background text-foreground">
           <ActivityStatus />
