@@ -1,7 +1,4 @@
-import Image from 'next/image';
 import Link from 'next/link';
-
-import activitySVG from '@/svgs/activity.svg'; // Adjust the path if needed
 
 export default function ActivityStatus() {
   return (
