@@ -12,33 +12,51 @@ export default function Footer() {
     <div className="mt-5 flex w-full items-center justify-center p-2">
       <div className="align-center flex w-full max-w-2xl flex-row-reverse justify-center gap-3">
         <FooterLink href="/">
-          <Image src={homeSVG} alt="Home page link" height={20} width={20} />
+          <div className="relative h-8 w-8 sm:h-5 sm:w-5">
+            <Image
+              src={homeSVG}
+              alt="Home page link"
+              fill
+              className="object-contain"
+            />
+          </div>
           <p className="hidden truncate text-right sm:block">
             الصفحة الرئيسية
           </p>
         </FooterLink>
         <FooterLink href="/about">
-          <Image src={aboutSVG} alt="About page link" height={20} width={20} />
+          <div className="relative h-8 w-8 sm:h-5 sm:w-5">
+            <Image
+              src={aboutSVG}
+              alt="About page link"
+              fill
+              className="object-contain"
+            />
+          </div>
           <p className="hidden truncate text-right sm:block">
             معلومات عن التطبيق
           </p>
         </FooterLink>
         <FooterLink href="/privacy">
-          <Image
-            src={privacySVG}
-            alt="Privacy page link"
-            height={20}
-            width={20}
-          />
+          <div className="relative h-8 w-8 sm:h-5 sm:w-5">
+            <Image
+              src={privacySVG}
+              alt="Privacy page link"
+              fill
+              className="object-contain"
+            />
+          </div>
           <p className="hidden truncate text-right sm:block">سياسة الخصوصية</p>
         </FooterLink>
         <FooterLink href="/contact">
-          <Image
-            src={contactSVG}
-            alt="Contact page link"
-            height={20}
-            width={20}
-          />
+          <div className="relative h-8 w-8 sm:h-5 sm:w-5">
+            <Image
+              src={contactSVG}
+              alt="Contact page link"
+              fill
+              className="object-contain"
+            />
+          </div>
           <p className="hidden truncate text-right sm:block">إتصل بنا</p>
         </FooterLink>
       </div>
