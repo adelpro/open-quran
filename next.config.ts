@@ -1,26 +1,20 @@
+// next.config.mjs
 import withBundleAnalyzer from '@next/bundle-analyzer';
-import { NextConfig } from 'next';
-import withPWA, { PWAConfig } from 'next-pwa';
+import withSerwist from '@serwist/next';
+import type { NextConfig } from 'next';
 
 const isProduction = process.env.NODE_ENV === 'production';
 
-const pwaConfig: PWAConfig = {
-  dest: 'public',
+// Configure serwist options – adjust swSrc/swDest as needed.
+const serwistConfig = {
+  swSrc: 'public/sw.js', // location of your custom service worker
+  swDest: 'public/sw.js',
   cacheOnFrontEndNav: true,
   skipWaiting: true,
-  dynamicStartUrl: false, // precache home page instead of storing it in runtime cache by default
-
-  /* fallbacks: {
-    image: '/static/images/fallback.png',
-    document: '',
-    font: '',
-    audio: '',
-    video: '',
-  }, */
+  dynamicStartUrl: false, // Precache home page instead of storing it in runtime cache
 };
 
-/** @type {import('next').NextConfig} */
-const config = {
+const nextConfig: NextConfig = {
   reactStrictMode: !isProduction,
   poweredByHeader: !isProduction,
   transpilePackages: ['jotai-devtools'],
@@ -28,27 +22,36 @@ const config = {
     removeConsole: isProduction && { exclude: ['error'] },
   },
   typescript: {
-    ignoreBuildErrors: !isProduction, // Set this to false if you want production builds to abort if there's type errors
+    ignoreBuildErrors: !isProduction,
   },
   eslint: {
-    ignoreDuringBuilds: !isProduction, // Set this to false if you want production builds to abort if there's lint errors
+    ignoreDuringBuilds: !isProduction,
   },
   experimental: {
-    //nextScriptWorkers: true,
+    // nextScriptWorkers: true,
   },
-  /*   webpack(config: any) {
+  webpack(config) {
     config.module.rules.push({
       test: /\.svg$/,
-      issuer: /\.[jt]sx?$/,
-      use: ['@svgr/webpack'],
+      use: [
+        {
+          loader: '@svgr/webpack',
+          options: {
+            svgoConfig: {
+              plugins: [{ removeAttrs: { attrs: ['fill'] } }],
+            },
+          },
+        },
+      ],
     });
     return config;
-  }, */
+  },
 };
 
-const nextConfig: NextConfig | PWAConfig = withPWA(pwaConfig)(config);
+// Wrap your Next.js config with serwist.
+const configWithPWA = withSerwist(serwistConfig)(nextConfig);
 
-export default nextConfig &&
-  withBundleAnalyzer({
-    enabled: process.env.ANALYZE === 'true',
-  })(nextConfig);
+// Finally, chain with bundle analyzer.
+export default withBundleAnalyzer({
+  enabled: process.env.ANALYZE === 'true',
+})(configWithPWA);
