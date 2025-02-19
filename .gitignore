@@ -41,7 +41,6 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# PWA
-**/public/workbox-*.js
-**/public/sw.js
-**/public/worker-*.js
+# Serwist PWA
+public/sw*
+public/swe-worker*
