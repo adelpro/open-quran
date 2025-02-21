@@ -3,7 +3,7 @@ import Image from 'next/image';
 import React from 'react';
 
 import useTorrent from '@/hooks/use-torrent';
-import checkedSVG from '@/svgs/checked.svg';
+import CheckedSVG from '@/svgs/checked-svg';
 import downloadSVG from '@/svgs/download.svg';
 import fileSVG from '@/svgs/file.svg';
 import peerSVG from '@/svgs/peer.svg';
@@ -58,7 +58,7 @@ export default function TorrentInfo({ setIsOpen }: Props) {
         </div>
         {torrentInfo?.ready ? (
           <div className="m-2 flex flex-row gap-1">
-            <Image src={checkedSVG} alt="Ready status" width={20} height={20} />
+            <CheckedSVG alt="Ready status" width={20} height={20} />
             <p>Ready</p>
           </div>
         ) : (

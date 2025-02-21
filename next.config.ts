@@ -30,22 +30,6 @@ const nextConfig: NextConfig = {
   experimental: {
     // nextScriptWorkers: true,
   },
-  webpack(config) {
-    config.module.rules.push({
-      test: /\.svg$/,
-      use: [
-        {
-          loader: '@svgr/webpack',
-          options: {
-            svgoConfig: {
-              plugins: [{ removeAttrs: { attrs: ['fill'] } }],
-            },
-          },
-        },
-      ],
-    });
-    return config;
-  },
 };
 
 // Wrap your Next.js config with serwist.
