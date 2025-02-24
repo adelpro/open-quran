@@ -5,11 +5,7 @@ import type { Instance, Torrent, TorrentFile } from 'webtorrent';
 import { rtcConfig, TRACKERS } from '@/constants';
 import { selectedReciterAtom, webtorrentReadyAtom } from '@/jotai/atom';
 import { TorrentInfo, TrackType } from '@/types';
-import {
-  getCircularReplacer,
-  getErrorMessage,
-  isValidMagnetUri,
-} from '@/utils';
+import { getErrorMessage, isValidMagnetUri, updateMagnetURI } from '@/utils';
 
 //const TORRENT_TIMEOUT = 300_000; // 5 minutes
 const MAX_LISTENERS_LIMIT = 100;
@@ -79,8 +75,10 @@ export default function useTorrent() {
       return;
     }
 
+    const updatedMagnetURI = updateMagnetURI(magnetURI);
+
     // Check if torrent is already added
-    const existingTorrent = clientRef.current.get(magnetURI);
+    const existingTorrent = clientRef.current.get(updatedMagnetURI);
     if (existingTorrent) {
       console.log(
         `Torrent already added (${existingTorrent.name}), skipping re-add.`
@@ -90,13 +88,13 @@ export default function useTorrent() {
 
     // Clean up any other torrents before adding the new one
     for (const torrent of clientRef.current.torrents) {
-      if (torrent.magnetURI !== magnetURI) torrent.destroy();
+      if (torrent.magnetURI !== updatedMagnetURI) torrent.destroy();
     }
 
     const torrentOptions = {
       announce: TRACKERS,
     };
-    clientRef.current.add(magnetURI, torrentOptions);
+    clientRef.current.add(updatedMagnetURI, torrentOptions);
 
     const updateTorrentInfo = async (torrent: Torrent) => {
       setTorrentInfo(undefined);
@@ -159,7 +157,7 @@ export default function useTorrent() {
     }
 
     return () => {
-      clientRef.current?.remove(magnetURI);
+      clientRef.current?.remove(updatedMagnetURI);
     };
   }, [webtorrentReady, magnetURI]);
 

@@ -1,6 +1,6 @@
 import { TRACKERS } from '@/constants';
 
-export const updateTrackerInMagnetURI = (magnetURI: string) => {
+export const updateMagnetURI = (magnetURI: string) => {
   if (!TRACKERS?.length) {
     return magnetURI;
   }

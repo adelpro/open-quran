@@ -7,6 +7,7 @@ import { ReactNode } from 'react';
 import MusicPlayer from '@/components/music-player';
 import useTorrent from '@/hooks/use-torrent';
 import { selectedReciterAtom, webtorrentReadyAtom } from '@/jotai/atom';
+import { clientConfig } from '@/utils';
 
 import Loader from './loader';
 
@@ -14,6 +15,8 @@ export default function TorrentPlayer() {
   const [webtorrentReady, setWebTorrentReady] = useAtom(webtorrentReadyAtom);
   const { error, setError, torrentInfo } = useTorrent();
   const selectedReciterValue = useAtomValue(selectedReciterAtom);
+
+  console.log('CLIENT-DEBUG', clientConfig.DEBUG);
 
   const content = (): ReactNode => {
     if (error) {
