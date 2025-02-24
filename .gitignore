@@ -44,4 +44,3 @@ next-env.d.ts
 # Serwist PWA
 public/sw*
 public/swe-worker*
-public/workbox*
