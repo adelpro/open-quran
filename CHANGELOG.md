@@ -6,7 +6,7 @@ All notable changes to this project will be documented in this file.
 
 ### Update
 
-- Mograte to @Serwist package for PWA
+- Migrate to @Serwist package for PWA
 
 ## v1.2.0
 
