@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## v1.2.1
+
+### Update
+
+- Mograte to @Serwist package for PWA
+
 ## v1.2.0
 
 ### Update
