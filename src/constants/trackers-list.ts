@@ -8,6 +8,4 @@ export const TRACKERS = [
   'wss://tracker.webtorrent.dev',
 
   'wss://tracker.files.fm:7073/announce',
-
-  'ws://tracker.files.fm:7072/announce',
 ];
