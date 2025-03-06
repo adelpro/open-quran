@@ -3,11 +3,13 @@ export const TRACKERS = [
 
   'wss://tracker.btorrent.xyz',
 
+  'wss://tracker.fastcast.nz',
+
   'wss://tracker.openwebtorrent.com',
 
   'wss://tracker.webtorrent.dev',
 
-  'wss://tracker.files.fm:7073/announce',
+  'wss://tracker.webtorrent.io',
 
-  'ws://tracker.files.fm:7072/announce',
+  'wss://tracker.files.fm:7073/announce',
 ];
