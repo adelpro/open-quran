@@ -5,7 +5,12 @@ import type { Instance, Torrent, TorrentFile } from 'webtorrent';
 import { rtcConfig, TRACKERS } from '@/constants';
 import { selectedReciterAtom, webtorrentReadyAtom } from '@/jotai/atom';
 import { TorrentInfo, TrackType } from '@/types';
-import { getErrorMessage, isValidMagnetUri, updateMagnetURI } from '@/utils';
+import {
+  getCircularReplacer,
+  getErrorMessage,
+  isValidMagnetUri,
+  updateMagnetURI,
+} from '@/utils';
 
 //const TORRENT_TIMEOUT = 300_000; // 5 minutes
 const MAX_LISTENERS_LIMIT = 100;
@@ -33,19 +38,22 @@ export default function useTorrent() {
     if (!window.WebTorrent?.WEBRTC_SUPPORT) {
       setError('WebTorrent does not support WebRTC');
     }
-
-    const webtorrentOptions = {
-      tracker: {
-        announce: TRACKERS,
-        rtcConfig: rtcConfig,
-      },
+    const trackerOptions = {
+      announce: TRACKERS,
+      rtcConfig: rtcConfig,
     };
-    clientRef.current = new window.WebTorrent(webtorrentOptions);
+    clientRef.current = new window.WebTorrent({
+      tracker: trackerOptions,
+    });
 
     clientRef.current.setMaxListeners(MAX_LISTENERS_LIMIT);
 
     clientRef.current.on('error', (error: unknown) =>
       setError(getErrorMessage(error))
+    );
+
+    clientRef.current.on('torrent', (torrent: Torrent) =>
+      console.log('Client torrent:', torrent)
     );
 
     return () => {
@@ -90,36 +98,37 @@ export default function useTorrent() {
     for (const torrent of clientRef.current.torrents) {
       if (torrent.magnetURI !== updatedMagnetURI) torrent.destroy();
     }
-
     const torrentOptions = {
       announce: TRACKERS,
     };
-    clientRef.current.add(updatedMagnetURI, torrentOptions);
+    clientRef.current.add(updatedMagnetURI, torrentOptions, async (torrent) => {
+      await updateTorrentInfo(torrent);
+    });
 
     const updateTorrentInfo = async (torrent: Torrent) => {
       setTorrentInfo(undefined);
       setError(undefined);
 
-      /*      console.log(
+      console.log(
         'Torrent added',
         JSON.stringify(torrent, getCircularReplacer(), 2)
-      ); */
+      );
       const mp3Files = torrent.files.filter((file: TorrentFile) =>
         file.name.endsWith('.mp3')
       );
       const playlist: TrackType[] = await Promise.all(
         mp3Files.map(async (file: TorrentFile) => {
           const surahId = Number(file.name.split('.')[0]);
-          const blobUrl = await new Promise<string>((resolve, reject) => {
-            file.getBlob((error_, blob) => {
-              if (error_ || !blob) {
-                reject(error_);
+          const blobURL = await new Promise<string>((resolve, reject) => {
+            file.getBlobURL((error, blob) => {
+              if (error || !blob) {
+                reject(error);
               } else {
-                resolve(URL.createObjectURL(blob));
+                resolve(blob);
               }
             });
           });
-          return { surahId, link: blobUrl };
+          return { surahId, link: blobURL };
         })
       );
 
@@ -135,7 +144,7 @@ export default function useTorrent() {
       });
     };
 
-    const torrentInstance = clientRef.current.torrents[0];
+    /*  const torrentInstance = clientRef.current.torrents[0];
     if (torrentInstance) {
       torrentInstance.on('ready', async () => {
         await updateTorrentInfo(torrentInstance);
@@ -155,11 +164,11 @@ export default function useTorrent() {
         console.log('Torrent warning:', error);
       });
     }
-
+ */
     return () => {
       clientRef.current?.remove(updatedMagnetURI);
     };
-  }, [webtorrentReady, magnetURI]);
+  }, [magnetURI, webtorrentReady]);
 
   return { torrentInfo, error, setError };
 }
