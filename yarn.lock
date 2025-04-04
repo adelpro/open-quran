@@ -2621,10 +2621,10 @@ chrome-net@^3.3.2:
   dependencies:
     inherits "^2.0.1"
 
-chunk-store-iterator@^1.0.3:
-  version "1.0.3"
-  resolved "https://registry.npmjs.org/chunk-store-iterator/-/chunk-store-iterator-1.0.3.tgz"
-  integrity sha512-JcSaB5h3wQstQKnaJi8sET40f0m+6Kh4mhKIr05lrWKi+EiQzn6XUoi6LipgRGMqXWNZZJaMz2tH4aeg4ptBDA==
+chunk-store-iterator@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/chunk-store-iterator/-/chunk-store-iterator-1.0.4.tgz#152bcfc554ddc05aa0383ef20933f01c421ffd7d"
+  integrity sha512-LGjzJNmk7W1mrdaBoJNztPumT2ACmgjHmI1AMm8aeGYOl4+LKaYC/yfnx27i++LiAtoe/dR+3jC8HRzb6gW4/A==
   dependencies:
     block-iterator "^1.1.1"
 
@@ -5971,7 +5971,7 @@ queue-microtask@^1.2.2, queue-microtask@^1.2.3:
   resolved "https://registry.npmjs.org/queue-microtask/-/queue-microtask-1.2.3.tgz"
   integrity sha512-NuaNSa6flKT5JaSYQzJok04JzTL1CA6aGhv5rfLW3PgqA+M2ChpZQnAC8h8i4ZFkBS8X5RqkDBHA7r4hej3K9A==
 
-queue-tick@^1.0.0, queue-tick@^1.0.1:
+queue-tick@^1.0.0:
   version "1.0.1"
   resolved "https://registry.npmjs.org/queue-tick/-/queue-tick-1.0.1.tgz"
   integrity sha512-kJt5qhMxoszgU/62PLP1CJytzd2NKetjSRnyuj31fDd3Rlcz3fzlFdFLD1SItunPwyqEOkca6GbV612BWfaBag==
@@ -6694,24 +6694,12 @@ streamsearch@^1.1.0:
   resolved "https://registry.npmjs.org/streamsearch/-/streamsearch-1.1.0.tgz"
   integrity sha512-Mcc5wHehp9aXz1ax6bZUyY5afg9u2rv5cqQI3mRrYkGC8rW2hM02jWuwjtL++LS5qinSyhj2QfLyNsuc+VsExg==
 
-streamx@2.20.2:
-  version "2.20.2"
-  resolved "https://registry.npmjs.org/streamx/-/streamx-2.20.2.tgz"
-  integrity sha512-aDGDLU+j9tJcUdPGOaHmVF1u/hhI+CsGkT02V3OKlHDV7IukOI+nTWAGkiZEKCO35rWN1wIr4tS7YFr1f4qSvA==
+streamx@2.22.0, streamx@^2.10.3, streamx@^2.15.1, streamx@^2.17.0, streamx@^2.20.1, streamx@^2.21.0:
+  version "2.22.0"
+  resolved "https://registry.yarnpkg.com/streamx/-/streamx-2.22.0.tgz#cd7b5e57c95aaef0ff9b2aef7905afa62ec6e4a7"
+  integrity sha512-sLh1evHOzBy/iWRiR6d1zRcLao4gGZr3C1kzNz4fopCOKJb6xD9ub8Mpi9Mr1R6id5o43S+d93fI48UC5uM9aw==
   dependencies:
     fast-fifo "^1.3.2"
-    queue-tick "^1.0.1"
-    text-decoder "^1.1.0"
-  optionalDependencies:
-    bare-events "^2.2.0"
-
-streamx@^2.10.3, streamx@^2.15.1, streamx@^2.17.0, streamx@^2.20.1, streamx@^2.21.0:
-  version "2.21.1"
-  resolved "https://registry.npmjs.org/streamx/-/streamx-2.21.1.tgz"
-  integrity sha512-PhP9wUnFLa+91CPy3N6tiQsK+gnYyUNuk15S3YG/zjYE7RuPeCjJngqnzpC31ow0lzBHQ+QGO4cNJnd0djYUsw==
-  dependencies:
-    fast-fifo "^1.3.2"
-    queue-tick "^1.0.1"
     text-decoder "^1.1.0"
   optionalDependencies:
     bare-events "^2.2.0"
@@ -7108,10 +7096,10 @@ torrent-discovery@^11.0.15:
     debug "^4.4.0"
     run-parallel "^1.2.0"
 
-torrent-piece@^3.0.0:
-  version "3.0.0"
-  resolved "https://registry.npmjs.org/torrent-piece/-/torrent-piece-3.0.0.tgz"
-  integrity sha512-j0tRX7qq22nIuVFF57Tg/wAvFq79F1eM9pcMxY+b0qCCe7yXJnIrqF+Q5YEJ94tNisDnJzcqDHNrPmD9X/yAIg==
+torrent-piece@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/torrent-piece/-/torrent-piece-3.0.1.tgz#3f5899aac991256618812d066d7917f809a1ba21"
+  integrity sha512-EvCqfOkNm3PXqgaGPVVmp0JlGC8fDpH+8Yt5uUiF4oCrAqy3htyUFxK1DJpneWfg1fFdeTKsstxLxQUrHpmocA==
   dependencies:
     uint8-util "^2.1.9"
 
@@ -7454,10 +7442,10 @@ webrtc-polyfill@^1.1.10:
     node-datachannel "^v0.12.0"
     node-domexception "^1.0.0"
 
-webtorrent@^2.5.14:
-  version "2.5.14"
-  resolved "https://registry.npmjs.org/webtorrent/-/webtorrent-2.5.14.tgz"
-  integrity sha512-zt47ofklayr+KyqW3LXdQFFgi9bk26oB8/f61IhzjOIMldrrkumhzeODM0OiaeFyZ1JIuKnSWD/Qpx8JdlvLFg==
+webtorrent@^2.6.0:
+  version "2.6.0"
+  resolved "https://registry.yarnpkg.com/webtorrent/-/webtorrent-2.6.0.tgz#f9b5e6f1b8b895eb08893404bb276c2f4cfd4aae"
+  integrity sha512-+JmlCkYnJAE+vnXq5GdGtjVVdtFGlshcila9OvmJpPsU/SYae9lURR+UHZezG0eppH/meLG8QIaNqju32/RmhA==
   dependencies:
     "@silentbot1/nat-api" "^0.4.7"
     "@thaunknown/simple-peer" "^10.0.11"
@@ -7467,7 +7455,7 @@ webtorrent@^2.5.14:
     bittorrent-dht "^11.0.9"
     bittorrent-protocol "^4.1.16"
     cache-chunk-store "^3.2.2"
-    chunk-store-iterator "^1.0.3"
+    chunk-store-iterator "^1.0.4"
     cpus "^1.0.3"
     create-torrent "^6.1.0"
     cross-fetch-ponyfill "^1.0.3"
@@ -7490,10 +7478,10 @@ webtorrent@^2.5.14:
     run-parallel "^1.2.0"
     run-parallel-limit "^1.1.0"
     speed-limiter "^1.0.2"
-    streamx "2.20.2"
+    streamx "2.22.0"
     throughput "^1.0.1"
     torrent-discovery "^11.0.15"
-    torrent-piece "^3.0.0"
+    torrent-piece "^3.0.1"
     uint8-util "^2.2.5"
     unordered-array-remove "^1.0.2"
     ut_metadata "^4.0.3"
