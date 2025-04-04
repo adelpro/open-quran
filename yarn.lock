@@ -1383,18 +1383,18 @@
     "@jridgewell/resolve-uri" "^3.1.0"
     "@jridgewell/sourcemap-codec" "^1.4.14"
 
-"@mantine/code-highlight@^7.11.2":
-  version "7.16.1"
-  resolved "https://registry.npmjs.org/@mantine/code-highlight/-/code-highlight-7.16.1.tgz"
-  integrity sha512-8H+qAtD4PHpoUbw8+yLcbWXs2ZZ+meZQhO9E3ylgIRKrWhkYig+FQ5eOxCVSETrHUoI+zpp49iKOboY1s09f7g==
+"@mantine/code-highlight@^7.16.2":
+  version "7.17.3"
+  resolved "https://registry.yarnpkg.com/@mantine/code-highlight/-/code-highlight-7.17.3.tgz#eef2856f5c6b7693d80f68d64e6191dc92ef79be"
+  integrity sha512-O4Dzjlkl/S5bNgxrIue5/iBZEvRYno5u3uE5IwEghvlYdpq6nAKi3/Pho+ON6mndj0lLnyVU1ekzmnoAtEDxSg==
   dependencies:
     clsx "^2.1.1"
     highlight.js "^11.10.0"
 
-"@mantine/core@^7.11.2":
-  version "7.16.1"
-  resolved "https://registry.npmjs.org/@mantine/core/-/core-7.16.1.tgz"
-  integrity sha512-HYdjCeMU3dUJbc1CrAAedeAASTG5kVyL/qsiuYh5b7BoG0qsRtK8WJxBpUjW6VqtJpUaE94c5tlBJ8MgAmPHTQ==
+"@mantine/core@^7.16.2":
+  version "7.17.3"
+  resolved "https://registry.yarnpkg.com/@mantine/core/-/core-7.17.3.tgz#78ee30bb4493c6117d6d381fbfc374d773eedf8b"
+  integrity sha512-N/AfV5eMnfEMx9WzI7AU5pNFBEzAfT/KtE2XDKS+0ht6RifUmolIxyIvoGMYz2yUEsCBMJZqmBq33Rabf5W7Ug==
   dependencies:
     "@floating-ui/react" "^0.26.28"
     clsx "^2.1.1"
@@ -1403,10 +1403,10 @@
     react-textarea-autosize "8.5.6"
     type-fest "^4.27.0"
 
-"@mantine/hooks@^7.11.2":
-  version "7.16.1"
-  resolved "https://registry.npmjs.org/@mantine/hooks/-/hooks-7.16.1.tgz"
-  integrity sha512-+hER8E4d2ByfQ/DKIXGM3Euxb7IH5ArSjzzzoF21sG095iXIryOCob22ZanrmiXCoAzKKdxqgVj4Di67ikLYSQ==
+"@mantine/hooks@^7.16.2":
+  version "7.17.3"
+  resolved "https://registry.yarnpkg.com/@mantine/hooks/-/hooks-7.17.3.tgz#fe8c32edaeffb43f0fa5d984f6373fcef47f1ff8"
+  integrity sha512-6o65Rbfl8jd1C1nF9icvungqL0qZViEOmrZgkyKXxBYkC3x91fz4zftwQgNjt1tZHWDNO6Bo4GpRjJyAdwl48g==
 
 "@next/bundle-analyzer@^15.1.5":
   version "15.1.5"
@@ -4785,20 +4785,20 @@ join-async-iterator@^1.1.1:
   resolved "https://registry.npmjs.org/join-async-iterator/-/join-async-iterator-1.1.1.tgz"
   integrity sha512-ATse+nuNeKZ9K1y27LKdvPe/GCe9R/u9dw9vI248e+vILeRK3IcJP4JUPAlSmKRCDK0cKhEwfmiw4Skqx7UnGQ==
 
-jotai-devtools@^0.10.1:
-  version "0.10.1"
-  resolved "https://registry.npmjs.org/jotai-devtools/-/jotai-devtools-0.10.1.tgz"
-  integrity sha512-l5AwNTC1tgcT5Pbjwcajlm+WC3we1qEMoTTe9qnItVIcOB8UIUAdphUrHKDWEIkG7lPgOAfnRgLE1mkvf+Jy3w==
+jotai-devtools@^0.11.0:
+  version "0.11.0"
+  resolved "https://registry.yarnpkg.com/jotai-devtools/-/jotai-devtools-0.11.0.tgz#1a0d38f706b6cbd9f6eeca64c9af8b1ddd1cf028"
+  integrity sha512-UVjjG7EHG/oIm1CKN46xwIbQDLW4Wkpq6pm0mjcIWATvs/W9r52U5l2FW36d9QWIRash+ccJ7RXgiz1JLPGmpA==
   dependencies:
-    "@mantine/code-highlight" "^7.11.2"
-    "@mantine/core" "^7.11.2"
-    "@mantine/hooks" "^7.11.2"
+    "@mantine/code-highlight" "^7.16.2"
+    "@mantine/core" "^7.16.2"
+    "@mantine/hooks" "^7.16.2"
     "@redux-devtools/extension" "^3.3.0"
     clsx "^2.1.1"
     javascript-stringify "^2.1.0"
     jsondiffpatch "^0.5.0"
     react-base16-styling "^0.9.1"
-    react-error-boundary "^4.0.13"
+    react-error-boundary "^5.0.0"
     react-json-tree "^0.18.0"
     react-resizable-panels "2.0.10"
 
@@ -6047,10 +6047,10 @@ react-dom@^19.0.0:
   dependencies:
     scheduler "^0.25.0"
 
-react-error-boundary@^4.0.13:
-  version "4.1.2"
-  resolved "https://registry.npmjs.org/react-error-boundary/-/react-error-boundary-4.1.2.tgz"
-  integrity sha512-GQDxZ5Jd+Aq/qUxbCm1UtzmL/s++V7zKgE8yMktJiCQXCCFZnMZh9ng+6/Ne6PjNSXH0L9CjeOEREfRnq6Duag==
+react-error-boundary@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/react-error-boundary/-/react-error-boundary-5.0.0.tgz#6b6c7e075c922afb0283147e5b084efa44e68570"
+  integrity sha512-tnjAxG+IkpLephNcePNA7v6F/QpWLH8He65+DmedchDwg162JZqx4NmbXj0mlAYVVEd81OW7aFhmbsScYfiAFQ==
   dependencies:
     "@babel/runtime" "^7.12.5"
 
