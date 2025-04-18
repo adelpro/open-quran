@@ -153,28 +153,6 @@ export default function useTorrent() {
       updateTorrentInfo(existingTorrent);
       return;
     }
-
-    /*  const torrentInstance = clientRef.current.torrents[0];
-    if (torrentInstance) {
-      torrentInstance.on('ready', async () => {
-        await updateTorrentInfo(torrentInstance);
-      });
-      torrentInstance.on('download', async () => {
-        await updateTorrentInfo(torrentInstance);
-      });
-      torrentInstance.on('upload', async () => {
-        await updateTorrentInfo(torrentInstance);
-      });
-      torrentInstance.on('error', (error: unknown) => {
-        setError(getErrorMessage(error));
-        console.log('Torrent error:', error);
-      });
-      torrentInstance.on('warning', (error: unknown) => {
-        setError(getErrorMessage(error));
-        console.log('Torrent warning:', error);
-      });
-    }
- */
     return () => {
       clientRef.current?.remove(updatedMagnetURI);
     };

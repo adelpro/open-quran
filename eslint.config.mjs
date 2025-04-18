@@ -32,7 +32,7 @@ const config = [
       'simple-import-sort/exports': 'error',
       'simple-import-sort/imports': 'error',
       'unicorn/no-array-callback-reference': 'warn',
-      'unicorn/no-null': 'warn',
+      'unicorn/no-null': 'off',
       'unicorn/no-array-for-each': 'warn',
       'unicorn/no-array-reduce': 'off',
       'unicorn/prefer-global-this': 'off',
