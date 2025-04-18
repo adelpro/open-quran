@@ -42,6 +42,12 @@ export default function TorrentPlayer() {
       );
     }
 
+    // Return a message when ready but no files are found
+    if (torrentInfo.files.length === 0) {
+      return <p className="text-lg">لم يتم العثور على ملفات</p>;
+    }
+
+    // Return empty fragment as the MusicPlayer will be rendered separately
     return <></>;
   };
 

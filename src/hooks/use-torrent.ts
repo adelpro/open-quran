@@ -85,24 +85,23 @@ export default function useTorrent() {
 
     const updatedMagnetURI = updateMagnetURI(magnetURI);
 
-    // Check if torrent is already added
-    const existingTorrent = clientRef.current.get(updatedMagnetURI);
-    if (existingTorrent) {
-      console.log(
-        `Torrent already added (${existingTorrent.name}), skipping re-add.`
-      );
-      return;
-    }
-
     // Clean up any other torrents before adding the new one
     for (const torrent of clientRef.current.torrents) {
       if (torrent.magnetURI !== updatedMagnetURI) torrent.destroy();
     }
+
     const torrentOptions = {
       announce: TRACKERS,
     };
+
     clientRef.current.add(updatedMagnetURI, torrentOptions, async (torrent) => {
       await updateTorrentInfo(torrent);
+
+      // Add event listeners to keep torrent info updated
+      torrent.on('ready', () => updateTorrentInfo(torrent));
+      torrent.on('download', () => updateTorrentInfo(torrent));
+      torrent.on('wire', () => updateTorrentInfo(torrent));
+      torrent.on('error', (error_) => setError(getErrorMessage(error_)));
     });
 
     const updateTorrentInfo = async (torrent: Torrent) => {
@@ -143,6 +142,17 @@ export default function useTorrent() {
         ready: torrent.ready,
       });
     };
+
+    // Check if torrent is already added
+    const existingTorrent = clientRef.current.get(updatedMagnetURI);
+    if (existingTorrent) {
+      console.log(
+        `Torrent already added (${existingTorrent.name}), updating info...`
+      );
+      // Update info for existing torrent instead of skipping
+      updateTorrentInfo(existingTorrent);
+      return;
+    }
 
     /*  const torrentInstance = clientRef.current.torrents[0];
     if (torrentInstance) {
