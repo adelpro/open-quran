@@ -1,12 +1,12 @@
 import { MagnetlinkSource, Reciter, Riwaya } from '@/types';
+import { clientConfig } from '@/utils'; // Import clientConfig
 
 export const RECITERS: Reciter[] = [
   {
     id: 1,
     name: 'سعد الغامدي',
     riwaya: Riwaya.Hafs,
-    magnet:
-      'magnet:?xt=urn:btih:5e0becf35d91ea4602f04db90d74621a172aa396&dn=Saad_Alghamdi&tr=wss://tracker.btorrent.xyz&tr=wss://tracker.openwebtorrent.com&tr=wss://tracker.quran.us.kg&tr=wss://trackerf.quran.us.kg',
+    magnet: `magnet:?xt=urn:btih:5e0becf35d91ea4602f04db90d74621a172aa396&dn=Saad_Alghamdi&tr=${clientConfig.TRACKER_ONE_URL}&tr=${clientConfig.TRACKER_TWO_URL}`,
     complet: true,
     source: MagnetlinkSource.MP3QURAN,
   },
@@ -14,8 +14,7 @@ export const RECITERS: Reciter[] = [
     id: 2,
     name: 'أحمد العجمي',
     riwaya: Riwaya.Hafs,
-    magnet:
-      'magnet:?xt=urn:btih:f34936b46c18b3ff2a7eb42d1f2c30d4b8f02b03&dn=Ahmed_Alajmi&tr=wss://tracker.btorrent.xyz&tr=wss://tracker.openwebtorrent.com&tr=wss://tracker.quran.us.kg&tr=wss://trackerf.quran.us.kg',
+    magnet: `magnet:?xt=urn:btih:f34936b46c18b3ff2a7eb42d1f2c30d4b8f02b03&dn=Ahmed_Alajmi&tr=${clientConfig.TRACKER_ONE_URL}&tr=${clientConfig.TRACKER_TWO_URL}`,
     complet: true,
     source: MagnetlinkSource.MP3QURAN,
   },
