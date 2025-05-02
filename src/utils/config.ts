@@ -4,7 +4,7 @@ export const clientConfig = {
   TRACKER_ONE_URL:
     process.env.NEXT_PUBLIC_TRACKER_ONE_URL || 'http://localhost:3001',
   TRACKER_TWO_URL:
-    process.env.NEXT_PUBLIC_TRACKER_TWO_URL || 'http://localhost:3001',
+    process.env.NEXT_PUBLIC_TRACKER_TWO_URL || 'http://localhost:3002',
 
   DEBUG: process.env.NEXT_PUBLIC_DEBUG || false,
 };

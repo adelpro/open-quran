@@ -5,7 +5,7 @@ import { clientConfig } from '@/utils';
 const trackers = [
   {
     url: clientConfig.TRACKER_ONE_URL,
-    label: '1',
+    label: '1 الخادم',
     hover: 'hover:text-blue-500 dark:hover:text-blue-400',
   },
   {
