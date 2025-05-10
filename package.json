@@ -37,7 +37,7 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "tailwind-merge": "^2.6.0",
-    "webtorrent": "^2.5.14"
+    "webtorrent": "^2.6.3"
   },
   "config": {
     "commitizen": {
