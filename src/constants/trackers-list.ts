@@ -8,8 +8,9 @@ export const TRACKERS = [
   'wss://tracker.files.fm:7073/announce',
   'wss://tracker.openwebtorrent.com:443/announce',
 
-  // Custom tracker - check if this is actually running and accessible
-  'wss://tracker.openquran.us.kg',
+  // Self tracker
+  'wss://tracker.quran.us.kg',
+  'wss://trackerf.quran.us.kg',
 
   // These might be less reliable
   'wss://tracker.fastcast.nz',
