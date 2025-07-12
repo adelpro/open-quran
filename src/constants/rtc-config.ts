@@ -1,15 +1,19 @@
 export const rtcConfig = {
   iceServers: [
-    // Primary STUN servers (limiting to 4 as recommended)
-    { urls: 'stun:stun1.l.google.com:19302' },
-    { urls: 'stun:stun2.l.google.com:19302' },
-
-    // Single TURN server for NAT traversal
+    { urls: 'stun:stun.l.google.com:19302' },
     {
-      urls: 'turn:openrelay.metered.ca:443',
-      username: 'openrelayproject',
-      credential: 'openrelayproject',
+      urls: 'turn:turn.quran.us.kg:3478?transport=udp',
+      use: 'adelpro',
+      credential: 'adelpro1981',
+      /*       username: process.env.TURN_USERNAME,
+      credential: process.env.TURN_PASSWORD, */
+    },
+    {
+      urls: 'turn:turn.quran.us.kg:3478?transport=tcp',
+      use: 'adelpro',
+      credential: 'adelpro1981',
+      /*       username: process.env.TURN_USERNAME,
+      credential: process.env.TURN_PASSWORD, */
     },
   ],
-  // Removing sdpSemantics as it's no longer needed in modern browsers
 };

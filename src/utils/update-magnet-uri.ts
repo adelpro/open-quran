@@ -1,38 +1,42 @@
 import { TRACKERS } from '@/constants';
 
 export const updateMagnetURI = (magnetURI: string) => {
-  if (!TRACKERS?.length) {
-    return magnetURI;
-  }
+  if (!TRACKERS?.length) return magnetURI;
 
-  // Split the magnet URI into base and query parameters
   const [base, query = ''] = magnetURI.split('?');
-  const params = query.split('&').filter(Boolean);
+  const params = new URLSearchParams(query);
 
-  // Remove any trackers that use udp, http, or https protocols
-  const filteredParams = params.filter((parameter) => {
-    if (parameter.startsWith('tr=')) {
-      const tracker = decodeURIComponent(parameter.slice(3));
-      return !(
-        tracker.startsWith('udp:') ||
-        tracker.startsWith('http:') ||
-        tracker.startsWith('https:')
-      );
-    }
-    return true;
-  });
+  const xt = params.get('xt');
+  if (!xt || !xt.startsWith('urn:btih:')) return magnetURI; // invalid or malformed
 
-  // Reassemble the magnet URI from the base and the filtered parameters
-  let newMagnetURI =
-    base + (filteredParams.length > 0 ? `?${filteredParams.join('&')}` : '');
+  // Remove all trackers
+  params.delete('tr');
 
-  // Append ws trackers if they are not already included
-  for (const tracker of TRACKERS) {
-    const trackerParameter = `tr=${encodeURIComponent(tracker)}`;
-    if (!newMagnetURI.includes(trackerParameter)) {
-      newMagnetURI +=
-        (newMagnetURI.includes('?') ? '&' : '?') + trackerParameter;
+  // Extract and keep only wss:// or ws:// trackers from original magnet
+  const trackerRegex = /tr=([^&]+)/g;
+  const existingTrackers = new Set<string>();
+  let match;
+  while ((match = trackerRegex.exec(query)) !== null) {
+    const trValue = decodeURIComponent(match[1]);
+    if (trValue.startsWith('wss://') || trValue.startsWith('ws://')) {
+      existingTrackers.add(trValue.toLowerCase());
     }
   }
-  return newMagnetURI;
+
+  // Add back the filtered trackers
+  for (const tracker of existingTrackers) params.append('tr', tracker);
+
+  // Append missing trackers from TRACKERS
+  for (const tracker of TRACKERS) {
+    if (!existingTrackers.has(tracker.toLowerCase())) {
+      params.append('tr', tracker);
+    }
+  }
+
+  // Remove 'xt' from params so we can add it manually without encoding
+  params.delete('xt');
+
+  const parameterString = params.toString();
+
+  return `${base}?xt=${xt}${parameterString ? '&' + parameterString : ''}`;
 };

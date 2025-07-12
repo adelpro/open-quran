@@ -5,12 +5,7 @@ import type { Instance, Torrent, TorrentFile } from 'webtorrent';
 import { rtcConfig, TRACKERS } from '@/constants';
 import { selectedReciterAtom, webtorrentReadyAtom } from '@/jotai/atom';
 import { TorrentInfo, TrackType } from '@/types';
-import {
-  getCircularReplacer,
-  getErrorMessage,
-  isValidMagnetUri,
-  updateMagnetURI,
-} from '@/utils';
+import { getErrorMessage, isValidMagnetUri, updateMagnetURI } from '@/utils';
 
 //const TORRENT_TIMEOUT = 300_000; // 5 minutes
 const MAX_LISTENERS_LIMIT = 100;
@@ -30,39 +25,20 @@ export default function useTorrent() {
     if (
       typeof window === 'undefined' ||
       !webtorrentReady ||
-      !window.WebTorrent
+      !window.WebTorrent ||
+      clientRef.current
     ) {
       return;
     }
 
-    if (!window.WebTorrent?.WEBRTC_SUPPORT) {
-      setError('WebTorrent does not support WebRTC');
-      // Do not return here, client can still be useful for non-WebRTC peers or WebSeeds
-    }
-    const trackerOptions = {
-      announce: TRACKERS,
-      rtcConfig: rtcConfig,
-    };
     clientRef.current = new window.WebTorrent({
-      tracker: trackerOptions,
+      tracker: {
+        announce: TRACKERS,
+        rtcConfig: rtcConfig,
+      },
     });
 
-    clientRef.current.setMaxListeners(MAX_LISTENERS_LIMIT);
-
-    clientRef.current.on('error', (clientError: unknown) => {
-      console.error('WebTorrent client error:', clientError);
-      setError(getErrorMessage(clientError));
-    });
-
-    // clientRef.current.on('torrent', (torrent: Torrent) =>
-    //   console.log('Client event: torrent added or processed', torrent.name || torrent.infoHash)
-    // );
-
-    return () => {
-      console.log('Destroying WebTorrent client');
-      clientRef.current?.destroy();
-      clientRef.current = undefined;
-    };
+    // ...
   }, [webtorrentReady]);
 
   // Add torrent when client is ready and a valid magnet URI exists
