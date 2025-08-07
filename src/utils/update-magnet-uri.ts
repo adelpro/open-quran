@@ -1,42 +1,33 @@
 import { TRACKERS } from '@/constants';
 
-export const updateMagnetURI = (magnetURI: string) => {
-  if (!TRACKERS?.length) return magnetURI;
-
+export const updateMagnetURI = (magnetURI: string): string => {
   const [base, query = ''] = magnetURI.split('?');
+  if (base !== 'magnet:') {
+    return magnetURI; // Not a valid magnet URI
+  }
+
   const params = new URLSearchParams(query);
+  const existingTrackers = params.getAll('tr');
 
-  const xt = params.get('xt');
-  if (!xt || !xt.startsWith('urn:btih:')) return magnetURI; // invalid or malformed
+  // Filter existing trackers to keep only websocket trackers
+  const wsTrackers = new Set(
+    existingTrackers.filter(
+      (tr) => tr.startsWith('ws://') || tr.startsWith('wss://')
+    )
+  );
 
-  // Remove all trackers
+  // Add trackers from our constant list
+  for (const tracker of TRACKERS) {
+    wsTrackers.add(tracker);
+  }
+
+  // Remove all existing 'tr' params
   params.delete('tr');
 
-  // Extract and keep only wss:// or ws:// trackers from original magnet
-  const trackerRegex = /tr=([^&]+)/g;
-  const existingTrackers = new Set<string>();
-  let match;
-  while ((match = trackerRegex.exec(query)) !== null) {
-    const trValue = decodeURIComponent(match[1]);
-    if (trValue.startsWith('wss://') || trValue.startsWith('ws://')) {
-      existingTrackers.add(trValue.toLowerCase());
-    }
+  // Add the cleaned and merged list of trackers
+  for (const tracker of wsTrackers) {
+    params.append('tr', tracker);
   }
 
-  // Add back the filtered trackers
-  for (const tracker of existingTrackers) params.append('tr', tracker);
-
-  // Append missing trackers from TRACKERS
-  for (const tracker of TRACKERS) {
-    if (!existingTrackers.has(tracker.toLowerCase())) {
-      params.append('tr', tracker);
-    }
-  }
-
-  // Remove 'xt' from params so we can add it manually without encoding
-  params.delete('xt');
-
-  const parameterString = params.toString();
-
-  return `${base}?xt=${xt}${parameterString ? '&' + parameterString : ''}`;
+  return `${base}?${params.toString()}`;
 };

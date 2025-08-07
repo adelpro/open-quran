@@ -1,19 +1,16 @@
 export const rtcConfig = {
   iceServers: [
     { urls: 'stun:stun.l.google.com:19302' },
+    { urls: 'stun:global.stun.twilio.com:3478' },
     {
       urls: 'turn:turn.quran.us.kg:3478?transport=udp',
-      use: 'adelpro',
-      credential: 'adelpro1981',
-      /*       username: process.env.TURN_USERNAME,
-      credential: process.env.TURN_PASSWORD, */
+      username: process.env.NEXT_PUBLIC_TURN_USERNAME,
+      credential: process.env.NEXT_PUBLIC_TURN_PASSWORD,
     },
     {
       urls: 'turn:turn.quran.us.kg:3478?transport=tcp',
-      use: 'adelpro',
-      credential: 'adelpro1981',
-      /*       username: process.env.TURN_USERNAME,
-      credential: process.env.TURN_PASSWORD, */
+      username: process.env.NEXT_PUBLIC_TURN_USERNAME,
+      credential: process.env.NEXT_PUBLIC_TURN_PASSWORD,
     },
   ],
 };

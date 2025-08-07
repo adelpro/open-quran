@@ -6,6 +6,8 @@ declare namespace NodeJS {
     NEXT_PUBLIC_APP_URL: string;
     NEXT_PUBLIC_TRACKER_URL: string;
     NEXT_PUBLIC_DEBUG: boolean;
+    NEXT_PUBLIC_TURN_USERNAME?: string;
+    NEXT_PUBLIC_TURN_PASSWORD?: string;
 
     //Private env:
     PORT: number;
