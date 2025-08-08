@@ -7,7 +7,7 @@ import { selectedReciterAtom, webtorrentReadyAtom } from '@/jotai/atom';
 import { TorrentInfo, TrackType } from '@/types';
 import { getErrorMessage, isValidMagnetUri, updateMagnetURI } from '@/utils';
 
-const TORRENT_READY_TIMEOUT = 30_000; // 30 seconds
+const TORRENT_READY_TIMEOUT = 60_000; // 1 min
 
 export default function useTorrent() {
   const webtorrentReady = useAtomValue(webtorrentReadyAtom);

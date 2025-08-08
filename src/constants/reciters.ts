@@ -171,14 +171,13 @@ export const RECITERS: Reciter[] = [
     complet: true,
     source: MagnetlinkSource.ISLAMHOUSE,
   },
-
   {
     id: 24,
-    name: 'test - file',
+    name: 'سعد الغامدي - archive.org',
     riwaya: Riwaya.Hafs,
     magnet:
-      'magnet:?xt=urn:btih:489a21c45f7eb13ad75b3b9bfa0132b1be035f62&dn=Sintel&tr=udp%3A%2F%2Fexplodie.org%3A6969&tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969&tr=udp%3A%2F%2Ftracker.empire-js.us%3A1337&tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969&tr=udp%3A%2F%2Ftracker.opentrackr.org%3A1337&tr=wss%3A%2F%2Ftracker.btorrent.xyz&tr=wss%3A%2F%2Ftracker.fastcast.nz&tr=wss%3A%2F%2Ftracker.openwebtorrent.com&ws=https%3A%2F%2Fwebtorrent.io%2Ftorrents%2F&xs=https%3A%2F%2Fwebtorrent.io%2Ftorrents%2Fsintel.torrent',
-    complet: false,
-    source: MagnetlinkSource.UNKNOWN,
+      'magnet:?xt=urn:btih:ff77deab793113dabf0a39d85fe6dbfdb107438a&dn=Quran-MP3-Ghamdi&tr=http%3A%2F%2Fbt1.archive.org%3A6969%2Fannounce&tr=http%3A%2F%2Fbt2.archive.org%3A6969%2Fannounce&tr=wss%3A%2F%2Ftracker.btorrent.xyz&tr=wss%3A%2F%2Ftracker.openwebtorrent.com&ws=https%3A%2F%2Farchive.org%2Fdownload%2F&ws=http%3A%2F%2Fia601309.us.archive.org%2F9%2Fitems%2F&ws=http%3A%2F%2Fia801309.us.archive.org%2F9%2Fitems%2F',
+    complet: true,
+    source: MagnetlinkSource.INTERNETARCHIVE,
   },
 ];
