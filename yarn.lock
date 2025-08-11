@@ -2452,7 +2452,7 @@ binary-extensions@^2.0.0:
   resolved "https://registry.yarnpkg.com/binary-extensions/-/binary-extensions-2.3.0.tgz#f6e14a97858d327252200242d4ccfe522c445522"
   integrity sha512-Ceh+7ox5qe7LJuLHoY0feh3pHuUDHAcRUeyL2VYghZwfpkNIy/+8Ocg0a3UuSoYzavmylwuLWQOf3hl0jjMMIw==
 
-bitfield@^4.0.0, bitfield@^4.1.0, bitfield@^4.2.0:
+bitfield@^4.0.0, bitfield@^4.2.0:
   version "4.2.0"
   resolved "https://registry.yarnpkg.com/bitfield/-/bitfield-4.2.0.tgz#fecb620bbe38e16526fbb62048f6c4af712ace91"
   integrity sha512-kUTatQb/mBd8uhvdLrUkouGDBUQiJaIOvPlptUwOWp6MFqih4d1MiVf0m3ATxfZSzu+LjW/awFeABltYa62uIA==
@@ -2484,17 +2484,17 @@ bittorrent-peerid@^1.3.6:
   resolved "https://registry.yarnpkg.com/bittorrent-peerid/-/bittorrent-peerid-1.3.6.tgz#3688705a64937a8176ac2ded1178fc7bd91b61db"
   integrity sha512-VyLcUjVMEOdSpHaCG/7odvCdLbAB1y3l9A2V6WIje24uV7FkJPrQrH/RrlFmKxP89pFVDEnE+YlHaFujlFIZsg==
 
-bittorrent-protocol@^4.1.16:
-  version "4.1.16"
-  resolved "https://registry.yarnpkg.com/bittorrent-protocol/-/bittorrent-protocol-4.1.16.tgz#fa9536eafe7e8abab941e5da853b09da6668de60"
-  integrity sha512-93t8h77uAyD8BGSpBo8SqxYyKBA/xgv9N8+WghnXpH2I+JmlmJmddUt8nugPRgj/LNuL1VrWJ26jhYhiVWpRaQ==
+bittorrent-protocol@^4.1.20:
+  version "4.1.20"
+  resolved "https://registry.yarnpkg.com/bittorrent-protocol/-/bittorrent-protocol-4.1.20.tgz#b95aaf214b70f06729b901c2f501a8d03d021ddd"
+  integrity sha512-PN4F0wpkU/Ud0gyvAcdtTqTcq2Sg2FdCn20/dxHpW7cyHmXFgPJnCYBigU728NO4iw8gYVla2cs2nHqfUoLFxA==
   dependencies:
     bencode "^4.0.0"
-    bitfield "^4.1.0"
-    debug "^4.4.0"
+    bitfield "^4.2.0"
+    debug "^4.4.1"
     rc4 "^0.1.5"
-    streamx "^2.15.1"
-    throughput "^1.0.1"
+    streamx "^2.22.1"
+    throughput "^1.0.2"
     uint8-util "^2.2.5"
     unordered-array-remove "^1.0.2"
 
@@ -4066,17 +4066,17 @@ freelist@^1.0.3:
   resolved "https://registry.yarnpkg.com/freelist/-/freelist-1.0.3.tgz#006775509f3935701784d3ed2fc9f12c9df1bab2"
   integrity sha512-Ji7fEnMdZDGbS5oXElpRJsn9jPvBR8h/037D3bzreNmS8809cISq/2D9//JbA/TaZmkkN8cmecXwmQHmM+NHhg==
 
-fs-chunk-store@^4.1.0:
-  version "4.1.0"
-  resolved "https://registry.yarnpkg.com/fs-chunk-store/-/fs-chunk-store-4.1.0.tgz#acc13d7334abcd105af791eb1914b7d3fb0ee09f"
-  integrity sha512-8apaYPaENIVUjVGqjo+Yg5/Hv7qL2fijWV+XGMCs3MR07o9DZZVMpF7dclxdjYotSjLdUGVPhqaJn+eAx6NLYQ==
+fs-chunk-store@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/fs-chunk-store/-/fs-chunk-store-5.0.0.tgz#dde7f46defea540f9ce1f68a7b4aab424dc139db"
+  integrity sha512-tKlT0joU9KmsLn0dTbVYVUa7VNqYQhl0X2qPPsN9lPEc3guXOmQJWY5/7kpo34Sk273qyWT5mqEhROCQPF+JKw==
   dependencies:
     filename-reserved-regex "^3.0.0"
     queue-microtask "^1.2.2"
     random-access-file "^4.0.0"
-    randombytes "^2.0.3"
     run-parallel "^1.1.2"
     thunky "^1.0.1"
+    uint8-util "^2.2.5"
 
 fs-constants@^1.0.0:
   version "1.0.0"
@@ -6146,7 +6146,7 @@ random-iterate@^1.0.1:
   resolved "https://registry.yarnpkg.com/random-iterate/-/random-iterate-1.0.1.tgz#f7d97d92dee6665ec5f6da08c7f963cad4b2ac99"
   integrity sha512-Jdsdnezu913Ot8qgKgSgs63XkAjEsnMcS1z+cC6D6TNXsUXsMxy0RpclF2pzGZTEiTXL9BiArdGTEexcv4nqcA==
 
-randombytes@^2.0.3, randombytes@^2.0.5, randombytes@^2.1.0:
+randombytes@^2.0.5, randombytes@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/randombytes/-/randombytes-2.1.0.tgz#df6f84372f0270dc65cdf6291349ab7a473d4f2a"
   integrity sha512-vYl3iOX+4CKUWuxGi9Ukhie6fsqXqS9FE2Zaic4tNFD2N2QQaXOMFbuKK4QmDHC0JO6B1Zp41J0LpT0oR68amQ==
@@ -6846,17 +6846,7 @@ streamsearch@^1.1.0:
   resolved "https://registry.yarnpkg.com/streamsearch/-/streamsearch-1.1.0.tgz#404dd1e2247ca94af554e841a8ef0eaa238da764"
   integrity sha512-Mcc5wHehp9aXz1ax6bZUyY5afg9u2rv5cqQI3mRrYkGC8rW2hM02jWuwjtL++LS5qinSyhj2QfLyNsuc+VsExg==
 
-streamx@2.22.0:
-  version "2.22.0"
-  resolved "https://registry.yarnpkg.com/streamx/-/streamx-2.22.0.tgz#cd7b5e57c95aaef0ff9b2aef7905afa62ec6e4a7"
-  integrity sha512-sLh1evHOzBy/iWRiR6d1zRcLao4gGZr3C1kzNz4fopCOKJb6xD9ub8Mpi9Mr1R6id5o43S+d93fI48UC5uM9aw==
-  dependencies:
-    fast-fifo "^1.3.2"
-    text-decoder "^1.1.0"
-  optionalDependencies:
-    bare-events "^2.2.0"
-
-streamx@^2.10.3, streamx@^2.15.1, streamx@^2.17.0, streamx@^2.20.1, streamx@^2.21.0:
+streamx@2.22.1, streamx@^2.10.3, streamx@^2.17.0, streamx@^2.20.1, streamx@^2.21.0, streamx@^2.22.1:
   version "2.22.1"
   resolved "https://registry.yarnpkg.com/streamx/-/streamx-2.22.1.tgz#c97cbb0ce18da4f4db5a971dc9ab68ff5dc7f5a5"
   integrity sha512-znKXEBxfatz2GBNK02kRnCXjV+AA4kjZIUxeWSr3UGirZMJfTE9uiwKHobnbgxWyL/JWro8tTq+vOqAK1/qbSA==
@@ -7202,10 +7192,10 @@ through@2, "through@>=2.2.7 <3", through@^2.3.6:
   resolved "https://registry.yarnpkg.com/through/-/through-2.3.8.tgz#0dd4c9ffaabc357960b1b724115d7e0e86a2e1f5"
   integrity sha512-w89qg7PI8wAdvX60bMDP+bFoD5Dvhm9oLheFp5O4a2QF0cSBGsBX4qZmadPMvVqlLJBBci+WqGGOAPvcDeNSVg==
 
-throughput@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/throughput/-/throughput-1.0.1.tgz#f8474cfc8f2f0eb740410bc23fa920b0bdba6d53"
-  integrity sha512-4Mvv5P4xyVz6RM07wS3tGyZ/kPAiKtLeqznq3hK4pxDiTUSyQ5xeFlBiWxflCWexvSnxo2aAfedzKajJqihz4Q==
+throughput@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/throughput/-/throughput-1.0.2.tgz#f235dfd227831e464c19ab426bc76c21062c550a"
+  integrity sha512-jvK1ZXuhsggjb3qYQjMiU/AVYYiTeqT5thWvYR2yuy2LGM84P5MSSyAinwHahGsdBYKR9m9HncVR/3f3nFKkxg==
 
 thunky@^1.0.1:
   version "1.1.0"
@@ -7255,10 +7245,10 @@ torrent-discovery@^11.0.17:
     debug "^4.4.1"
     run-parallel "^1.2.0"
 
-torrent-piece@^3.0.1:
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/torrent-piece/-/torrent-piece-3.0.1.tgz#3f5899aac991256618812d066d7917f809a1ba21"
-  integrity sha512-EvCqfOkNm3PXqgaGPVVmp0JlGC8fDpH+8Yt5uUiF4oCrAqy3htyUFxK1DJpneWfg1fFdeTKsstxLxQUrHpmocA==
+torrent-piece@^3.0.2:
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/torrent-piece/-/torrent-piece-3.0.2.tgz#c77cca41f1f4909fd6ff92358052bb9190c60493"
+  integrity sha512-K1A5tZ3BolFrUtnBpk9iDg8av1na0OgQ7E0IlA9tj0bcsPhLhzvln+oMtMmtkqAwmUsbNCilRm2ymUdZg0rVbQ==
   dependencies:
     uint8-util "^2.1.9"
 
@@ -7631,10 +7621,10 @@ webrtc-polyfill@^1.1.10:
     node-datachannel "^v0.12.0"
     node-domexception "^1.0.0"
 
-webtorrent@^2.5.14:
-  version "2.6.8"
-  resolved "https://registry.yarnpkg.com/webtorrent/-/webtorrent-2.6.8.tgz#72ff128d3974085853faf69046c0db485cc6c2c0"
-  integrity sha512-ZflZwJOmLPa7v5VXCJUV5FW/5CvOxlbRbfgXaHNEkQvBwt0aP7djXLo1e76LyqR+e+/CL6nG9ff8gySjJ4UqnA==
+webtorrent@^2.8.3:
+  version "2.8.3"
+  resolved "https://registry.yarnpkg.com/webtorrent/-/webtorrent-2.8.3.tgz#7f41a60b119a7fb4b65d589af9c014804f2f5460"
+  integrity sha512-ST8iVQzhL0iKFMHDs49fGw/saNS56o/0cLKLS80RSVC0czEo/uIUzB1LpJrbZm/NagZ6ozQgv8t0xqDdw5KuaQ==
   dependencies:
     "@silentbot1/nat-api" "^0.4.8"
     "@thaunknown/simple-peer" "^10.0.11"
@@ -7642,7 +7632,7 @@ webtorrent@^2.5.14:
     addr-to-ip-port "^2.0.0"
     bitfield "^4.2.0"
     bittorrent-dht "^11.0.10"
-    bittorrent-protocol "^4.1.16"
+    bittorrent-protocol "^4.1.20"
     cache-chunk-store "^3.2.2"
     chunk-store-iterator "^1.0.4"
     cpus "^1.0.3"
@@ -7650,7 +7640,7 @@ webtorrent@^2.5.14:
     cross-fetch-ponyfill "^1.0.3"
     debug "^4.4.1"
     escape-html "^1.0.3"
-    fs-chunk-store "^4.1.0"
+    fs-chunk-store "^5.0.0"
     fsa-chunk-store "^1.3.0"
     immediate-chunk-store "^2.2.0"
     join-async-iterator "^1.1.1"
@@ -7667,10 +7657,10 @@ webtorrent@^2.5.14:
     run-parallel "^1.2.0"
     run-parallel-limit "^1.1.0"
     speed-limiter "^1.0.2"
-    streamx "2.22.0"
-    throughput "^1.0.1"
+    streamx "2.22.1"
+    throughput "^1.0.2"
     torrent-discovery "^11.0.17"
-    torrent-piece "^3.0.1"
+    torrent-piece "^3.0.2"
     uint8-util "^2.2.5"
     unordered-array-remove "^1.0.2"
     ut_metadata "^4.0.3"
