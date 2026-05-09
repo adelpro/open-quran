@@ -5,16 +5,21 @@ import type { Instance, Torrent, TorrentFile } from 'webtorrent';
 import { rtcConfig, TRACKERS } from '@/constants';
 import { selectedReciterAtom, webtorrentReadyAtom } from '@/jotai/atom';
 import { TorrentInfo, TrackType } from '@/types';
-import { getErrorMessage, isValidMagnetUri, updateMagnetURI } from '@/utils';
+import {
+  clientConfig,
+  getErrorMessage,
+  isValidMagnetUri,
+  updateMagnetURI,
+} from '@/utils';
 
 const TORRENT_READY_TIMEOUT = 120_000; // 2 min
 
-const isDebug = process.env.NEXT_PUBLIC_DEBUG === 'true';
-const debugLog = (...args: any[]) => {
-  if (isDebug) console.log(...args);
+const isDebug = clientConfig.DEBUG;
+const debugLog = (...arguments_: any[]) => {
+  if (isDebug) console.log(...arguments_);
 };
-const debugError = (...args: any[]) => {
-  if (isDebug) console.error(...args);
+const debugError = (...arguments_: any[]) => {
+  if (isDebug) console.error(...arguments_);
 };
 
 export default function useTorrent() {
@@ -32,7 +37,9 @@ export default function useTorrent() {
       clientRef.current = new window.WebTorrent({
         tracker: { rtcConfig },
       });
-      debugLog('[Torrent Lifecycle] WebTorrent client initialized successfully');
+      debugLog(
+        '[Torrent Lifecycle] WebTorrent client initialized successfully'
+      );
     }
   }, [webtorrentReady]);
 
@@ -58,20 +65,32 @@ export default function useTorrent() {
     const localClient = clientRef.current;
     const updatedMagnetURI = updateMagnetURI(magnetURI);
 
-    // Clean up any other torrents
+    // Extract infoHash for stable identity comparison.
+    // WebTorrent reformats torrent.magnetURI internally, so string equality
+    // against our magnet URI is unreliable and causes an infinite destroy loop.
+    const infoHashMatch = updatedMagnetURI.match(
+      /xt=urn:btih:([A-Fa-f0-9]{40}|[A-Z2-7]{32})/i
+    );
+    const infoHash = infoHashMatch?.[1]?.toLowerCase() ?? null;
+
+    // Destroy any torrents that are NOT the one we want
     for (const t of localClient.torrents) {
-      if (t.magnetURI !== updatedMagnetURI) {
-        debugLog(`[Torrent Lifecycle] Destroying old torrent: ${t.infoHash || t.magnetURI}`);
+      if (t.infoHash !== infoHash) {
+        debugLog(`[Torrent Lifecycle] Destroying old torrent: ${t.infoHash}`);
         t.destroy();
       }
     }
 
-    let torrent = localClient.get(updatedMagnetURI);
-    if (!torrent) {
-      debugLog(`[Torrent Lifecycle] Adding new torrent to client: ${updatedMagnetURI}`);
-      torrent = localClient.add(updatedMagnetURI, { announce: TRACKERS });
+    let torrent = infoHash ? localClient.get(infoHash) : null;
+    if (torrent) {
+      debugLog(
+        `[Torrent Lifecycle] Torrent already exists in client, reusing.`
+      );
     } else {
-      debugLog(`[Torrent Lifecycle] Torrent already exists in client, reusing.`);
+      debugLog(
+        `[Torrent Lifecycle] Adding new torrent to client: ${updatedMagnetURI}`
+      );
+      torrent = localClient.add(updatedMagnetURI, { announce: TRACKERS });
     }
 
     const updateTorrentInfoState = async () => {
@@ -123,14 +142,18 @@ export default function useTorrent() {
     }, TORRENT_READY_TIMEOUT);
 
     const onReady = () => {
-      debugLog('[Torrent Lifecycle] Torrent metadata ready, starting processing');
+      debugLog(
+        '[Torrent Lifecycle] Torrent metadata ready, starting processing'
+      );
       clearTimeout(readyTimeout);
       setError(undefined);
       updateTorrentInfoState();
     };
 
     const onNoPeers = (announceType: string) => {
-      debugLog(`[Torrent Lifecycle] Warning: No peers found for ${announceType} trackers`);
+      debugLog(
+        `[Torrent Lifecycle] Warning: No peers found for ${announceType} trackers`
+      );
       const message = `No peers found for ${announceType} trackers. Please check your internet connection or try again later.`;
       setError(message);
     };
@@ -142,7 +165,9 @@ export default function useTorrent() {
     };
 
     const onWire = () => {
-      debugLog(`[Torrent Lifecycle] New peer connected. Total peers: ${torrent.numPeers}`);
+      debugLog(
+        `[Torrent Lifecycle] New peer connected. Total peers: ${torrent.numPeers}`
+      );
       updateTorrentInfoState();
     };
 

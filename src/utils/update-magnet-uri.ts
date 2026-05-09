@@ -29,5 +29,5 @@ export const updateMagnetURI = (magnetURI: string): string => {
     params.append('tr', tracker);
   }
 
-  return `${base}?${params.toString()}`;
+  return decodeURIComponent(`${base}?${params.toString()}`);
 };
