@@ -7,7 +7,15 @@ import { selectedReciterAtom, webtorrentReadyAtom } from '@/jotai/atom';
 import { TorrentInfo, TrackType } from '@/types';
 import { getErrorMessage, isValidMagnetUri, updateMagnetURI } from '@/utils';
 
-const TORRENT_READY_TIMEOUT = 60_000; // 1 min
+const TORRENT_READY_TIMEOUT = 120_000; // 2 min
+
+const isDebug = process.env.NEXT_PUBLIC_DEBUG === 'true';
+const debugLog = (...args: any[]) => {
+  if (isDebug) console.log(...args);
+};
+const debugError = (...args: any[]) => {
+  if (isDebug) console.error(...args);
+};
 
 export default function useTorrent() {
   const webtorrentReady = useAtomValue(webtorrentReadyAtom);
@@ -24,6 +32,7 @@ export default function useTorrent() {
       clientRef.current = new window.WebTorrent({
         tracker: { rtcConfig },
       });
+      debugLog('[Torrent Lifecycle] WebTorrent client initialized successfully');
     }
   }, [webtorrentReady]);
 
@@ -52,13 +61,17 @@ export default function useTorrent() {
     // Clean up any other torrents
     for (const t of localClient.torrents) {
       if (t.magnetURI !== updatedMagnetURI) {
+        debugLog(`[Torrent Lifecycle] Destroying old torrent: ${t.infoHash || t.magnetURI}`);
         t.destroy();
       }
     }
 
     let torrent = localClient.get(updatedMagnetURI);
     if (!torrent) {
+      debugLog(`[Torrent Lifecycle] Adding new torrent to client: ${updatedMagnetURI}`);
       torrent = localClient.add(updatedMagnetURI, { announce: TRACKERS });
+    } else {
+      debugLog(`[Torrent Lifecycle] Torrent already exists in client, reusing.`);
     }
 
     const updateTorrentInfoState = async () => {
@@ -110,24 +123,32 @@ export default function useTorrent() {
     }, TORRENT_READY_TIMEOUT);
 
     const onReady = () => {
+      debugLog('[Torrent Lifecycle] Torrent metadata ready, starting processing');
       clearTimeout(readyTimeout);
       setError(undefined);
       updateTorrentInfoState();
     };
 
     const onNoPeers = (announceType: string) => {
+      debugLog(`[Torrent Lifecycle] Warning: No peers found for ${announceType} trackers`);
       const message = `No peers found for ${announceType} trackers. Please check your internet connection or try again later.`;
       setError(message);
     };
 
     const onError = (torrentError: Error) => {
+      debugError('[Torrent Lifecycle] Torrent error:', torrentError);
       clearTimeout(readyTimeout);
       setError(getErrorMessage(torrentError));
     };
 
+    const onWire = () => {
+      debugLog(`[Torrent Lifecycle] New peer connected. Total peers: ${torrent.numPeers}`);
+      updateTorrentInfoState();
+    };
+
     torrent.on('ready', onReady);
     torrent.on('download', updateTorrentInfoState);
-    torrent.on('wire', updateTorrentInfoState);
+    torrent.on('wire', onWire);
     torrent.on('noPeers', onNoPeers);
     //torrent.on('error', onError);
 
@@ -135,7 +156,7 @@ export default function useTorrent() {
       clearTimeout(readyTimeout);
       torrent.removeListener('ready', onReady);
       torrent.removeListener('download', updateTorrentInfoState);
-      torrent.removeListener('wire', updateTorrentInfoState);
+      torrent.removeListener('wire', onWire);
       torrent.removeListener('noPeers', onNoPeers);
       torrent.removeListener('error', onError);
     };
