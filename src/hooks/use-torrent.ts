@@ -35,6 +35,7 @@ export default function useTorrent() {
   useEffect(() => {
     if (webtorrentReady && !clientRef.current && window.WebTorrent) {
       clientRef.current = new window.WebTorrent({
+        maxConns: 1000,
         tracker: { rtcConfig },
       });
       debugLog(
