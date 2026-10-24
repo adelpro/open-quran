@@ -70,15 +70,8 @@ export default function useTorrent() {
         mp3Files.map(async (file: TorrentFile) => {
           const surahId = Number(file.name.split('.')[0]);
           try {
-            const blobURL = await new Promise<string>((resolve, reject) => {
-              file.getBlobURL((error, blob) => {
-                if (error || !blob) {
-                  reject(error || new Error('Blob URL is null or undefined'));
-                } else {
-                  resolve(blob);
-                }
-              });
-            });
+            const blob = await (file as any).blob();
+            const blobURL = URL.createObjectURL(blob);
             return { surahId, link: blobURL };
           } catch (error) {
             const errorMessage = getErrorMessage(error);
