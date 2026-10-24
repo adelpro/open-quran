@@ -15,6 +15,7 @@ const withSerwist = withSerwistInit({
 });
 
 const nextConfig: NextConfig = {
+  output: 'standalone',
   reactStrictMode: !isProduction,
   poweredByHeader: !isProduction,
   transpilePackages: ['jotai-devtools'],
