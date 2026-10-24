@@ -2,9 +2,9 @@ export const clientConfig = {
   APP_NAME: process.env.NEXT_PUBLIC_APP_NAME || 'App',
   APP_URL: process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000',
   TRACKER_ONE_URL:
-    process.env.NEXT_PUBLIC_TRACKER_ONE_URL || 'http://localhost:3001',
+    process.env.NEXT_PUBLIC_TRACKER_ONE_URL || 'https://trackerf.quran.us.kg/stats',
   TRACKER_TWO_URL:
-    process.env.NEXT_PUBLIC_TRACKER_TWO_URL || 'http://localhost:3002',
+    process.env.NEXT_PUBLIC_TRACKER_TWO_URL || '',
 
   DEBUG: process.env.NEXT_PUBLIC_DEBUG || false,
 };

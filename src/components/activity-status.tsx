@@ -8,11 +8,12 @@ const trackers = [
     label: '1 الخادم',
     hover: 'hover:text-blue-500 dark:hover:text-blue-400',
   },
-  {
-    url: clientConfig.TRACKER_TWO_URL,
-    label: 'الخادم 2',
-    hover: 'hover:text-green-500 dark:hover:text-green-400',
-  },
+  // Hidden for now
+  // {
+  //   url: clientConfig.TRACKER_TWO_URL,
+  //   label: 'الخادم 2',
+  //   hover: 'hover:text-green-500 dark:hover:text-green-400',
+  // },
 ];
 
 export default function ActivityStatus() {
