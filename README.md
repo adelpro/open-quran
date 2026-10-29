@@ -1,3 +1,11 @@
+> **This project has moved.**
+>
+> Active development continues at **[adelpro/open-tilawa](https://github.com/adelpro/open-tilawa)** — a rewrite (React + Vite SPA, plus a self-hostable tracker / seeder / TURN stack). Live at **[tilawah.cc](https://tilawah.cc)**.
+>
+> This repository is **archived** and kept only for the original Next.js implementation. No new issues or pull requests will be accepted here.
+
+---
+
 # Open Mushaf
 
 ![GitHub Stars](https://img.shields.io/github/stars/adelpro/open-quran?style=social)
